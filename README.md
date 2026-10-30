@@ -1,6 +1,11 @@
 # gamutant
 
-A CSS color library: features from the CSS Color drafts and libraries like Color.js. It fits colors into what the screen can show (its gamut), picks readable text colors and works in Okhsl, Okhsv and the HDR color spaces. Use it as classes, or as CSS functions where `@function` runs. No JavaScript.
+A CSS-only color polyfill. It fits colors into what the screen can show (its gamut), picks readable text colors and works in Okhsl, Okhsv and the HDR color spaces. Use it as classes, or as CSS functions where `@function` runs. No JavaScript needed.
+
+## License
+
+MIT, see LICENSE. Parts come from Color.js by Lea Verou and Chris Lilley, Björn Ottosson's Okhsl and gamut clipping code, spectral.js by Ronald van Wijnen, Google's material-color-utilities and the CSS Color drafts' sample code. LICENSE-THIRD-PARTY has their licenses; `.gamut-palette-step`'s is Apache-2.0.
+
 
 ## Installation
 
@@ -32,9 +37,6 @@ Or in a bundler: `import "gamutant.css/parts/fit-screen.css";`.
 
 [TUTORIAL.md](TUTORIAL.md) builds a first page step by step.
 
-## License
-
-MIT, see LICENSE. Parts come from Color.js by Lea Verou and Chris Lilley, Björn Ottosson's Okhsl and gamut clipping code, spectral.js by Ronald van Wijnen, Google's material-color-utilities and the CSS Color drafts' sample code. LICENSE-THIRD-PARTY has their licenses; `.gamut-palette-step`'s is Apache-2.0.
 
 ## Classes and functions
 
