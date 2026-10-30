@@ -1,6 +1,6 @@
 # gamutant
 
-A CSS-only color polyfill. It fits colors into what the screen can show (its gamut), picks readable text colors and works in Okhsl, Okhsv and the HDR color spaces. Use it as classes, or as CSS functions where `@function` runs. No JavaScript needed.
+A CSS-only color polyfill. Gamutant is a stylesheet that fits colors into what the screen can show (its gamut), picks readable text colors and works in Okhsl, Okhsv and the HDR color spaces. Use it as classes, or as CSS functions where `@function` runs. No JavaScript needed.
 
 ## License
 
