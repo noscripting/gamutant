@@ -4,7 +4,9 @@ All notable changes to gamutant.css are written here. The format follows [Keep a
 
 ## [Unreleased]
 
-The first release, to be published as 0.0.1.
+## [0.0.1] - 2026-10-30
+
+The first release.
 
 ### Added
 

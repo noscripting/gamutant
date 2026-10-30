@@ -36,7 +36,6 @@ Or in a bundler: `import "gamutant.css/parts/fit-screen.css";`.
 
 [TUTORIAL.md](TUTORIAL.md) builds a first page step by step.
 
-
 ## Classes and functions
 
 Each part is a class. Its inputs are custom properties, which inherit: a part inside another takes those it doesn't set, unless set to `initial`. Most write `--gamut-out`, which the element and its children read with `var()`; the text parts write `--gamut-text`. To feed one part's `--gamut-out` to another, copy it beside the first, `--c: var(--gamut-out)`, and read `var(--c)` on a child.
