@@ -4,8 +4,7 @@ A CSS-only color polyfill. It fits colors into what the screen can show (its gam
 
 ## License
 
-MIT, see LICENSE. Parts come from Color.js by Lea Verou and Chris Lilley, Björn Ottosson's Okhsl and gamut clipping code, spectral.js by Ronald van Wijnen, Google's material-color-utilities and the CSS Color drafts' sample code. LICENSE-THIRD-PARTY has their licenses; `.gamut-palette-step`'s is Apache-2.0.
-
+MIT, see LICENSE. Math comes from Color.js by Lea Verou and Chris Lilley, Björn Ottosson’s Okhsl and gamut clipping code, spectral.js by Ronald van Wijnen, Google’s material-color-utilities and the CSS Color drafts’ sample code.
 
 ## Installation
 
