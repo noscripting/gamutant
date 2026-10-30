@@ -1,0 +1,2212 @@
+{
+  "noscripting": {
+    "gamutant": {
+      "__compat": {
+        "description": "gamutant, measured 2026-10-30",
+        "support": {},
+        "status": {
+          "experimental": true,
+          "standard_track": false,
+          "deprecated": false
+        }
+      },
+      "G1": {
+        "__compat": {
+          "description": "`.gamut-fit-screen` MUST read `--gamut-in`, any `<color>`, or `--gamut-l`, `--gamut-c` and `--gamut-h` when `--gamut-in` is unset, a `none` hue as 0 in the color's own space (css-color-4 §4.4), and MUST write `--gamut-out`, a registered `<color>`.",
+          "support": {
+            "chrome": {
+              "version_added": "≤155"
+            },
+            "safari": {
+              "version_added": null,
+              "notes": "Not measured in Safari. Playwright's WebKit 26.4, headless: PASS."
+            },
+            "firefox": {
+              "version_added": "≤158"
+            }
+          },
+          "status": {
+            "experimental": true,
+            "standard_track": false,
+            "deprecated": false
+          }
+        }
+      },
+      "G2": {
+        "__compat": {
+          "description": "`--gamut-target: srgb` or `--gamut-target: display-p3` on an ancestor MUST set the target gamut.",
+          "support": {
+            "chrome": {
+              "version_added": "≤155"
+            },
+            "safari": {
+              "version_added": null,
+              "notes": "Not measured in Safari. Playwright's WebKit 26.4, headless: PASS."
+            },
+            "firefox": {
+              "version_added": "≤158"
+            }
+          },
+          "status": {
+            "experimental": true,
+            "standard_track": false,
+            "deprecated": false
+          }
+        }
+      },
+      "G3": {
+        "__compat": {
+          "description": "Without `--gamut-target`, or with a value G2 and G10 don't name, the target gamut MUST be sRGB on a screen where `(color-gamut: p3)` does not match.",
+          "support": {
+            "chrome": {
+              "version_added": "≤155"
+            },
+            "safari": {
+              "version_added": null,
+              "notes": "Not measured in Safari. Playwright's WebKit 26.4, headless: PASS."
+            },
+            "firefox": {
+              "version_added": "≤158"
+            }
+          },
+          "status": {
+            "experimental": true,
+            "standard_track": false,
+            "deprecated": false
+          }
+        }
+      },
+      "G4": {
+        "__compat": {
+          "description": "Without `--gamut-target`, or with a value G2 and G10 don't name, the target gamut MUST be Display P3 on a screen where `(color-gamut: p3)` matches.",
+          "support": {
+            "chrome": {
+              "version_added": "≤155"
+            },
+            "safari": {
+              "version_added": null,
+              "notes": [
+                "Not measured in Safari. Playwright's WebKit 26.4, headless: PRECONDITION_FAILED.",
+                "PRECONDITION_FAILED: no P3 screen emulation headless"
+              ]
+            },
+            "firefox": {
+              "version_added": null,
+              "notes": "PRECONDITION_FAILED: no P3 screen emulation headless"
+            }
+          },
+          "status": {
+            "experimental": true,
+            "standard_track": false,
+            "deprecated": false
+          }
+        }
+      },
+      "G5": {
+        "__compat": {
+          "description": "An input inside the target gamut, to 2e-5 in linear light, MUST come out as itself, within 1/255 a channel.",
+          "support": {
+            "chrome": {
+              "version_added": "≤155"
+            },
+            "safari": {
+              "version_added": null,
+              "notes": "Not measured in Safari. Playwright's WebKit 26.4, headless: PASS."
+            },
+            "firefox": {
+              "version_added": "≤158"
+            }
+          },
+          "status": {
+            "experimental": true,
+            "standard_track": false,
+            "deprecated": false
+          }
+        }
+      },
+      "G6": {
+        "__compat": {
+          "description": "An input outside the target gamut MUST come out as binary search with local MINDE gives it (css-color-4 §14.2.1), within 2/255 a channel of Color.js 0.7.1's `css` method.",
+          "support": {
+            "chrome": {
+              "version_added": "≤155"
+            },
+            "safari": {
+              "version_added": null,
+              "notes": "Not measured in Safari. Playwright's WebKit 26.4, headless: PASS."
+            },
+            "firefox": {
+              "version_added": "≤158"
+            }
+          },
+          "status": {
+            "experimental": true,
+            "standard_track": false,
+            "deprecated": false
+          }
+        }
+      },
+      "G7": {
+        "__compat": {
+          "description": "WPT's gamut-mapping canvas cases, 13 in sRGB and 16 in Display P3, MUST come out within WPT's own tolerances.",
+          "support": {
+            "chrome": {
+              "version_added": "≤155"
+            },
+            "safari": {
+              "version_added": null,
+              "notes": "Not measured in Safari. Playwright's WebKit 26.4, headless: PASS."
+            },
+            "firefox": {
+              "version_added": "≤158"
+            }
+          },
+          "status": {
+            "experimental": true,
+            "standard_track": false,
+            "deprecated": false
+          }
+        }
+      },
+      "G8": {
+        "__compat": {
+          "description": "Lightness 1 or more MUST come out white, and lightness 0 or less black, at any chroma (css-color-4 §14.2.2).",
+          "support": {
+            "chrome": {
+              "version_added": "≤155"
+            },
+            "safari": {
+              "version_added": null,
+              "notes": "Not measured in Safari. Playwright's WebKit 26.4, headless: PASS."
+            },
+            "firefox": {
+              "version_added": "≤158"
+            }
+          },
+          "status": {
+            "experimental": true,
+            "standard_track": false,
+            "deprecated": false
+          }
+        }
+      },
+      "G9": {
+        "__compat": {
+          "description": "The output's alpha MUST equal the input's.",
+          "support": {
+            "chrome": {
+              "version_added": "≤155"
+            },
+            "safari": {
+              "version_added": null,
+              "notes": "Not measured in Safari. Playwright's WebKit 26.4, headless: PASS."
+            },
+            "firefox": {
+              "version_added": "≤158"
+            }
+          },
+          "status": {
+            "experimental": true,
+            "standard_track": false,
+            "deprecated": false
+          }
+        }
+      },
+      "G10": {
+        "__compat": {
+          "description": "`--gamut-target: rec2020`, `a98-rgb` or `prophoto-rgb` on an ancestor MUST map `.gamut-fit-screen`'s input to that gamut (css-color-4 §14), within 2/255 a channel of Color.js 0.7.1's `css` method (rec2020 by BT.2020's curve, as the engines encode it), an input inside it unchanged within 1/255.",
+          "support": {
+            "chrome": {
+              "version_added": "≤155"
+            },
+            "safari": {
+              "version_added": null,
+              "notes": "Not measured in Safari. Playwright's WebKit 26.4, headless: PASS."
+            },
+            "firefox": {
+              "version_added": "≤158"
+            }
+          },
+          "status": {
+            "experimental": true,
+            "standard_track": false,
+            "deprecated": false
+          }
+        }
+      },
+      "G15": {
+        "__compat": {
+          "description": "Where `@function` parses (css-mixins-1 §2), `--gamut-fit-screen(<color>, <gamut>)` MUST give the color `.gamut-fit-screen` writes for that input and gamut, within 1e-4 a channel (the same 11 halvings, each step its own function), the gamut being the argument, else `--gamut-target`, else the screen's; where it doesn't, a declaration before a call with no `var()` or `env()` in its arguments MUST keep its value.",
+          "support": {
+            "chrome": {
+              "version_added": "≤155"
+            },
+            "safari": {
+              "version_added": null,
+              "notes": [
+                "Not measured in Safari. Playwright's WebKit 26.4, headless: PRECONDITION_FAILED.",
+                "PRECONDITION_FAILED: no `@function`; the declaration before it holds"
+              ]
+            },
+            "firefox": {
+              "version_added": null,
+              "notes": "PRECONDITION_FAILED: no `@function`; the declaration before it holds"
+            }
+          },
+          "status": {
+            "experimental": true,
+            "standard_track": false,
+            "deprecated": false
+          }
+        }
+      },
+      "G16": {
+        "__compat": {
+          "description": "An input to `.gamut-fit-screen` or `--gamut-fit-screen()` built from `currentColor` (itself, a relative color from it, a `color-mix()` with it) MUST map as G6 maps the color it resolves to at the element, within 2/255 a channel, alpha kept; a page of such inputs MUST load within twice the time of the same colors written out, plus 1 s.",
+          "support": {
+            "chrome": {
+              "version_added": "≤155"
+            },
+            "safari": {
+              "version_added": null,
+              "notes": "Not measured in Safari. Playwright's WebKit 26.4, headless: PASS."
+            },
+            "firefox": {
+              "version_added": false,
+              "notes": "FAIL: 12 of 33 right, and the page takes 6,953 ms to load against 27 ms written out (14,142 against 37 on a machine at load 16 on 14 cores, 2026-10-30). Firefox drops the expression a `currentColor` input builds, which doubles at each step"
+            }
+          },
+          "status": {
+            "experimental": true,
+            "standard_track": false,
+            "deprecated": false
+          }
+        }
+      },
+      "G17": {
+        "__compat": {
+          "description": "With `--gamut-method: adaptive` on an ancestor, `.gamut-fit-screen` MUST map an input outside any target gamut G2 to G4 and G10 give, its lightness between 0 and 1 (G18 sets the ends), as `gamut_clip_adaptive_L0_L_cusp` with alpha 0.05 (How software gamut maps, 2021) for that gamut, its cusp the hue's most chroma: within 2/255 a channel of that method in Color.js 0.7.1 with the cusp found numerically, except at hues where that cusp leaves the cube's edges. (Ottosson's own code keeps chroma at lightness 1, `oklch(1 0.4 150)` to sRGB (0.77, 1, 0.81); G18 takes CSS Color 4's white there.)",
+          "support": {
+            "chrome": {
+              "version_added": "≤155"
+            },
+            "safari": {
+              "version_added": null,
+              "notes": "Not measured in Safari. Playwright's WebKit 26.4, headless: PASS."
+            },
+            "firefox": {
+              "version_added": "≤158"
+            }
+          },
+          "status": {
+            "experimental": true,
+            "standard_track": false,
+            "deprecated": false
+          }
+        }
+      },
+      "G18": {
+        "__compat": {
+          "description": "With `--gamut-method: adaptive`, an input whose clip is within deltaEOK 0.0005 MUST come out as its clip within 1/255 a channel, lightness 1 or more white and 0 or less black (css-color-4 §14.2.2), and the output's alpha MUST equal the input's within 1/255.",
+          "support": {
+            "chrome": {
+              "version_added": "≤155"
+            },
+            "safari": {
+              "version_added": null,
+              "notes": "Not measured in Safari. Playwright's WebKit 26.4, headless: PASS."
+            },
+            "firefox": {
+              "version_added": "≤158"
+            }
+          },
+          "status": {
+            "experimental": true,
+            "standard_track": false,
+            "deprecated": false
+          }
+        }
+      },
+      "G19": {
+        "__compat": {
+          "description": "Where `@function` parses, `--gamut-fit-screen(<color>, <gamut>, <method>)` with the method `adaptive`, else `--gamut-method` on the element, MUST give the color G17 and G18 give; with `css`, or no method, G15's.",
+          "support": {
+            "chrome": {
+              "version_added": "≤155"
+            },
+            "safari": {
+              "version_added": null,
+              "notes": [
+                "Not measured in Safari. Playwright's WebKit 26.4, headless: PRECONDITION_FAILED.",
+                "PRECONDITION_FAILED: no `@function`; the declaration before it holds"
+              ]
+            },
+            "firefox": {
+              "version_added": null,
+              "notes": "PRECONDITION_FAILED: no `@function`; the declaration before it holds"
+            }
+          },
+          "status": {
+            "experimental": true,
+            "standard_track": false,
+            "deprecated": false
+          }
+        }
+      },
+      "G20": {
+        "__compat": {
+          "description": "With `--gamut-method: ray-trace` on an ancestor, to any of the five targets, `.gamut-fit-screen` MUST map an input outside the gamut as Ray Trace does (css-color-4 §14.2.6), within 1/255 a channel of Color.js 0.7.1's `raytrace` method (in linear light for rec2020, a98-rgb and prophoto-rgb); below lightness 2e-4, black within 1/255.",
+          "support": {
+            "chrome": {
+              "version_added": "≤155"
+            },
+            "safari": {
+              "version_added": null,
+              "notes": "Not measured in Safari. Playwright's WebKit 26.4, headless: PASS."
+            },
+            "firefox": {
+              "version_added": "≤158"
+            }
+          },
+          "status": {
+            "experimental": true,
+            "standard_track": false,
+            "deprecated": false
+          }
+        }
+      },
+      "G21": {
+        "__compat": {
+          "description": "With `--gamut-method: edge-seeker` and `--gamut-target: prophoto-rgb`, `.gamut-fit-screen` MUST write the `--gamut-out` the default method writes (css-color-4 §14.2.4 builds EdgeSeeker's table for destinations \"with non-imaginary primaries (not, for example, ProPhoto RGB)\").",
+          "support": {
+            "chrome": {
+              "version_added": "≤155"
+            },
+            "safari": {
+              "version_added": null,
+              "notes": "Not measured in Safari. Playwright's WebKit 26.4, headless: PASS."
+            },
+            "firefox": {
+              "version_added": "≤158"
+            }
+          },
+          "status": {
+            "experimental": true,
+            "standard_track": false,
+            "deprecated": false
+          }
+        }
+      },
+      "G22": {
+        "__compat": {
+          "description": "With `--gamut-method: edge-seeker` on an ancestor and an sRGB, Display P3, rec2020 or a98-rgb target, `.gamut-fit-screen` MUST map an input outside the gamut as EdgeSeeker does (css-color-4 §14.2.3, §14.2.4), within 1/255 a channel of its pseudocode with 400 hue samples a region (in linear light for rec2020 and a98-rgb), but within 0.0002° of a hue where its table jumps (§4) and within 1.5/255 at lightness above 0.98.",
+          "support": {
+            "chrome": {
+              "version_added": "≤155"
+            },
+            "safari": {
+              "version_added": null,
+              "notes": "Not measured in Safari. Playwright's WebKit 26.4, headless: PASS."
+            },
+            "firefox": {
+              "version_added": "≤158"
+            }
+          },
+          "status": {
+            "experimental": true,
+            "standard_track": false,
+            "deprecated": false
+          }
+        }
+      },
+      "G23": {
+        "__compat": {
+          "description": "With `--gamut-method: ray-trace` or `edge-seeker`, an input inside the gamut (to 2e-5 in linear light) MUST come out as itself, lightness 1 or more white and 0 or less black, the input's alpha kept within 1/255, a `none` hue read as 0 in the input's own space, and chroma up to 1e9 mapped as G20 and G22 give, each within 1/255 a channel.",
+          "support": {
+            "chrome": {
+              "version_added": "≤155"
+            },
+            "safari": {
+              "version_added": null,
+              "notes": "Not measured in Safari. Playwright's WebKit 26.4, headless: PASS."
+            },
+            "firefox": {
+              "version_added": "≤158"
+            }
+          },
+          "status": {
+            "experimental": true,
+            "standard_track": false,
+            "deprecated": false
+          }
+        }
+      },
+      "G24": {
+        "__compat": {
+          "description": "Where `@function` parses, `--gamut-fit-screen(<color>, <gamut>, <method>)` with the method `ray-trace` or `edge-seeker`, else `--gamut-method` on the element, MUST give the color `.gamut-fit-screen` writes for that method and gamut, within 1e-4 a channel.",
+          "support": {
+            "chrome": {
+              "version_added": "≤155"
+            },
+            "safari": {
+              "version_added": null,
+              "notes": [
+                "Not measured in Safari. Playwright's WebKit 26.4, headless: PRECONDITION_FAILED.",
+                "PRECONDITION_FAILED: no `@function`; the declaration before it holds"
+              ]
+            },
+            "firefox": {
+              "version_added": null,
+              "notes": "PRECONDITION_FAILED: no `@function`; the declaration before it holds"
+            }
+          },
+          "status": {
+            "experimental": true,
+            "standard_track": false,
+            "deprecated": false
+          }
+        }
+      },
+      "G25": {
+        "__compat": {
+          "description": "With each `--gamut-method` to each target, `.gamut-fit-screen`'s output MUST keep as much of the input's lightness and hue as README.md says: with `css`, within deltaEOK 0.0205 (css-color-4 §14.2.3's JND of 0.02, and the last halving) of a color of the input's lightness and hue; to srgb, display-p3, rec2020 and a98-rgb, in outputs of chroma 0.05 or more, the hue within 2° with `edge-seeker` and `adaptive` and within 5° with `ray-trace`, the lightness within 0.0205 with `edge-seeker` and `ray-trace`, and with `adaptive` the lightness between the input's and its hue's cusp's (How software gamut maps, 2021); to prophoto-rgb, some output of chroma 0.05 or more turned 20° or more with `ray-trace` and with `adaptive`. These follow from G15, G17, G20 and G22 on the colors checked, not for every color.",
+          "support": {
+            "chrome": {
+              "version_added": "≤155"
+            },
+            "safari": {
+              "version_added": null,
+              "notes": "Not measured in Safari. Playwright's WebKit 26.4, headless: PASS."
+            },
+            "firefox": {
+              "version_added": "≤158"
+            }
+          },
+          "status": {
+            "experimental": true,
+            "standard_track": false,
+            "deprecated": false
+          }
+        }
+      },
+      "R1": {
+        "__compat": {
+          "description": "`.gamut-screen-edge` MUST read `--gamut-in` and `--gamut-rel`, a number, default 1 (any other value acting as 1), and MUST write `--gamut-out`: the input's OkLCh lightness and hue, with chroma `rel × edge`, the edge being the target gamut's largest chroma there, whatever the input's own (#11946); an input of chroma 1e-4 or less MUST take hue 0, or its own in an `oklch()` of chroma 0 (css-color-4 §4.4.1).",
+          "support": {
+            "chrome": {
+              "version_added": "≤155"
+            },
+            "safari": {
+              "version_added": null,
+              "notes": "Not measured in Safari. Playwright's WebKit 26.4, headless: PASS."
+            },
+            "firefox": {
+              "version_added": "≤158"
+            }
+          },
+          "status": {
+            "experimental": true,
+            "standard_track": false,
+            "deprecated": false
+          }
+        }
+      },
+      "R2": {
+        "__compat": {
+          "description": "The edge MUST be within 1/255 a channel of the edge found in doubles, and the output for `--gamut-rel: 0.5` within 1/255 of half of it.",
+          "support": {
+            "chrome": {
+              "version_added": "≤155"
+            },
+            "safari": {
+              "version_added": null,
+              "notes": "Not measured in Safari. Playwright's WebKit 26.4, headless: PASS."
+            },
+            "firefox": {
+              "version_added": "≤158"
+            }
+          },
+          "status": {
+            "experimental": true,
+            "standard_track": false,
+            "deprecated": false
+          }
+        }
+      },
+      "R3": {
+        "__compat": {
+          "description": "Where `@function` parses (css-mixins-1 §2), `--gamut-screen-edge(<color>, <rel>, <gamut>)` MUST give the color `.gamut-screen-edge` writes for that input and `--gamut-rel`, within 1e-4 a channel, the gamut being the argument (`srgb`, `display-p3`, `rec2020`, `a98-rgb` or `prophoto-rgb`), else `--gamut-target`, else the screen's, with any arguments left off from the end taking the class's defaults; where it doesn't, a declaration before a call with no `var()` or `env()` in its arguments MUST keep its value.",
+          "support": {
+            "chrome": {
+              "version_added": "≤155"
+            },
+            "safari": {
+              "version_added": null,
+              "notes": [
+                "Not measured in Safari. Playwright's WebKit 26.4, headless: PRECONDITION_FAILED.",
+                "PRECONDITION_FAILED: no `@function`; the declaration before it holds"
+              ]
+            },
+            "firefox": {
+              "version_added": null,
+              "notes": "PRECONDITION_FAILED: no `@function`; the declaration before it holds"
+            }
+          },
+          "status": {
+            "experimental": true,
+            "standard_track": false,
+            "deprecated": false
+          }
+        }
+      },
+      "R4": {
+        "__compat": {
+          "description": "With `--gamut-target: rec2020`, `a98-rgb` or `prophoto-rgb`, R1's edge MUST be that gamut's (css-color-4 §14), and the output for `--gamut-rel` 1 and 0.5 within 1/255 a channel of R1's color found in doubles, in the target's linear light.",
+          "support": {
+            "chrome": {
+              "version_added": "≤155"
+            },
+            "safari": {
+              "version_added": null,
+              "notes": "Not measured in Safari. Playwright's WebKit 26.4, headless: PASS."
+            },
+            "firefox": {
+              "version_added": "≤158"
+            }
+          },
+          "status": {
+            "experimental": true,
+            "standard_track": false,
+            "deprecated": false
+          }
+        }
+      },
+      "P6": {
+        "__compat": {
+          "description": "Each `.gamut-palette-step`'s `--gamut-out` MUST be within 1/255 a channel of material-color-utilities 0.4.0's `TonalPalette.fromHueAndChroma(h, C × r).tone(T)` as 8-bit sRGB, h and C the seed's HCT hue and chroma (`Hct.fromInt` for an 8-bit sRGB seed; for any other, CAM16 of its linear sRGB channels by material-color-utilities' own matrix, past 0 to 1 for a seed past sRGB, not rounded to 8 bits), for tones T from 2 to 98 and at 99. r is `--gamut-chroma-scale`, a number (default 1, any other value acting as 1).",
+          "support": {
+            "chrome": {
+              "version_added": "≤155"
+            },
+            "safari": {
+              "version_added": null,
+              "notes": "Not measured in Safari. Playwright's WebKit 26.4, headless: PASS."
+            },
+            "firefox": {
+              "version_added": "≤158"
+            }
+          },
+          "status": {
+            "experimental": true,
+            "standard_track": false,
+            "deprecated": false
+          }
+        }
+      },
+      "P7": {
+        "__compat": {
+          "description": "Every `--gamut-target`, and none, MUST give the same sRGB colors as P6, within 1/255 a channel.",
+          "support": {
+            "chrome": {
+              "version_added": "≤155"
+            },
+            "safari": {
+              "version_added": null,
+              "notes": "Not measured in Safari. Playwright's WebKit 26.4, headless: PASS."
+            },
+            "firefox": {
+              "version_added": "≤158"
+            }
+          },
+          "status": {
+            "experimental": true,
+            "standard_track": false,
+            "deprecated": false
+          }
+        }
+      },
+      "P8": {
+        "__compat": {
+          "description": "Where `@function` parses (css-mixins-1 §2), `--gamut-palette-step(<color>, <chroma-scale>, <step>, <tone>)` on each of a list's elements MUST give the color `.gamut-palette-step` writes there with those inputs, within 1e-4 a channel, `none` or an argument left off leaving its input unset; where it doesn't, a declaration before a call with no `var()` or `env()` in its arguments MUST keep its value.",
+          "support": {
+            "chrome": {
+              "version_added": "≤155"
+            },
+            "safari": {
+              "version_added": null,
+              "notes": [
+                "Not measured in Safari. Playwright's WebKit 26.4, headless: PRECONDITION_FAILED.",
+                "PRECONDITION_FAILED: no `@function`; the declaration before it holds"
+              ]
+            },
+            "firefox": {
+              "version_added": null,
+              "notes": "PRECONDITION_FAILED: no `@function`; the declaration before it holds"
+            }
+          },
+          "status": {
+            "experimental": true,
+            "standard_track": false,
+            "deprecated": false
+          }
+        }
+      },
+      "P9": {
+        "__compat": {
+          "description": "P6's tone T MUST be `--gamut-tone` where set (a number, clamped to 0 to 100), else `95 − 85 t`: t is `--gamut-step` where set on the step or inherited (a number, clamped to 0 to 1), else `(i − 1) / (n − 1)` for step i of n siblings.",
+          "support": {
+            "chrome": {
+              "version_added": "≤155"
+            },
+            "safari": {
+              "version_added": null,
+              "notes": "Not measured in Safari. Playwright's WebKit 26.4, headless: PASS."
+            },
+            "firefox": {
+              "version_added": "≤158"
+            }
+          },
+          "status": {
+            "experimental": true,
+            "standard_track": false,
+            "deprecated": false
+          }
+        }
+      },
+      "S1": {
+        "__compat": {
+          "description": "`.gamut-fit-gradient` MUST read `--gamut-gradient-from` and `--gamut-gradient-to`, any `<color>`s, and `--gamut-gradient-hue`, `shorter`, `longer`, `increasing` or `decreasing`, alone or followed by `hue` (css-color-4 §13.5's `<hue-interpolation-method>`), any other value or none meaning `shorter`, and MUST write `--gamut-gradient-stops`, 9 colors separated by commas.",
+          "support": {
+            "chrome": {
+              "version_added": "≤155"
+            },
+            "safari": {
+              "version_added": null,
+              "notes": "Not measured in Safari. Playwright's WebKit 26.4, headless: PASS."
+            },
+            "firefox": {
+              "version_added": "≤158"
+            }
+          },
+          "status": {
+            "experimental": true,
+            "standard_track": false,
+            "deprecated": false
+          }
+        }
+      },
+      "S2": {
+        "__compat": {
+          "description": "Stop k of `--gamut-gradient-stops` MUST be the interpolation of `--gamut-gradient-from` and `--gamut-gradient-to` in oklch with that hue method at t = k / 8 (css-color-4 §13), mapped to the target gamut G2 to G4 and G10 give as G6 maps, within 2/255 a channel and alpha of Color.js 0.7.1's `range()` then its `css` method.",
+          "support": {
+            "chrome": {
+              "version_added": "≤155"
+            },
+            "safari": {
+              "version_added": null,
+              "notes": "Not measured in Safari. Playwright's WebKit 26.4, headless: PASS."
+            },
+            "firefox": {
+              "version_added": "≤158"
+            }
+          },
+          "status": {
+            "experimental": true,
+            "standard_track": false,
+            "deprecated": false
+          }
+        }
+      },
+      "S3": {
+        "__compat": {
+          "description": "Where `@function` parses (css-mixins-1 §2), `--gamut-fit-gradient(<color>, <color>, <hue method>, <gamut>)` MUST give the 9 stops S2 gives, the gamut being the argument, else `--gamut-target`, else the screen's; where it doesn't, a declaration before a call with no `var()` or `env()` in its arguments MUST keep its value.",
+          "support": {
+            "chrome": {
+              "version_added": "≤155"
+            },
+            "safari": {
+              "version_added": null,
+              "notes": [
+                "Not measured in Safari. Playwright's WebKit 26.4, headless: PRECONDITION_FAILED.",
+                "PRECONDITION_FAILED: no `@function`; the declaration before it holds"
+              ]
+            },
+            "firefox": {
+              "version_added": null,
+              "notes": "PRECONDITION_FAILED: no `@function`; the declaration before it holds"
+            }
+          },
+          "status": {
+            "experimental": true,
+            "standard_track": false,
+            "deprecated": false
+          }
+        }
+      },
+      "S4": {
+        "__compat": {
+          "description": "On an element with both `.gamut-fit-gradient` and `.gamut-gradient-ease`, the part MUST read `--gamut-gradient-ease`, an `<easing-function>` (css-easing-2 §2), and stop k MUST then be S2's interpolation at E(k / 8) in place of k / 8, E that easing's output at input progress k / 8 (css-easing-2 §2.1.2, §2.2.2, §2.3) clamped to 0 to 1, within S2's tolerance; with it unset or not an `<easing-function>`, S2's stops. Without `.gamut-gradient-ease`, the part MUST NOT set the element's `animation` and MUST give S2's stops. With it, the part's `animation` MUST win over the page's own on the element, `!important` or not, except an `!important` one in the `style` attribute or in a layer named before `gamutant` (css-cascade-5 §6.1).",
+          "support": {
+            "chrome": {
+              "version_added": "≤155"
+            },
+            "safari": {
+              "version_added": null,
+              "notes": "Not measured in Safari. Playwright's WebKit 26.4, headless: PASS."
+            },
+            "firefox": {
+              "version_added": "≤158"
+            }
+          },
+          "status": {
+            "experimental": true,
+            "standard_track": false,
+            "deprecated": false
+          }
+        }
+      },
+      "T1": {
+        "__compat": {
+          "description": "`.gamut-readable-text` MUST read `--gamut-bg`, opaque and inside sRGB (inside Display P3 where T8 applies), `--gamut-ratio`, default 4.5 (a value that isn't a number counts as 4.5), and `--gamut-readable-from` and `--gamut-readable-to`, colors, and MUST write `--gamut-text`; with neither of the last two set, the background mixed toward white where its luminance is below 0.179129 and toward black above.",
+          "support": {
+            "chrome": {
+              "version_added": "≤155"
+            },
+            "safari": {
+              "version_added": null,
+              "notes": "Not measured in Safari. Playwright's WebKit 26.4, headless: PASS."
+            },
+            "firefox": {
+              "version_added": "≤158"
+            }
+          },
+          "status": {
+            "experimental": true,
+            "standard_track": false,
+            "deprecated": false
+          }
+        }
+      },
+      "T2": {
+        "__compat": {
+          "description": "Painted in 8 bits, `--gamut-text` MUST reach at least the ratio against the painted background (WCAG 2.2 contrast ratio) wherever its direction reaches it (where T8 applies, a seed T4 keeps as measured by its sRGB bytes: §4), and elsewhere MUST be white or black, or, with `--gamut-readable-from` or `--gamut-readable-to` set, the seed or the end as T5 picks them.",
+          "support": {
+            "chrome": {
+              "version_added": "≤155"
+            },
+            "safari": {
+              "version_added": null,
+              "notes": "Not measured in Safari. Playwright's WebKit 26.4, headless: PASS."
+            },
+            "firefox": {
+              "version_added": "≤158"
+            }
+          },
+          "status": {
+            "experimental": true,
+            "standard_track": false,
+            "deprecated": false
+          }
+        }
+      },
+      "T3": {
+        "__compat": {
+          "description": "Where `@function` parses (css-mixins-1 §2), `--gamut-readable-text(<color>, <ratio>, <color>, <color>)`, `none` for an input left unset, MUST give the color `.gamut-readable-text` writes for that background, ratio, seed and end, within 1e-4 a channel, with any arguments left off from the end taking the class's defaults; where it doesn't, a declaration before a call with no `var()` or `env()` in its arguments MUST keep its value.",
+          "support": {
+            "chrome": {
+              "version_added": "≤155"
+            },
+            "safari": {
+              "version_added": null,
+              "notes": [
+                "Not measured in Safari. Playwright's WebKit 26.4, headless: PRECONDITION_FAILED.",
+                "PRECONDITION_FAILED: no `@function`; the declaration before it holds"
+              ]
+            },
+            "firefox": {
+              "version_added": null,
+              "notes": "PRECONDITION_FAILED: no `@function`; the declaration before it holds"
+            }
+          },
+          "status": {
+            "experimental": true,
+            "standard_track": false,
+            "deprecated": false
+          }
+        }
+      },
+      "T4": {
+        "__compat": {
+          "description": "With `--gamut-readable-from`, the seed (default `--gamut-bg`), or `--gamut-readable-to`, the end, set, each taken as painted (opaque, its sRGB channels clamped to 0..1 and rounded to 8 bits), `--gamut-text` MUST be the seed where the seed reaches the ratio against the painted background (WCAG 2.2 contrast ratio), within 1/255 a channel.",
+          "support": {
+            "chrome": {
+              "version_added": "≤155"
+            },
+            "safari": {
+              "version_added": null,
+              "notes": "Not measured in Safari. Playwright's WebKit 26.4, headless: PASS."
+            },
+            "firefox": {
+              "version_added": "≤158"
+            }
+          },
+          "status": {
+            "experimental": true,
+            "standard_track": false,
+            "deprecated": false
+          }
+        }
+      },
+      "T5": {
+        "__compat": {
+          "description": "Where the seed doesn't reach the ratio and the end does, `--gamut-text` MUST be the first mix of the seed's and the end's linear sRGB channels, from the seed, that reaches it, each channel encoded and rounded toward the end's luminance; where neither does, whichever of the two contrasts more, the seed on a tie; within 1/255 a channel.",
+          "support": {
+            "chrome": {
+              "version_added": "≤155"
+            },
+            "safari": {
+              "version_added": null,
+              "notes": "Not measured in Safari. Playwright's WebKit 26.4, headless: PASS."
+            },
+            "firefox": {
+              "version_added": "≤158"
+            }
+          },
+          "status": {
+            "experimental": true,
+            "standard_track": false,
+            "deprecated": false
+          }
+        }
+      },
+      "T6": {
+        "__compat": {
+          "description": "With no end, the end MUST be white where the background's luminance is below 0.179129 and black above, except where white and black both reach the ratio and the seed's luminance differs from the background's: then white for a lighter seed, black for a darker one.",
+          "support": {
+            "chrome": {
+              "version_added": "≤155"
+            },
+            "safari": {
+              "version_added": null,
+              "notes": "Not measured in Safari. Playwright's WebKit 26.4, headless: PASS."
+            },
+            "firefox": {
+              "version_added": "≤158"
+            }
+          },
+          "status": {
+            "experimental": true,
+            "standard_track": false,
+            "deprecated": false
+          }
+        }
+      },
+      "T7": {
+        "__compat": {
+          "description": "Painted in 8 bits, a `--gamut-text` that T4 and T5 make reach the ratio MUST reach at least the ratio against the painted background; where T8 applies, a `--gamut-text` that T5 makes MUST reach it painted as its display-p3 channels rounded to 8 bits, except a seed or an end that already reaches the ratio and is kept as it is.",
+          "support": {
+            "chrome": {
+              "version_added": "≤155"
+            },
+            "safari": {
+              "version_added": null,
+              "notes": "Not measured in Safari. Playwright's WebKit 26.4, headless: PASS."
+            },
+            "firefox": {
+              "version_added": "≤158"
+            }
+          },
+          "status": {
+            "experimental": true,
+            "standard_track": false,
+            "deprecated": false
+          }
+        }
+      },
+      "T8": {
+        "__compat": {
+          "description": "Where `@media (color-gamut: p3)` matches (mediaqueries-4 §6.4), the painted background of T2, T4, T5 and T7 MUST be `--gamut-bg`'s display-p3 channels clamped to 0..1 and rounded to 8 bits (css-color-4 §10.4), its luminance 0.2289746 R + 0.6917385 G + 0.0792869 B on them linearised by the sRGB curve.",
+          "support": {
+            "chrome": {
+              "version_added": "≤155"
+            },
+            "safari": {
+              "version_added": null,
+              "notes": [
+                "Not measured in Safari. Playwright's WebKit 26.4, headless: PRECONDITION_FAILED.",
+                "PRECONDITION_FAILED: no P3 screen emulation headless"
+              ]
+            },
+            "firefox": {
+              "version_added": null,
+              "notes": "PRECONDITION_FAILED: no P3 screen emulation headless"
+            }
+          },
+          "status": {
+            "experimental": true,
+            "standard_track": false,
+            "deprecated": false
+          }
+        }
+      },
+      "T9": {
+        "__compat": {
+          "description": "There, with neither seed nor end set, the seed MUST be the background as T4 takes it and the end white where T8's luminance is below 0.179129 and black above; `--gamut-text` MUST stay an sRGB color.",
+          "support": {
+            "chrome": {
+              "version_added": "≤155"
+            },
+            "safari": {
+              "version_added": null,
+              "notes": [
+                "Not measured in Safari. Playwright's WebKit 26.4, headless: PRECONDITION_FAILED.",
+                "PRECONDITION_FAILED: no P3 screen emulation headless"
+              ]
+            },
+            "firefox": {
+              "version_added": null,
+              "notes": "PRECONDITION_FAILED: no P3 screen emulation headless"
+            }
+          },
+          "status": {
+            "experimental": true,
+            "standard_track": false,
+            "deprecated": false
+          }
+        }
+      },
+      "C1": {
+        "__compat": {
+          "description": "`.gamut-contrast-color` MUST read `--gamut-bg`, `--gamut-try-1` to `--gamut-try-6`, the slots set being the candidates in order, and an optional `--gamut-contrast-ratio`, a contrast ratio as css-color-6 §2.2.1 computes it, from each color's CIE Y (`none` or a value that isn't a number: no target; a number under 1 a target every candidate reaches), and MUST write `--gamut-text`, the winner within 1/255 a channel and 2/255 alpha.",
+          "support": {
+            "chrome": {
+              "version_added": "≤155"
+            },
+            "safari": {
+              "version_added": null,
+              "notes": "Not measured in Safari. Playwright's WebKit 26.4, headless: PASS."
+            },
+            "firefox": {
+              "version_added": "≤158"
+            }
+          },
+          "status": {
+            "experimental": true,
+            "standard_track": false,
+            "deprecated": false
+          }
+        }
+      },
+      "C2": {
+        "__compat": {
+          "description": "With a target, the candidates MUST be tried in order, then white, then black: the first to reach the target wins; if none does, the higher-contrast of white and black wins, white on a tie (css-color-6 §2.1.1).",
+          "support": {
+            "chrome": {
+              "version_added": "≤155"
+            },
+            "safari": {
+              "version_added": null,
+              "notes": "Not measured in Safari. Playwright's WebKit 26.4, headless: PASS."
+            },
+            "firefox": {
+              "version_added": "≤158"
+            }
+          },
+          "status": {
+            "experimental": true,
+            "standard_track": false,
+            "deprecated": false
+          }
+        }
+      },
+      "C3": {
+        "__compat": {
+          "description": "Without a target, the candidate with the greatest contrast MUST win, the earlier on a tie (css-color-6 §2.1.2).",
+          "support": {
+            "chrome": {
+              "version_added": "≤155"
+            },
+            "safari": {
+              "version_added": null,
+              "notes": "Not measured in Safari. Playwright's WebKit 26.4, headless: PASS."
+            },
+            "firefox": {
+              "version_added": "≤158"
+            }
+          },
+          "status": {
+            "experimental": true,
+            "standard_track": false,
+            "deprecated": false
+          }
+        }
+      },
+      "C4": {
+        "__compat": {
+          "description": "A translucent candidate MUST be composited over the background before its contrast is measured, and a translucent background over `Canvas`, this part's choice where css-color-6 §2.2.2 leaves it open (#7358); a missing component, alpha included, MUST count as 0 (css-color-4 §4.4).",
+          "support": {
+            "chrome": {
+              "version_added": "≤155"
+            },
+            "safari": {
+              "version_added": null,
+              "notes": "Not measured in Safari. Playwright's WebKit 26.4, headless: PASS."
+            },
+            "firefox": {
+              "version_added": "≤158"
+            }
+          },
+          "status": {
+            "experimental": true,
+            "standard_track": false,
+            "deprecated": false
+          }
+        }
+      },
+      "C5": {
+        "__compat": {
+          "description": "Where `@function` parses (css-mixins-1 §2), `--gamut-contrast-color(<color>, <target>, <color>…)`, with up to 6 candidates and `none` for no target, MUST give the color `.gamut-contrast-color` writes for those inputs, within 1e-4 a channel, with any arguments left off from the end taking the class's defaults; where it doesn't, a declaration before a call with no `var()` or `env()` in its arguments MUST keep its value.",
+          "support": {
+            "chrome": {
+              "version_added": "≤155"
+            },
+            "safari": {
+              "version_added": null,
+              "notes": [
+                "Not measured in Safari. Playwright's WebKit 26.4, headless: PRECONDITION_FAILED.",
+                "PRECONDITION_FAILED: no `@function`; the declaration before it holds"
+              ]
+            },
+            "firefox": {
+              "version_added": null,
+              "notes": "PRECONDITION_FAILED: no `@function`; the declaration before it holds"
+            }
+          },
+          "status": {
+            "experimental": true,
+            "standard_track": false,
+            "deprecated": false
+          }
+        }
+      },
+      "L1": {
+        "__compat": {
+          "description": "`.gamut-color-layers` MUST read `--gamut-layer-1` to `--gamut-layer-6`, the first on top, and an optional class `blend-multiply`, `blend-screen`, `blend-overlay`, `blend-darken`, `blend-lighten`, `blend-color-dodge`, `blend-color-burn`, `blend-hard-light`, `blend-soft-light`, `blend-difference`, `blend-exclusion`, `blend-hue`, `blend-saturation`, `blend-color` or `blend-luminosity`.",
+          "support": {
+            "chrome": {
+              "version_added": "≤155"
+            },
+            "safari": {
+              "version_added": null,
+              "notes": "Not measured in Safari. Playwright's WebKit 26.4, headless: PASS."
+            },
+            "firefox": {
+              "version_added": "≤158"
+            }
+          },
+          "status": {
+            "experimental": true,
+            "standard_track": false,
+            "deprecated": false
+          }
+        }
+      },
+      "L2": {
+        "__compat": {
+          "description": "`--gamut-out` MUST be the layers composited source-over from the bottom up with that blend mode, in sRGB (Compositing 1 §9.1.4, §10.1, §10.2), a missing component, alpha included, as 0 (css-color-4 §4.4), within 1/255 a channel and 2/255 alpha; where the output's alpha is under 0.15, within 1/255 a channel premultiplied by it.",
+          "support": {
+            "chrome": {
+              "version_added": "≤155"
+            },
+            "safari": {
+              "version_added": null,
+              "notes": "Not measured in Safari. Playwright's WebKit 26.4, headless: PASS."
+            },
+            "firefox": {
+              "version_added": "≤158"
+            }
+          },
+          "status": {
+            "experimental": true,
+            "standard_track": false,
+            "deprecated": false
+          }
+        }
+      },
+      "L3": {
+        "__compat": {
+          "description": "For stacks inside sRGB, the painted output MUST be within 3/255 of the browser's own paint of the same layers as boxes with `mix-blend-mode`, except where that paint is within 3/255 of Compositing 1 with the stack rounded to bytes between layers (the browser's own rounding, which color-dodge and color-burn magnify).",
+          "support": {
+            "chrome": {
+              "version_added": "≤155"
+            },
+            "safari": {
+              "version_added": null,
+              "notes": [
+                "Not measured in Safari. Playwright's WebKit 26.4, headless: FAIL.",
+                "FAIL: 462 of 502; WebKit's own color-burn, color-dodge, soft-light, saturation and luminosity paint off this check's sRGB reference of Compositing 1, whose blending space is open (#13254)"
+              ]
+            },
+            "firefox": {
+              "version_added": "≤158"
+            }
+          },
+          "status": {
+            "experimental": true,
+            "standard_track": false,
+            "deprecated": false
+          }
+        }
+      },
+      "L4": {
+        "__compat": {
+          "description": "`blend-hue`, `blend-saturation`, `blend-color` and `blend-luminosity` MUST blend whole colors with Compositing 1 §10.2's Lum, Sat, SetLum, SetSat and ClipColor, on channels clamped to 0..1.",
+          "support": {
+            "chrome": {
+              "version_added": "≤155"
+            },
+            "safari": {
+              "version_added": null,
+              "notes": "Not measured in Safari. Playwright's WebKit 26.4, headless: PASS."
+            },
+            "firefox": {
+              "version_added": "≤158"
+            }
+          },
+          "status": {
+            "experimental": true,
+            "standard_track": false,
+            "deprecated": false
+          }
+        }
+      },
+      "I1": {
+        "__compat": {
+          "description": "`.gamut-color-interpolate` MUST read `--gamut-stops`, 1 to 8, `--gamut-stop-1` to `--gamut-stop-8`, positions `--gamut-at-1` to `--gamut-at-8`, optional second positions `--gamut-to-1` to `--gamut-to-8`, `--gamut-t` and `--gamut-space`, default `oklab`.",
+          "support": {
+            "chrome": {
+              "version_added": "≤155"
+            },
+            "safari": {
+              "version_added": null,
+              "notes": "Not measured in Safari. Playwright's WebKit 26.4, headless: PASS."
+            },
+            "firefox": {
+              "version_added": "≤158"
+            }
+          },
+          "status": {
+            "experimental": true,
+            "standard_track": false,
+            "deprecated": false
+          }
+        }
+      },
+      "I2": {
+        "__compat": {
+          "description": "`--gamut-out` MUST be the two stops around `--gamut-t` mixed as `color-mix()` mixes them in that space, within 1/255 a channel of Color.js 0.7.1's `mix()`.",
+          "support": {
+            "chrome": {
+              "version_added": "≤155",
+              "impl_url": "https://issues.chromium.org/issues/565837690 (new)"
+            },
+            "safari": {
+              "version_added": null,
+              "notes": "Not measured in Safari. Playwright's WebKit 26.4, headless: PASS."
+            },
+            "firefox": {
+              "version_added": "≤158"
+            }
+          },
+          "status": {
+            "experimental": true,
+            "standard_track": false,
+            "deprecated": false
+          }
+        }
+      },
+      "I3": {
+        "__compat": {
+          "description": "A `none` component in a stop MUST take the other stop's value (css-color-4 §13), within 1/255 a channel of the browser's own two-color `color-mix()`.",
+          "support": {
+            "chrome": {
+              "version_added": "≤155"
+            },
+            "safari": {
+              "version_added": null,
+              "notes": "Not measured in Safari. Playwright's WebKit 26.4, headless: PASS."
+            },
+            "firefox": {
+              "version_added": "≤158"
+            }
+          },
+          "status": {
+            "experimental": true,
+            "standard_track": false,
+            "deprecated": false
+          }
+        }
+      },
+      "I4": {
+        "__compat": {
+          "description": "A stop with `--gamut-to-k` MUST be two stops of its color, at `--gamut-at-k` and `--gamut-to-k` (css-values-5 §7.1.2), and a position less than the one before it MUST be set to that one (§7.2.4), within 1/255 a channel of the browser's own two-color `color-mix()` of the segment.",
+          "support": {
+            "chrome": {
+              "version_added": "≤155",
+              "impl_url": "https://issues.chromium.org/issues/565837690 (new)"
+            },
+            "safari": {
+              "version_added": null,
+              "notes": "Not measured in Safari. Playwright's WebKit 26.4, headless: PASS."
+            },
+            "firefox": {
+              "version_added": "≤158"
+            }
+          },
+          "status": {
+            "experimental": true,
+            "standard_track": false,
+            "deprecated": false
+          }
+        }
+      },
+      "I5": {
+        "__compat": {
+          "description": "A stop within `--gamut-stops` without `--gamut-at-k`, or a `--gamut-space` the browser doesn't parse, MUST make `--gamut-out` invalid at computed-value time, so that it inherits its parent's (css-values-5 §7.5's grammar gives every stop an `<input-position>`).",
+          "support": {
+            "chrome": {
+              "version_added": "≤155"
+            },
+            "safari": {
+              "version_added": null,
+              "notes": "Not measured in Safari. Playwright's WebKit 26.4, headless: PASS."
+            },
+            "firefox": {
+              "version_added": "≤158"
+            }
+          },
+          "status": {
+            "experimental": true,
+            "standard_track": false,
+            "deprecated": false
+          }
+        }
+      },
+      "M1": {
+        "__compat": {
+          "description": "`.gamut-color-mix` MUST read `--gamut-mix-count`, 1 to 6, `--gamut-mix-1` to `--gamut-mix-6`, optional shares `--gamut-mix-pct-1` to `--gamut-mix-pct-6`, numbers or percentages, and `--gamut-mix-space`, default `oklab`; a percentage share (`40%`) MUST be read as the number 40 where `calc()` divides a percentage by `1%` (in Firefox 158, which doesn't divide one there, `--gamut-out` invalid, as below); a share of a color within the count below 0, above 100, or neither a number nor a percentage (`none`, a length) MUST make `--gamut-out` invalid at computed-value time, so that it inherits its parent's (css-color-5 §3.2), in the class and in its function.",
+          "support": {
+            "chrome": {
+              "version_added": "≤155"
+            },
+            "safari": {
+              "version_added": null,
+              "notes": "Not measured in Safari. Playwright's WebKit 26.4, headless: PASS."
+            },
+            "firefox": {
+              "version_added": "≤158"
+            }
+          },
+          "status": {
+            "experimental": true,
+            "standard_track": false,
+            "deprecated": false
+          }
+        }
+      },
+      "M2": {
+        "__compat": {
+          "description": "`--gamut-out` MUST be css-color-5 §3.3's result, percentages normalized by css-values-5 §6.1 and a total under 100 taken off the alpha, within 1.5/255 a channel and 2/255 alpha of that algorithm in doubles; where the space is one the engine's own `color-mix()` takes, the result MUST be that engine's, a color brighter than white included.",
+          "support": {
+            "chrome": {
+              "version_added": false,
+              "notes": "FAIL: 596 of 600; 4 follow Chrome's own color-mix() dropping a grey's hue",
+              "impl_url": [
+                "https://issues.chromium.org/issues/565837690 (new)",
+                "https://issues.chromium.org/issues/564362185 (fixed)"
+              ]
+            },
+            "safari": {
+              "version_added": null,
+              "notes": "Not measured in Safari. Playwright's WebKit 26.4, headless: PASS.",
+              "impl_url": "https://bugs.webkit.org/show_bug.cgi?id=316215 (fixed 2026-06-04)"
+            },
+            "firefox": {
+              "version_added": false,
+              "notes": "FAIL: 596 of 600; 4 follow Firefox's own hsl skipping the 180° turn",
+              "impl_url": "https://bugzilla.mozilla.org/show_bug.cgi?id=2084587 (new)"
+            }
+          },
+          "status": {
+            "experimental": true,
+            "standard_track": false,
+            "deprecated": false
+          }
+        }
+      },
+      "M3": {
+        "__compat": {
+          "description": "Where `@function` parses (css-mixins-1 §2), `--gamut-color-mix(<space>, <color>, <percentage>, …)`, up to 6 colors, each with a percentage as a number or `none`, MUST give the color `.gamut-color-mix` writes for those inputs, within 1e-4 a channel, with any arguments left off from the end taking the class's defaults; where it doesn't, a declaration before a call with no `var()` or `env()` in its arguments MUST keep its value.",
+          "support": {
+            "chrome": {
+              "version_added": "≤155"
+            },
+            "safari": {
+              "version_added": null,
+              "notes": [
+                "Not measured in Safari. Playwright's WebKit 26.4, headless: PRECONDITION_FAILED.",
+                "PRECONDITION_FAILED: no `@function`; the declaration before it holds"
+              ]
+            },
+            "firefox": {
+              "version_added": null,
+              "notes": "PRECONDITION_FAILED: no `@function`; the declaration before it holds"
+            }
+          },
+          "status": {
+            "experimental": true,
+            "standard_track": false,
+            "deprecated": false
+          }
+        }
+      },
+      "M4": {
+        "__compat": {
+          "description": "On an element with both `.gamut-color-mix` and `.gamut-mix-paint`, `--gamut-out` MUST be spectral.js 3.0.0's `mix()` of `--gamut-mix-1` and `--gamut-mix-2`, sRGB colors, each factor its percentage normalized as M2 normalizes it and a total under 100 taken off the alpha, within 1e-4 a channel in linear sRGB; with `--gamut-mix-count` above 2 it MUST be transparent.",
+          "support": {
+            "chrome": {
+              "version_added": "≤155"
+            },
+            "safari": {
+              "version_added": null,
+              "notes": "Not measured in Safari. Playwright's WebKit 26.4, headless: PASS."
+            },
+            "firefox": {
+              "version_added": "≤158"
+            }
+          },
+          "status": {
+            "experimental": true,
+            "standard_track": false,
+            "deprecated": false
+          }
+        }
+      },
+      "M5": {
+        "__compat": {
+          "description": "Where `@function` parses, `--gamut-color-mix(paint, <color>, <percentage>, <color>, <percentage>)` MUST give the color M4 gives for those inputs, within 1e-4 a channel in linear sRGB.",
+          "support": {
+            "chrome": {
+              "version_added": "≤155"
+            },
+            "safari": {
+              "version_added": null,
+              "notes": [
+                "Not measured in Safari. Playwright's WebKit 26.4, headless: PRECONDITION_FAILED.",
+                "PRECONDITION_FAILED: no `@function`"
+              ]
+            },
+            "firefox": {
+              "version_added": null,
+              "notes": "PRECONDITION_FAILED: no `@function`"
+            }
+          },
+          "status": {
+            "experimental": true,
+            "standard_track": false,
+            "deprecated": false
+          }
+        }
+      },
+      "A1": {
+        "__compat": {
+          "description": "`.gamut-alpha` MUST read `--gamut-in` and `--gamut-alpha-value` (an `<alpha-value>`, `none`, or a math function of the keyword `alpha`; unset, `alpha`), and MUST write css-color-5 §4.10's `alpha()` of them: the origin's components and that alpha clamped to 0 to 1, each number within 0.01 of the spec's in the origin's space, a missing component or alpha as 0.",
+          "support": {
+            "chrome": {
+              "version_added": "≤155"
+            },
+            "safari": {
+              "version_added": null,
+              "notes": [
+                "Not measured in Safari. Playwright's WebKit 26.4, headless: FAIL.",
+                "FAIL: 210 of 220; 10 with an lch() `none` hue come out grey, as WebKit's own relative color gives them"
+              ]
+            },
+            "firefox": {
+              "version_added": "≤158"
+            }
+          },
+          "status": {
+            "experimental": true,
+            "standard_track": false,
+            "deprecated": false
+          }
+        }
+      },
+      "LD1": {
+        "__compat": {
+          "description": "`.gamut-light-dark` MUST read `--gamut-light` and `--gamut-dark`, registered inherited `<color>`s (initial `transparent`), and MUST write `--gamut-out`, the color `light-dark()` of the two computes to on that element (css-color-5 §7), within 1e-6 a channel and alpha, whatever `color-scheme` the element and its ancestors have; a child of another `color-scheme` MUST read the same `--gamut-out`.",
+          "support": {
+            "chrome": {
+              "version_added": "≤155"
+            },
+            "safari": {
+              "version_added": null,
+              "notes": "Not measured in Safari. Playwright's WebKit 26.4, headless: PASS."
+            },
+            "firefox": {
+              "version_added": "≤158"
+            }
+          },
+          "status": {
+            "experimental": true,
+            "standard_track": false,
+            "deprecated": false
+          }
+        }
+      },
+      "EQ1": {
+        "__compat": {
+          "description": "`.gamut-color-equal` MUST read `--gamut-equal-a` and `--gamut-equal-b` and MUST give each child `--gamut-equal`, an inherited `<number>`: 1 when the two are equivalent colors by css-color-4 §12 as csswg-drafts #13157 resolved it, with the engine's own OkLab conversions (`oklab(from …)`), else 0; outside it, a `none` hue at zero chroma or saturation, and two colors with the same `none`s in two spaces whose other channels match, compare as equal (§4).",
+          "support": {
+            "chrome": {
+              "version_added": "≤155"
+            },
+            "safari": {
+              "version_added": null,
+              "notes": "Not measured in Safari. Playwright's WebKit 26.4, headless: PASS."
+            },
+            "firefox": {
+              "version_added": false,
+              "notes": "FAIL: 253 of 278 as the rule says, and 12 more as Firefox's own OkLab conversion says; 9 pairs with a `none` in a `color()` space other than srgb read as equal"
+            }
+          },
+          "status": {
+            "experimental": true,
+            "standard_track": false,
+            "deprecated": false
+          }
+        }
+      },
+      "EQ2": {
+        "__compat": {
+          "description": "Where `if()` parses (css-values-5), `.gamut-color-equal` MUST also write `--gamut-equal` on the element itself; where `@function` parses (css-mixins-1 §2), `--gamut-color-equal(a, b)` MUST give the number `.gamut-color-equal` writes for those inputs; where it doesn't, a declaration before a call with no `var()` or `env()` in its arguments MUST keep its value.",
+          "support": {
+            "chrome": {
+              "version_added": "≤155"
+            },
+            "safari": {
+              "version_added": null,
+              "notes": [
+                "Not measured in Safari. Playwright's WebKit 26.4, headless: PRECONDITION_FAILED.",
+                "PRECONDITION_FAILED: no `if()` or `@function`; the declaration before it holds"
+              ]
+            },
+            "firefox": {
+              "version_added": null,
+              "notes": "PRECONDITION_FAILED: no `if()` or `@function`; the declaration before it holds"
+            }
+          },
+          "status": {
+            "experimental": true,
+            "standard_track": false,
+            "deprecated": false
+          }
+        }
+      },
+      "D1": {
+        "__compat": {
+          "description": "`.gamut-device-cmyk` MUST read `--gamut-cmyk-c`, `--gamut-cmyk-m`, `--gamut-cmyk-y` and `--gamut-cmyk-k`, numbers from 0 to 1 or percentages, each clamped to 0 to 1 (css-color-5 §6), and `--gamut-cmyk-alpha`, and MUST write red `1 − min(1, c × (1 − k) + k)`, green the same with m and blue with y (css-color-5 §6.1).",
+          "support": {
+            "chrome": {
+              "version_added": "≤155"
+            },
+            "safari": {
+              "version_added": null,
+              "notes": "Not measured in Safari. Playwright's WebKit 26.4, headless: PASS."
+            },
+            "firefox": {
+              "version_added": "≤158"
+            }
+          },
+          "status": {
+            "experimental": true,
+            "standard_track": false,
+            "deprecated": false
+          }
+        }
+      },
+      "D2": {
+        "__compat": {
+          "description": "Where `@function` parses (css-mixins-1 §2), `--gamut-device-cmyk(c, m, y, k, alpha)` MUST give the color `.gamut-device-cmyk` writes for those inputs, within 1e-4 a channel, with any arguments left off from the end taking the class's defaults; where it doesn't, a declaration before a call with no `var()` or `env()` in its arguments MUST keep its value.",
+          "support": {
+            "chrome": {
+              "version_added": "≤155"
+            },
+            "safari": {
+              "version_added": null,
+              "notes": [
+                "Not measured in Safari. Playwright's WebKit 26.4, headless: PRECONDITION_FAILED.",
+                "PRECONDITION_FAILED: no `@function`; the declaration before it holds"
+              ]
+            },
+            "firefox": {
+              "version_added": null,
+              "notes": "PRECONDITION_FAILED: no `@function`; the declaration before it holds"
+            }
+          },
+          "status": {
+            "experimental": true,
+            "standard_track": false,
+            "deprecated": false
+          }
+        }
+      },
+      "O1": {
+        "__compat": {
+          "description": "`.gamut-okhsl` MUST read `--gamut-okhsl-h` as `oklch()` reads a hue (degrees or an angle, `none` as 0) and `--gamut-okhsl-s` and `--gamut-okhsl-l` from 0 to 1 (each as 0 where it isn't a number), and MUST write ok_color.h's `okhsl_to_srgb` of them, within 1.5/255 a channel; where both of `compute_max_saturation`'s branch tests are within 0.0001 of 1 (sRGB's blue, about 264.05°), its green branch.",
+          "support": {
+            "chrome": {
+              "version_added": "≤155"
+            },
+            "safari": {
+              "version_added": null,
+              "notes": "Not measured in Safari. Playwright's WebKit 26.4, headless: PASS."
+            },
+            "firefox": {
+              "version_added": "≤158"
+            }
+          },
+          "status": {
+            "experimental": true,
+            "standard_track": false,
+            "deprecated": false
+          }
+        }
+      },
+      "O2": {
+        "__compat": {
+          "description": "Where `@function` parses (css-mixins-1 §2), `--gamut-okhsl(h, s, l)` MUST give the color `.gamut-okhsl` writes for those inputs, within 1e-4 a channel, with any arguments left off from the end taking the class's defaults; where it doesn't, a declaration before a call with no `var()` or `env()` in its arguments MUST keep its value.",
+          "support": {
+            "chrome": {
+              "version_added": "≤155"
+            },
+            "safari": {
+              "version_added": null,
+              "notes": [
+                "Not measured in Safari. Playwright's WebKit 26.4, headless: PRECONDITION_FAILED.",
+                "PRECONDITION_FAILED: no `@function`; the declaration before it holds"
+              ]
+            },
+            "firefox": {
+              "version_added": null,
+              "notes": "PRECONDITION_FAILED: no `@function`; the declaration before it holds"
+            }
+          },
+          "status": {
+            "experimental": true,
+            "standard_track": false,
+            "deprecated": false
+          }
+        }
+      },
+      "F1": {
+        "__compat": {
+          "description": "`.gamut-okhsl-from` MUST write the input's own Okhsl (ok_color.h's `srgb_to_okhsl`) with any given `--gamut-okhsl-l` and `--gamut-okhsl-s` replacing its own (`none`, or anything not a number, keeping its own), within 1.5/255 a channel for inputs inside sRGB, alpha unchanged and the channels kept at alpha 0; an input's `none` hue MUST convert as 0.",
+          "support": {
+            "chrome": {
+              "version_added": "≤155",
+              "impl_url": "https://issues.chromium.org/issues/569954059 (fixed)"
+            },
+            "safari": {
+              "version_added": null,
+              "notes": "Not measured in Safari. Playwright's WebKit 26.4, headless: PASS."
+            },
+            "firefox": {
+              "version_added": "≤158"
+            }
+          },
+          "status": {
+            "experimental": true,
+            "standard_track": false,
+            "deprecated": false
+          }
+        }
+      },
+      "F2": {
+        "__compat": {
+          "description": "Where `@function` parses (css-mixins-1 §2), `--gamut-okhsl-from(<color>, s, l)`, `none` keeping the color's own, MUST give the color `.gamut-okhsl-from` writes for those inputs, within 1e-4 a channel, with any arguments left off from the end taking the class's defaults; where it doesn't, a declaration before a call with no `var()` or `env()` in its arguments MUST keep its value.",
+          "support": {
+            "chrome": {
+              "version_added": "≤155"
+            },
+            "safari": {
+              "version_added": null,
+              "notes": [
+                "Not measured in Safari. Playwright's WebKit 26.4, headless: PRECONDITION_FAILED.",
+                "PRECONDITION_FAILED: no `@function`; the declaration before it holds"
+              ]
+            },
+            "firefox": {
+              "version_added": null,
+              "notes": "PRECONDITION_FAILED: no `@function`; the declaration before it holds"
+            }
+          },
+          "status": {
+            "experimental": true,
+            "standard_track": false,
+            "deprecated": false
+          }
+        }
+      },
+      "V1": {
+        "__compat": {
+          "description": "`.gamut-okhsv` MUST read `--gamut-okhsv-h` as `oklch()` reads a hue (degrees or an angle, `none` as 0) and `--gamut-okhsv-s` and `--gamut-okhsv-v` from 0 to 1 (each as 0 where it isn't a number), and MUST write ok_color.h's `okhsv_to_srgb` of them, within 1.5/255 a channel; at the blue corner, O1's green branch.",
+          "support": {
+            "chrome": {
+              "version_added": "≤155"
+            },
+            "safari": {
+              "version_added": null,
+              "notes": "Not measured in Safari. Playwright's WebKit 26.4, headless: PASS."
+            },
+            "firefox": {
+              "version_added": "≤158"
+            }
+          },
+          "status": {
+            "experimental": true,
+            "standard_track": false,
+            "deprecated": false
+          }
+        }
+      },
+      "V2": {
+        "__compat": {
+          "description": "Where `@function` parses (css-mixins-1 §2), `--gamut-okhsv(h, s, v)` MUST give the color `.gamut-okhsv` writes for those inputs, within 1e-4 a channel, with any arguments left off from the end taking the class's defaults; where it doesn't, a declaration before a call with no `var()` or `env()` in its arguments MUST keep its value.",
+          "support": {
+            "chrome": {
+              "version_added": "≤155"
+            },
+            "safari": {
+              "version_added": null,
+              "notes": [
+                "Not measured in Safari. Playwright's WebKit 26.4, headless: PRECONDITION_FAILED.",
+                "PRECONDITION_FAILED: no `@function`; the declaration before it holds"
+              ]
+            },
+            "firefox": {
+              "version_added": null,
+              "notes": "PRECONDITION_FAILED: no `@function`; the declaration before it holds"
+            }
+          },
+          "status": {
+            "experimental": true,
+            "standard_track": false,
+            "deprecated": false
+          }
+        }
+      },
+      "OG1": {
+        "__compat": {
+          "description": "Under `--gamut-target: display-p3` or `rec2020` on an ancestor, `.gamut-okhsl`, `.gamut-okhsv` and `.gamut-okhsl-from` MUST write ok_color.h's model for that gamut, within 1.5/255 a channel of the model run numerically (cusp and edge bisected); within 2 degrees of its blue primary, plus the fitted constants' own distance. Under any other target they MUST write what O1, F1 and V1 require.",
+          "support": {
+            "chrome": {
+              "version_added": "≤155"
+            },
+            "safari": {
+              "version_added": null,
+              "notes": "Not measured in Safari. Playwright's WebKit 26.4, headless: PASS."
+            },
+            "firefox": {
+              "version_added": "≤158"
+            }
+          },
+          "status": {
+            "experimental": true,
+            "standard_track": false,
+            "deprecated": false
+          }
+        }
+      },
+      "OG2": {
+        "__compat": {
+          "description": "Where `@function` parses (css-mixins-1 §2), `--gamut-okhsl()`, `--gamut-okhsv()` and `--gamut-okhsl-from()` MUST follow the same ancestor's `--gamut-target` as their classes, within OG1's bounds.",
+          "support": {
+            "chrome": {
+              "version_added": "≤155"
+            },
+            "safari": {
+              "version_added": null,
+              "notes": [
+                "Not measured in Safari. Playwright's WebKit 26.4, headless: PRECONDITION_FAILED.",
+                "PRECONDITION_FAILED: no `@function`; the declaration before it holds"
+              ]
+            },
+            "firefox": {
+              "version_added": null,
+              "notes": "PRECONDITION_FAILED: no `@function`; the declaration before it holds"
+            }
+          },
+          "status": {
+            "experimental": true,
+            "standard_track": false,
+            "deprecated": false
+          }
+        }
+      },
+      "OG3": {
+        "__compat": {
+          "description": "Under `--gamut-target: display-p3` on an ancestor, `.gamut-okhsl` and `.gamut-okhsv` MUST give ColorAide's conversion with the P3 constants of csswg-drafts #8659, within 1/255 a channel in display-p3; within 2 degrees of the blue primary's hue, within 1/255 of ColorAide's or of OG1's model.",
+          "support": {
+            "chrome": {
+              "version_added": "≤155"
+            },
+            "safari": {
+              "version_added": null,
+              "notes": "Not measured in Safari. Playwright's WebKit 26.4, headless: PASS."
+            },
+            "firefox": {
+              "version_added": "≤158"
+            }
+          },
+          "status": {
+            "experimental": true,
+            "standard_track": false,
+            "deprecated": false
+          }
+        }
+      },
+      "H1": {
+        "__compat": {
+          "description": "Each MUST read `--gamut-rec2100-r`, `--gamut-rec2100-g` and `--gamut-rec2100-b`, encoded, and write `--gamut-out` in `xyz-d65` with media white at Y = 1, equal to css-color-hdr §11's sample code within 1e-4, relative above 1.",
+          "support": {
+            "chrome": {
+              "version_added": "≤155"
+            },
+            "safari": {
+              "version_added": null,
+              "notes": "Not measured in Safari. Playwright's WebKit 26.4, headless: PASS."
+            },
+            "firefox": {
+              "version_added": "≤158"
+            }
+          },
+          "status": {
+            "experimental": true,
+            "standard_track": false,
+            "deprecated": false
+          }
+        }
+      },
+      "H2": {
+        "__compat": {
+          "description": "Where `@function` parses (css-mixins-1 §2), `--gamut-rec2100-pq(r, g, b, alpha)`, `--gamut-rec2100-hlg()` and `--gamut-rec2100-linear()` MUST give the color their classes write for those inputs, within 1e-4 a channel, with any arguments left off from the end taking the class's defaults; where it doesn't, a declaration before a call with no `var()` or `env()` in its arguments MUST keep its value.",
+          "support": {
+            "chrome": {
+              "version_added": "≤155"
+            },
+            "safari": {
+              "version_added": null,
+              "notes": [
+                "Not measured in Safari. Playwright's WebKit 26.4, headless: PRECONDITION_FAILED.",
+                "PRECONDITION_FAILED: no `@function`; the declaration before it holds"
+              ]
+            },
+            "firefox": {
+              "version_added": null,
+              "notes": "PRECONDITION_FAILED: no `@function`; the declaration before it holds"
+            }
+          },
+          "status": {
+            "experimental": true,
+            "standard_track": false,
+            "deprecated": false
+          }
+        }
+      },
+      "H3": {
+        "__compat": {
+          "description": "A channel `none` MUST act as 0 (css-color-4 §4.4), in the class and in its function, within 1e-3 of each channel of the output for 0.",
+          "support": {
+            "chrome": {
+              "version_added": "≤155"
+            },
+            "safari": {
+              "version_added": null,
+              "notes": "Not measured in Safari. Playwright's WebKit 26.4, headless: PASS."
+            },
+            "firefox": {
+              "version_added": "≤158"
+            }
+          },
+          "status": {
+            "experimental": true,
+            "standard_track": false,
+            "deprecated": false
+          }
+        }
+      },
+      "J1": {
+        "__compat": {
+          "description": "`.gamut-jzazbz` reads `--gamut-jzazbz-jz`, `--gamut-jzazbz-az`, `--gamut-jzazbz-bz` and `--gamut-jzazbz-alpha`; `.gamut-jzczhz` reads `--gamut-jzczhz-jz`, `--gamut-jzczhz-cz`, `--gamut-jzczhz-hz` and `--gamut-jzczhz-alpha`; `.gamut-ictcp` reads `--gamut-ictcp-i`, `--gamut-ictcp-ct`, `--gamut-ictcp-cp` and `--gamut-ictcp-alpha`. Each MUST write `--gamut-out` in `xyz-d65` with media white at Y = 1, so that a color encoded by css-color-hdr §11's `XYZ_to_Jzazbz` or `XYZ_to_ICtCp` comes back within 2e-4, relative above 1; `.gamut-jzczhz` MUST read its hue as `oklch()` reads one (degrees or an angle, `none` as 0).",
+          "support": {
+            "chrome": {
+              "version_added": "≤155"
+            },
+            "safari": {
+              "version_added": null,
+              "notes": "Not measured in Safari. Playwright's WebKit 26.4, headless: PASS."
+            },
+            "firefox": {
+              "version_added": "≤158"
+            }
+          },
+          "status": {
+            "experimental": true,
+            "standard_track": false,
+            "deprecated": false
+          }
+        }
+      },
+      "J2": {
+        "__compat": {
+          "description": "Where `@function` parses (css-mixins-1 §2), `--gamut-jzazbz(jz, az, bz, alpha)`, `--gamut-jzczhz(jz, cz, hz, alpha)` and `--gamut-ictcp(i, ct, cp, alpha)` MUST give the color their classes write for those inputs, within 1e-4 a channel, with any arguments left off from the end taking the class's defaults; where it doesn't, a declaration before a call with no `var()` or `env()` in its arguments MUST keep its value.",
+          "support": {
+            "chrome": {
+              "version_added": "≤155"
+            },
+            "safari": {
+              "version_added": null,
+              "notes": [
+                "Not measured in Safari. Playwright's WebKit 26.4, headless: PRECONDITION_FAILED.",
+                "PRECONDITION_FAILED: no `@function`; the declaration before it holds"
+              ]
+            },
+            "firefox": {
+              "version_added": null,
+              "notes": "PRECONDITION_FAILED: no `@function`; the declaration before it holds"
+            }
+          },
+          "status": {
+            "experimental": true,
+            "standard_track": false,
+            "deprecated": false
+          }
+        }
+      },
+      "J3": {
+        "__compat": {
+          "description": "A coordinate `none` MUST act as 0 (css-color-4 §4.4), in the class and in its function, within 1e-3 of each channel of the output for 0.",
+          "support": {
+            "chrome": {
+              "version_added": "≤155"
+            },
+            "safari": {
+              "version_added": null,
+              "notes": "Not measured in Safari. Playwright's WebKit 26.4, headless: PASS."
+            },
+            "firefox": {
+              "version_added": "≤158"
+            }
+          },
+          "status": {
+            "experimental": true,
+            "standard_track": false,
+            "deprecated": false
+          }
+        }
+      },
+      "HC1": {
+        "__compat": {
+          "description": "`.gamut-hdr-color` MUST read `--gamut-hdr-1` and `--gamut-hdr-2`, two colors, either alone standing for both, their headrooms `--gamut-hdr-h1`, default 0, and `--gamut-hdr-h2`, default 1, and the target headroom `--gamut-headroom`, default 0 and 0 where it isn't a number, and MUST write `--gamut-out` in `xyz-d65`.",
+          "support": {
+            "chrome": {
+              "version_added": "≤155"
+            },
+            "safari": {
+              "version_added": null,
+              "notes": "Not measured in Safari. Playwright's WebKit 26.4, headless: PASS."
+            },
+            "firefox": {
+              "version_added": "≤158"
+            }
+          },
+          "status": {
+            "experimental": true,
+            "standard_track": false,
+            "deprecated": false
+          }
+        }
+      },
+      "HC2": {
+        "__compat": {
+          "description": "`--gamut-out` MUST be css-color-hdr §5.1's interpolation of the two colors in absolute XYZ, within 1e-4 a channel (relative above 1), the draft's 3 worked examples within their printed digits, its 0.001 offset raised by the most negative where a channel is below 0; its alpha the two alphas weighted by w1 and w2 within 1/255.",
+          "support": {
+            "chrome": {
+              "version_added": "≤155"
+            },
+            "safari": {
+              "version_added": null,
+              "notes": "Not measured in Safari. Playwright's WebKit 26.4, headless: PASS."
+            },
+            "firefox": {
+              "version_added": "≤158"
+            }
+          },
+          "status": {
+            "experimental": true,
+            "standard_track": false,
+            "deprecated": false
+          }
+        }
+      },
+      "HC3": {
+        "__compat": {
+          "description": "Where `@function` parses (css-mixins-1 §2), `--gamut-hdr-color(<color>, h1, <color>, h2, <headroom>)`, each color with its own headroom as in css-color-hdr §5's grammar and the screen's headroom last, MUST give the color `.gamut-hdr-color` writes for those inputs, within 1e-4 a channel, with any arguments left off from the end taking the class's defaults; where it doesn't, a declaration before a call with no `var()` or `env()` in its arguments MUST keep its value.",
+          "support": {
+            "chrome": {
+              "version_added": "≤155"
+            },
+            "safari": {
+              "version_added": null,
+              "notes": [
+                "Not measured in Safari. Playwright's WebKit 26.4, headless: PRECONDITION_FAILED.",
+                "PRECONDITION_FAILED: no `@function`; the declaration before it holds"
+              ]
+            },
+            "firefox": {
+              "version_added": null,
+              "notes": "PRECONDITION_FAILED: no `@function`; the declaration before it holds"
+            }
+          },
+          "status": {
+            "experimental": true,
+            "standard_track": false,
+            "deprecated": false
+          }
+        }
+      },
+      "HC4": {
+        "__compat": {
+          "description": "`.gamut-hdr-color` MUST keep the channels at alpha 0, and convert an input's `none` hue as 0.",
+          "support": {
+            "chrome": {
+              "version_added": "≤155"
+            },
+            "safari": {
+              "version_added": null,
+              "notes": "Not measured in Safari. Playwright's WebKit 26.4, headless: PASS."
+            },
+            "firefox": {
+              "version_added": "≤158"
+            }
+          },
+          "status": {
+            "experimental": true,
+            "standard_track": false,
+            "deprecated": false
+          }
+        }
+      },
+      "E1": {
+        "__compat": {
+          "description": "`.gamut-color-extract` MUST read `--gamut-in`, and its one child `.gamut-color-extract-read` and that child's subtree MUST get `--gamut-x`, `--gamut-y`, `--gamut-z` (xyz-d65) and `--gamut-alpha` as numbers.",
+          "support": {
+            "chrome": {
+              "version_added": "≤155"
+            },
+            "safari": {
+              "version_added": null,
+              "notes": "Not measured in Safari. Playwright's WebKit 26.4, headless: PASS."
+            },
+            "firefox": {
+              "version_added": "≤158"
+            }
+          },
+          "status": {
+            "experimental": true,
+            "standard_track": false,
+            "deprecated": false
+          }
+        }
+      },
+      "E2": {
+        "__compat": {
+          "description": "For an input exactly in 8-bit sRGB, x, y and z MUST be css-color-4 §19's conversion of those bits within 1e-12, 1e-5 in Firefox 158; otherwise they MUST equal the engine's own xyz-d65 as a 32-bit float where its size is between 2^-63 and (2 - 2^-23) x 2^63 (the encoding's exponents; outside, 0 and that bound), an input's `none` hue converting as 0. Alpha MUST be within 1e-6, at 8 bits in Firefox 158.",
+          "support": {
+            "chrome": {
+              "version_added": "≤155"
+            },
+            "safari": {
+              "version_added": null,
+              "notes": "Not measured in Safari. Playwright's WebKit 26.4, headless: PASS."
+            },
+            "firefox": {
+              "version_added": "≤158"
+            }
+          },
+          "status": {
+            "experimental": true,
+            "standard_track": false,
+            "deprecated": false
+          }
+        }
+      },
+      "E3": {
+        "__compat": {
+          "description": "A class `extract-<space>` on the child, for each of 13 spaces from `srgb` to `hwb`, MUST add that space's channels under its relative-color keywords, computed from the extracted x, y and z (for a color off the 8-bit sRGB grid, the engine's own conversion to XYZ), within 1e-12 of each range, 5e-5 in Firefox 158, hues where chroma is above 1e-4 of its range (1e-3 in Firefox 158, and HSL saturation where min(l, 1 − l) is).",
+          "support": {
+            "chrome": {
+              "version_added": "≤155"
+            },
+            "safari": {
+              "version_added": null,
+              "notes": "Not measured in Safari. Playwright's WebKit 26.4, headless: PASS."
+            },
+            "firefox": {
+              "version_added": "≤158"
+            }
+          },
+          "status": {
+            "experimental": true,
+            "standard_track": false,
+            "deprecated": false
+          }
+        }
+      },
+      "E4": {
+        "__compat": {
+          "description": "The recipe for color math over two colors (csswg-drafts #11533) MUST give the lightness of one color with the chroma and hue of another, through `.gamut-color-extract` and `color-mix()`, and their product in srgb-linear through `.gamut-color-extract`, within 1e-4 of each channel's range of that formula on the channels gathered (E2 and E3 for the extracted color).",
+          "support": {
+            "chrome": {
+              "version_added": "≤155"
+            },
+            "safari": {
+              "version_added": null,
+              "notes": "Not measured in Safari. Playwright's WebKit 26.4, headless: PASS."
+            },
+            "firefox": {
+              "version_added": "≤158"
+            }
+          },
+          "status": {
+            "experimental": true,
+            "standard_track": false,
+            "deprecated": false
+          }
+        }
+      },
+      "FL2": {
+        "__compat": {
+          "description": "The reader docs MUST name only quirks, files, classes and inputs that exist, and MUST give the sheet's size and the conformance counts as the files give them.",
+          "support": {
+            "chrome": {
+              "version_added": "≤155"
+            },
+            "safari": {
+              "version_added": null,
+              "notes": "Not measured in Safari. Playwright's WebKit 26.4, headless: PASS."
+            },
+            "firefox": {
+              "version_added": "≤158"
+            }
+          },
+          "status": {
+            "experimental": true,
+            "standard_track": false,
+            "deprecated": false
+          }
+        }
+      },
+      "FL3": {
+        "__compat": {
+          "description": "Each part file (`fit-screen.css` and the rest, one a class) MUST hold only gamutant.css's own text, every rule that names its class, and every registration and function its rules and functions read. Any of them, in any order, alone, twice or beside gamutant.css, MUST paint as gamutant.css does.",
+          "support": {
+            "chrome": {
+              "version_added": "≤155"
+            },
+            "safari": {
+              "version_added": null,
+              "notes": "Not measured in Safari. Playwright's WebKit 26.4, headless: PASS."
+            },
+            "firefox": {
+              "version_added": "≤158"
+            }
+          },
+          "status": {
+            "experimental": true,
+            "standard_track": false,
+            "deprecated": false
+          }
+        }
+      },
+      "FL4": {
+        "__compat": {
+          "description": "Any two parts that write different outputs, on one element with the same inputs, MUST each write the outputs it writes alone, under every `--gamut-target` and `--gamut-method` an ancestor sets; a `.gamut-readable-text` or `.gamut-contrast-color` reading `--gamut-out` on the element that writes it MUST give the text color it gives on a child; one part's `--gamut-out` copied beside it to another custom property and read by `.gamut-alpha` on a child MUST give what `.gamut-alpha` gives that color written out; and a part inside another of its kind, the inputs it doesn't set at `initial`, MUST give what it gives alone.",
+          "support": {
+            "chrome": {
+              "version_added": "≤155"
+            },
+            "safari": {
+              "version_added": null,
+              "notes": "Not measured in Safari. Playwright's WebKit 26.4, headless: PASS."
+            },
+            "firefox": {
+              "version_added": "≤158"
+            }
+          },
+          "status": {
+            "experimental": true,
+            "standard_track": false,
+            "deprecated": false
+          }
+        }
+      },
+      "FL5": {
+        "__compat": {
+          "description": "For an input of another type than it takes (`foo` for a color or a number), each part MUST give the parent's output, a transparent one, or the output for that input's default, as test/invalid-check.mjs lists for each input.",
+          "support": {
+            "chrome": {
+              "version_added": "≤155"
+            },
+            "safari": {
+              "version_added": null,
+              "notes": "Not measured in Safari. Playwright's WebKit 26.4, headless: PASS."
+            },
+            "firefox": {
+              "version_added": "≤158"
+            }
+          },
+          "status": {
+            "experimental": true,
+            "standard_track": false,
+            "deprecated": false
+          }
+        }
+      },
+      "W1": {
+        "__compat": {
+          "description": "Each of the 239 reftests written from the library's source MUST paint its reference's 100 px green square, pixel for pixel.",
+          "support": {
+            "chrome": {
+              "version_added": "≤155"
+            },
+            "safari": {
+              "version_added": null,
+              "notes": "Not measured in Safari. Playwright's WebKit 26.4, headless: PASS."
+            },
+            "firefox": {
+              "version_added": "≤158"
+            }
+          },
+          "status": {
+            "experimental": true,
+            "standard_track": false,
+            "deprecated": false
+          }
+        }
+      }
+    }
+  }
+}

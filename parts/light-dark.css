@@ -1,0 +1,8 @@
+/*! gamutant.css 1.0.0, light-dark.css: the light-dark part alone
+   SPDX-License-Identifier: MIT
+   Copyright (c) 2026 gamutant contributors
+   Third-party notices: LICENSE-THIRD-PARTY */
+@property --gamut-out { syntax: '<color>'; inherits: true; initial-value: transparent; }
+@property --gamut-light { syntax: '<color>'; inherits: true; initial-value: transparent; }
+@property --gamut-dark { syntax: '<color>'; inherits: true; initial-value: transparent; }
+.gamut-light-dark { --gamut-out: light-dark(var(--gamut-light), var(--gamut-dark)); }

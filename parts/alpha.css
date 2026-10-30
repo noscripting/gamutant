@@ -1,0 +1,7 @@
+/*! gamutant.css 1.0.0, alpha.css: the alpha part alone
+   SPDX-License-Identifier: MIT
+   Copyright (c) 2026 gamutant contributors
+   Third-party notices: LICENSE-THIRD-PARTY */
+@property --gamut-out { syntax: '<color>'; inherits: true; initial-value: transparent; }
+.gamut-alpha { --gamut-out: color(from oklch(from var(--gamut-in) l c h) srgb r g b / var(--gamut-alpha-value, alpha)); }
+@supports (color: alpha(from red / 0.5)) { .gamut-alpha { --gamut-out: alpha(from var(--gamut-in) / var(--gamut-alpha-value, alpha)); } }

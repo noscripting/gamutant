@@ -1,0 +1,174 @@
+/*
+ * css-values-5 §7.5 color-interpolate(); #6694 (color-ramp functions, open) and #10034
+ * (color-scale(), closed 2025-07-20 as not a big need).
+ * Eight-stop color fold. No paint, layout, clock or script.
+ * Inputs stay unregistered. Register only the count, exact zero-width flags, each stop's end, eight color stages
+ * and output. All registered intermediates inherit:false.
+ * Keep t, stop starts and differences raw: rounding t crosses a duplicate stop
+ * early, and an engine can round a registered 1e-8 difference to zero (scale-check.mjs).
+ * Each weight has one consumer, so compute it directly in its color mix.
+ *
+ * A stop k sits at --gamut-at-k, and with --gamut-to-k it covers --gamut-at-k to --gamut-to-k: two stops of the same
+ * color (css-values-5 §7.1.2). Fixup (§7.2.4): a stop starts at least where the stop before ends, and ends at least
+ * where it starts. The end is registered: unregistered, each start would carry every stop before it, and each stage
+ * copies it four times. Engines substitute a registered number to 6 significant digits or 6 decimals, so the next
+ * segment starts within half a unit of the end's sixth digit (5e-7 below 1, 5e-6 from 1 to 10; stops-check.mjs). Equal
+ * positions select the later stop there.
+ * A color shown alone (before the first stop, after the last) is mixed 0% toward its neighbor, so a component missing
+ * from it takes the neighbor's; two equal stops would keep it missing. In a stop's own stretch (--gamut-to-k past
+ * --gamut-at-k) it is mixed with itself by the stretch's fraction, as two stops of one color interpolate: the same color,
+ * but a full turn of hue with `longer hue` (CSS Color 4 §13.5.2, as the browser's own color-mix() turns red with red;
+ * held, red at 0 and 0.5 gave red at 0.25 in hsl longer hue, a review, 2026-10-28): stops 1 to 7 in the
+ * stage after theirs, the eighth in the output.
+ * Missing colors repeat the previous color; the first defaults to #808080 (this sheet's own default: css-values-5
+ * gives none).
+ * A stop's `none` components borrow from the other end of the segment being drawn, as two-color interpolation
+ * does (CSS Color 4 §13): once stop k-1 is passed, stage k starts from stop k-1 mixed 0% toward stop k (which
+ * fills its missing components from stop k), not from the fold so far (which had filled them from stop k-2); only
+ * within the stop count, like the weights.
+ * t and the positions are numbers: a percentage (css-values-5 allows one) makes the output transparent, as does a
+ * space the browser doesn't parse; a number and a percentage can't share a calc() without typed arithmetic (not in
+ * Firefox 158), and a registered t would round.
+ * Missing t/count/space are 0/2/oklab; one stop is its color everywhere (counted as two, a hue method like `longer
+ * hue` turned it a full circle between its copies).
+ * Every stop within the count needs a position: css-values-5 §7.5's grammar has `<input-position>{1,2} : <color>` for
+ * each, so a stop without one makes color-interpolate() invalid. u_k is 1 where --gamut-at-k is unset (its fallback
+ * -infinity, below any position; a value that isn't a number leaves u_k at 0, the transparent output it gave before),
+ * g is 200% where any stop within the count has u_k 1, else 0%, and --gamut-out is the fold mixed at 100% with a color
+ * of all `none` at 0% (which takes the fold's components: the same color) inside a color-mix() that has g as its
+ * percentage, written as a literal there by var(): 200% is past `<percentage [0,100]>`, so --gamut-out is invalid at
+ * computed-value time and inherits the parent's, as a browser's own invalid color-interpolate() would. (calc() clamps
+ * a percentage in color-mix(), and no number makes a value invalid: a registered <percentage> is the way through.)
+ * For d >= 0, z = 1 - sign(d) is exactly 0 or 1. Divide by max(d,z), then
+ * add z * (1 + sign(t - previousEnd)); clamp and mask by the stop count.
+ * No epsilon, no zero denominator, and no rounded boundary comparison.
+ * Check: node test/scale-check.mjs; node test/stops-check.mjs
+ */
+@property --gamut-out { syntax: '<color>'; inherits: true; initial-value: transparent; }
+@property --gamut--scale-s1 { syntax: "<color>"; inherits: false; initial-value: transparent; }
+@property --gamut--scale-s2 { syntax: "<color>"; inherits: false; initial-value: transparent; }
+@property --gamut--scale-s3 { syntax: "<color>"; inherits: false; initial-value: transparent; }
+@property --gamut--scale-s4 { syntax: "<color>"; inherits: false; initial-value: transparent; }
+@property --gamut--scale-s5 { syntax: "<color>"; inherits: false; initial-value: transparent; }
+@property --gamut--scale-s6 { syntax: "<color>"; inherits: false; initial-value: transparent; }
+@property --gamut--scale-s7 { syntax: "<color>"; inherits: false; initial-value: transparent; }
+@property --gamut--scale-s8 { syntax: "<color>"; inherits: false; initial-value: transparent; }
+@property --gamut--scale-s9 { syntax: "<color>"; inherits: false; initial-value: transparent; }
+@property --gamut--scale-n { syntax: "<number>"; inherits: false; initial-value: 0; }
+@property --gamut--scale-e1 { syntax: "<number>"; inherits: false; initial-value: 0; }
+@property --gamut--scale-e2 { syntax: "<number>"; inherits: false; initial-value: 0; }
+@property --gamut--scale-e3 { syntax: "<number>"; inherits: false; initial-value: 0; }
+@property --gamut--scale-e4 { syntax: "<number>"; inherits: false; initial-value: 0; }
+@property --gamut--scale-e5 { syntax: "<number>"; inherits: false; initial-value: 0; }
+@property --gamut--scale-e6 { syntax: "<number>"; inherits: false; initial-value: 0; }
+@property --gamut--scale-e7 { syntax: "<number>"; inherits: false; initial-value: 0; }
+@property --gamut--scale-z2 { syntax: "<number>"; inherits: false; initial-value: 0; }
+@property --gamut--scale-z3 { syntax: "<number>"; inherits: false; initial-value: 0; }
+@property --gamut--scale-z4 { syntax: "<number>"; inherits: false; initial-value: 0; }
+@property --gamut--scale-z5 { syntax: "<number>"; inherits: false; initial-value: 0; }
+@property --gamut--scale-z6 { syntax: "<number>"; inherits: false; initial-value: 0; }
+@property --gamut--scale-z7 { syntax: "<number>"; inherits: false; initial-value: 0; }
+@property --gamut--scale-z8 { syntax: "<number>"; inherits: false; initial-value: 0; }
+@property --gamut--scale-u1 { syntax: "<number>"; inherits: false; initial-value: 0; }
+@property --gamut--scale-u2 { syntax: "<number>"; inherits: false; initial-value: 0; }
+@property --gamut--scale-u3 { syntax: "<number>"; inherits: false; initial-value: 0; }
+@property --gamut--scale-u4 { syntax: "<number>"; inherits: false; initial-value: 0; }
+@property --gamut--scale-u5 { syntax: "<number>"; inherits: false; initial-value: 0; }
+@property --gamut--scale-u6 { syntax: "<number>"; inherits: false; initial-value: 0; }
+@property --gamut--scale-u7 { syntax: "<number>"; inherits: false; initial-value: 0; }
+@property --gamut--scale-u8 { syntax: "<number>"; inherits: false; initial-value: 0; }
+@property --gamut--scale-g { syntax: "<percentage>"; inherits: false; initial-value: 0%; }
+
+.color-interpolate {
+  --gamut--scale-n: clamp(1, var(--gamut-stops, 2), 8);
+  --gamut--scale-t: var(--gamut-t, 0);
+
+  --gamut--scale-c1: var(--gamut-stop-1, #808080);
+  --gamut--scale-c2: var(--gamut-stop-2, var(--gamut--scale-c1));
+  --gamut--scale-c3: var(--gamut-stop-3, var(--gamut--scale-c2));
+  --gamut--scale-c4: var(--gamut-stop-4, var(--gamut--scale-c3));
+  --gamut--scale-c5: var(--gamut-stop-5, var(--gamut--scale-c4));
+  --gamut--scale-c6: var(--gamut-stop-6, var(--gamut--scale-c5));
+  --gamut--scale-c7: var(--gamut-stop-7, var(--gamut--scale-c6));
+  --gamut--scale-c8: var(--gamut-stop-8, var(--gamut--scale-c7));
+
+  --gamut--scale-p1: var(--gamut-at-1, 0);
+  --gamut--scale-e1: max(var(--gamut--scale-p1), var(--gamut-to-1, -infinity));
+  --gamut--scale-p2: max(var(--gamut--scale-e1), var(--gamut-at-2, -infinity));
+  --gamut--scale-e2: max(var(--gamut--scale-p2), var(--gamut-to-2, -infinity));
+  --gamut--scale-p3: max(var(--gamut--scale-e2), var(--gamut-at-3, -infinity));
+  --gamut--scale-e3: max(var(--gamut--scale-p3), var(--gamut-to-3, -infinity));
+  --gamut--scale-p4: max(var(--gamut--scale-e3), var(--gamut-at-4, -infinity));
+  --gamut--scale-e4: max(var(--gamut--scale-p4), var(--gamut-to-4, -infinity));
+  --gamut--scale-p5: max(var(--gamut--scale-e4), var(--gamut-at-5, -infinity));
+  --gamut--scale-e5: max(var(--gamut--scale-p5), var(--gamut-to-5, -infinity));
+  --gamut--scale-p6: max(var(--gamut--scale-e5), var(--gamut-at-6, -infinity));
+  --gamut--scale-e6: max(var(--gamut--scale-p6), var(--gamut-to-6, -infinity));
+  --gamut--scale-p7: max(var(--gamut--scale-e6), var(--gamut-at-7, -infinity));
+  --gamut--scale-e7: max(var(--gamut--scale-p7), var(--gamut-to-7, -infinity));
+  --gamut--scale-p8: max(var(--gamut--scale-e7), var(--gamut-at-8, -infinity));
+  --gamut--scale-e8: max(var(--gamut--scale-p8), var(--gamut-to-8, -infinity));
+
+  --gamut--scale-u1: clamp(0, sign(-1e30 - var(--gamut-at-1, calc(-infinity))), 1);
+  --gamut--scale-u2: clamp(0, sign(-1e30 - var(--gamut-at-2, calc(-infinity))), 1);
+  --gamut--scale-u3: clamp(0, sign(-1e30 - var(--gamut-at-3, calc(-infinity))), 1);
+  --gamut--scale-u4: clamp(0, sign(-1e30 - var(--gamut-at-4, calc(-infinity))), 1);
+  --gamut--scale-u5: clamp(0, sign(-1e30 - var(--gamut-at-5, calc(-infinity))), 1);
+  --gamut--scale-u6: clamp(0, sign(-1e30 - var(--gamut-at-6, calc(-infinity))), 1);
+  --gamut--scale-u7: clamp(0, sign(-1e30 - var(--gamut-at-7, calc(-infinity))), 1);
+  --gamut--scale-u8: clamp(0, sign(-1e30 - var(--gamut-at-8, calc(-infinity))), 1);
+  --gamut--scale-g: calc(min(1, var(--gamut--scale-u1) + var(--gamut--scale-u2) * clamp(0, var(--gamut--scale-n) - 1, 1) + var(--gamut--scale-u3) * clamp(0, var(--gamut--scale-n) - 2, 1) + var(--gamut--scale-u4) * clamp(0, var(--gamut--scale-n) - 3, 1) + var(--gamut--scale-u5) * clamp(0, var(--gamut--scale-n) - 4, 1) + var(--gamut--scale-u6) * clamp(0, var(--gamut--scale-n) - 5, 1) + var(--gamut--scale-u7) * clamp(0, var(--gamut--scale-n) - 6, 1) + var(--gamut--scale-u8) * clamp(0, var(--gamut--scale-n) - 7, 1)) * 200%);
+
+  --gamut--scale-d2: max(0, var(--gamut--scale-p2) - var(--gamut--scale-e1));
+  --gamut--scale-d3: max(0, var(--gamut--scale-p3) - var(--gamut--scale-e2));
+  --gamut--scale-d4: max(0, var(--gamut--scale-p4) - var(--gamut--scale-e3));
+  --gamut--scale-d5: max(0, var(--gamut--scale-p5) - var(--gamut--scale-e4));
+  --gamut--scale-d6: max(0, var(--gamut--scale-p6) - var(--gamut--scale-e5));
+  --gamut--scale-d7: max(0, var(--gamut--scale-p7) - var(--gamut--scale-e6));
+  --gamut--scale-d8: max(0, var(--gamut--scale-p8) - var(--gamut--scale-e7));
+
+  --gamut--scale-z2: calc(1 - sign(var(--gamut--scale-d2)));
+  --gamut--scale-z3: calc(1 - sign(var(--gamut--scale-d3)));
+  --gamut--scale-z4: calc(1 - sign(var(--gamut--scale-d4)));
+  --gamut--scale-z5: calc(1 - sign(var(--gamut--scale-d5)));
+  --gamut--scale-z6: calc(1 - sign(var(--gamut--scale-d6)));
+  --gamut--scale-z7: calc(1 - sign(var(--gamut--scale-d7)));
+  --gamut--scale-z8: calc(1 - sign(var(--gamut--scale-d8)));
+
+  --gamut--scale-s1: var(--gamut--scale-c1);
+  --gamut--scale-s2: color-mix(in var(--gamut-space, oklab), color-mix(in var(--gamut-space, oklab), var(--gamut--scale-s1), color-mix(in var(--gamut-space, oklab), color-mix(in var(--gamut-space, oklab), var(--gamut--scale-c1), var(--gamut--scale-c1) calc(clamp(0, (var(--gamut--scale-t) - var(--gamut--scale-p1)) / max(var(--gamut--scale-e1) - var(--gamut--scale-p1), (1 - sign(var(--gamut--scale-e1) - var(--gamut--scale-p1)))) + (1 - sign(var(--gamut--scale-e1) - var(--gamut--scale-p1))) * (1 + sign(var(--gamut--scale-t) - var(--gamut--scale-p1))), 1) * 100%)), var(--gamut--scale-c2) 0%) calc(clamp(0, sign(var(--gamut--scale-t) - var(--gamut--scale-p1)) + 1, 1) * clamp(0, var(--gamut--scale-n) - 0, 1) * 100%)), var(--gamut--scale-c2) calc(clamp(0,
+      (var(--gamut--scale-t) - var(--gamut--scale-e1)) / max(var(--gamut--scale-d2), var(--gamut--scale-z2))
+      + var(--gamut--scale-z2) * (1 + sign(var(--gamut--scale-t) - var(--gamut--scale-e1))),
+      1) * clamp(0, var(--gamut--scale-n) - 1, 1) * 100%));
+  --gamut--scale-s3: color-mix(in var(--gamut-space, oklab), color-mix(in var(--gamut-space, oklab), var(--gamut--scale-s2), color-mix(in var(--gamut-space, oklab), color-mix(in var(--gamut-space, oklab), var(--gamut--scale-c2), var(--gamut--scale-c2) calc(clamp(0, (var(--gamut--scale-t) - var(--gamut--scale-p2)) / max(var(--gamut--scale-e2) - var(--gamut--scale-p2), (1 - sign(var(--gamut--scale-e2) - var(--gamut--scale-p2)))) + (1 - sign(var(--gamut--scale-e2) - var(--gamut--scale-p2))) * (1 + sign(var(--gamut--scale-t) - var(--gamut--scale-p2))), 1) * 100%)), var(--gamut--scale-c3) 0%) calc(clamp(0, sign(var(--gamut--scale-t) - var(--gamut--scale-p2)) + 1, 1) * clamp(0, var(--gamut--scale-n) - 1, 1) * 100%)), var(--gamut--scale-c3) calc(clamp(0,
+      (var(--gamut--scale-t) - var(--gamut--scale-e2)) / max(var(--gamut--scale-d3), var(--gamut--scale-z3))
+      + var(--gamut--scale-z3) * (1 + sign(var(--gamut--scale-t) - var(--gamut--scale-e2))),
+      1) * clamp(0, var(--gamut--scale-n) - 2, 1) * 100%));
+  --gamut--scale-s4: color-mix(in var(--gamut-space, oklab), color-mix(in var(--gamut-space, oklab), var(--gamut--scale-s3), color-mix(in var(--gamut-space, oklab), color-mix(in var(--gamut-space, oklab), var(--gamut--scale-c3), var(--gamut--scale-c3) calc(clamp(0, (var(--gamut--scale-t) - var(--gamut--scale-p3)) / max(var(--gamut--scale-e3) - var(--gamut--scale-p3), (1 - sign(var(--gamut--scale-e3) - var(--gamut--scale-p3)))) + (1 - sign(var(--gamut--scale-e3) - var(--gamut--scale-p3))) * (1 + sign(var(--gamut--scale-t) - var(--gamut--scale-p3))), 1) * 100%)), var(--gamut--scale-c4) 0%) calc(clamp(0, sign(var(--gamut--scale-t) - var(--gamut--scale-p3)) + 1, 1) * clamp(0, var(--gamut--scale-n) - 2, 1) * 100%)), var(--gamut--scale-c4) calc(clamp(0,
+      (var(--gamut--scale-t) - var(--gamut--scale-e3)) / max(var(--gamut--scale-d4), var(--gamut--scale-z4))
+      + var(--gamut--scale-z4) * (1 + sign(var(--gamut--scale-t) - var(--gamut--scale-e3))),
+      1) * clamp(0, var(--gamut--scale-n) - 3, 1) * 100%));
+  --gamut--scale-s5: color-mix(in var(--gamut-space, oklab), color-mix(in var(--gamut-space, oklab), var(--gamut--scale-s4), color-mix(in var(--gamut-space, oklab), color-mix(in var(--gamut-space, oklab), var(--gamut--scale-c4), var(--gamut--scale-c4) calc(clamp(0, (var(--gamut--scale-t) - var(--gamut--scale-p4)) / max(var(--gamut--scale-e4) - var(--gamut--scale-p4), (1 - sign(var(--gamut--scale-e4) - var(--gamut--scale-p4)))) + (1 - sign(var(--gamut--scale-e4) - var(--gamut--scale-p4))) * (1 + sign(var(--gamut--scale-t) - var(--gamut--scale-p4))), 1) * 100%)), var(--gamut--scale-c5) 0%) calc(clamp(0, sign(var(--gamut--scale-t) - var(--gamut--scale-p4)) + 1, 1) * clamp(0, var(--gamut--scale-n) - 3, 1) * 100%)), var(--gamut--scale-c5) calc(clamp(0,
+      (var(--gamut--scale-t) - var(--gamut--scale-e4)) / max(var(--gamut--scale-d5), var(--gamut--scale-z5))
+      + var(--gamut--scale-z5) * (1 + sign(var(--gamut--scale-t) - var(--gamut--scale-e4))),
+      1) * clamp(0, var(--gamut--scale-n) - 4, 1) * 100%));
+  --gamut--scale-s6: color-mix(in var(--gamut-space, oklab), color-mix(in var(--gamut-space, oklab), var(--gamut--scale-s5), color-mix(in var(--gamut-space, oklab), color-mix(in var(--gamut-space, oklab), var(--gamut--scale-c5), var(--gamut--scale-c5) calc(clamp(0, (var(--gamut--scale-t) - var(--gamut--scale-p5)) / max(var(--gamut--scale-e5) - var(--gamut--scale-p5), (1 - sign(var(--gamut--scale-e5) - var(--gamut--scale-p5)))) + (1 - sign(var(--gamut--scale-e5) - var(--gamut--scale-p5))) * (1 + sign(var(--gamut--scale-t) - var(--gamut--scale-p5))), 1) * 100%)), var(--gamut--scale-c6) 0%) calc(clamp(0, sign(var(--gamut--scale-t) - var(--gamut--scale-p5)) + 1, 1) * clamp(0, var(--gamut--scale-n) - 4, 1) * 100%)), var(--gamut--scale-c6) calc(clamp(0,
+      (var(--gamut--scale-t) - var(--gamut--scale-e5)) / max(var(--gamut--scale-d6), var(--gamut--scale-z6))
+      + var(--gamut--scale-z6) * (1 + sign(var(--gamut--scale-t) - var(--gamut--scale-e5))),
+      1) * clamp(0, var(--gamut--scale-n) - 5, 1) * 100%));
+  --gamut--scale-s7: color-mix(in var(--gamut-space, oklab), color-mix(in var(--gamut-space, oklab), var(--gamut--scale-s6), color-mix(in var(--gamut-space, oklab), color-mix(in var(--gamut-space, oklab), var(--gamut--scale-c6), var(--gamut--scale-c6) calc(clamp(0, (var(--gamut--scale-t) - var(--gamut--scale-p6)) / max(var(--gamut--scale-e6) - var(--gamut--scale-p6), (1 - sign(var(--gamut--scale-e6) - var(--gamut--scale-p6)))) + (1 - sign(var(--gamut--scale-e6) - var(--gamut--scale-p6))) * (1 + sign(var(--gamut--scale-t) - var(--gamut--scale-p6))), 1) * 100%)), var(--gamut--scale-c7) 0%) calc(clamp(0, sign(var(--gamut--scale-t) - var(--gamut--scale-p6)) + 1, 1) * clamp(0, var(--gamut--scale-n) - 5, 1) * 100%)), var(--gamut--scale-c7) calc(clamp(0,
+      (var(--gamut--scale-t) - var(--gamut--scale-e6)) / max(var(--gamut--scale-d7), var(--gamut--scale-z7))
+      + var(--gamut--scale-z7) * (1 + sign(var(--gamut--scale-t) - var(--gamut--scale-e6))),
+      1) * clamp(0, var(--gamut--scale-n) - 6, 1) * 100%));
+  --gamut--scale-s8: color-mix(in var(--gamut-space, oklab), color-mix(in var(--gamut-space, oklab), var(--gamut--scale-s7), color-mix(in var(--gamut-space, oklab), color-mix(in var(--gamut-space, oklab), var(--gamut--scale-c7), var(--gamut--scale-c7) calc(clamp(0, (var(--gamut--scale-t) - var(--gamut--scale-p7)) / max(var(--gamut--scale-e7) - var(--gamut--scale-p7), (1 - sign(var(--gamut--scale-e7) - var(--gamut--scale-p7)))) + (1 - sign(var(--gamut--scale-e7) - var(--gamut--scale-p7))) * (1 + sign(var(--gamut--scale-t) - var(--gamut--scale-p7))), 1) * 100%)), var(--gamut--scale-c8) 0%) calc(clamp(0, sign(var(--gamut--scale-t) - var(--gamut--scale-p7)) + 1, 1) * clamp(0, var(--gamut--scale-n) - 6, 1) * 100%)), var(--gamut--scale-c8) calc(clamp(0,
+      (var(--gamut--scale-t) - var(--gamut--scale-e7)) / max(var(--gamut--scale-d8), var(--gamut--scale-z8))
+      + var(--gamut--scale-z8) * (1 + sign(var(--gamut--scale-t) - var(--gamut--scale-e7))),
+      1) * clamp(0, var(--gamut--scale-n) - 7, 1) * 100%));
+  --gamut--scale-s9: color-mix(in var(--gamut-space, oklab), var(--gamut--scale-s8), color-mix(in var(--gamut-space, oklab), var(--gamut--scale-c8), var(--gamut--scale-c8) calc(clamp(0, (var(--gamut--scale-t) - var(--gamut--scale-p8)) / max(var(--gamut--scale-e8) - var(--gamut--scale-p8), (1 - sign(var(--gamut--scale-e8) - var(--gamut--scale-p8)))) + (1 - sign(var(--gamut--scale-e8) - var(--gamut--scale-p8))) * (1 + sign(var(--gamut--scale-t) - var(--gamut--scale-p8))), 1) * 100%)) calc(clamp(0, sign(var(--gamut--scale-t) - var(--gamut--scale-p8)) + 1, 1) * clamp(0, var(--gamut--scale-n) - 7, 1) * 100%));
+  --gamut-out: color-mix(in var(--gamut-space, oklab), var(--gamut--scale-s9) 100%, color-mix(in srgb, color(srgb none none none / none) var(--gamut--scale-g), color(srgb none none none / none)) 0%);
+}
+/* A browser without a color-mix() at a computed percentage (or sign()) would leave --gamut-out transparent: it gets
+   the first stop instead. */
+@supports not (color: color-mix(in oklab, red, blue calc(clamp(0, 0.3 + sign(0.5), 1) * 100%))) {
+  .color-interpolate { --gamut-out: var(--gamut-stop-1, #808080); }
+}

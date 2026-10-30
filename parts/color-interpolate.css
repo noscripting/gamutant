@@ -1,0 +1,123 @@
+/*! gamutant.css 1.0.0, color-interpolate.css: the color-interpolate part alone
+   SPDX-License-Identifier: MIT
+   Copyright (c) 2026 gamutant contributors
+   Third-party notices: LICENSE-THIRD-PARTY */
+@property --gamut-out { syntax: '<color>'; inherits: true; initial-value: transparent; }
+@property --gamut--scale-s1 { syntax: "<color>"; inherits: false; initial-value: transparent; }
+@property --gamut--scale-s2 { syntax: "<color>"; inherits: false; initial-value: transparent; }
+@property --gamut--scale-s3 { syntax: "<color>"; inherits: false; initial-value: transparent; }
+@property --gamut--scale-s4 { syntax: "<color>"; inherits: false; initial-value: transparent; }
+@property --gamut--scale-s5 { syntax: "<color>"; inherits: false; initial-value: transparent; }
+@property --gamut--scale-s6 { syntax: "<color>"; inherits: false; initial-value: transparent; }
+@property --gamut--scale-s7 { syntax: "<color>"; inherits: false; initial-value: transparent; }
+@property --gamut--scale-s8 { syntax: "<color>"; inherits: false; initial-value: transparent; }
+@property --gamut--scale-s9 { syntax: "<color>"; inherits: false; initial-value: transparent; }
+@property --gamut--scale-n { syntax: "<number>"; inherits: false; initial-value: 0; }
+@property --gamut--scale-e1 { syntax: "<number>"; inherits: false; initial-value: 0; }
+@property --gamut--scale-e2 { syntax: "<number>"; inherits: false; initial-value: 0; }
+@property --gamut--scale-e3 { syntax: "<number>"; inherits: false; initial-value: 0; }
+@property --gamut--scale-e4 { syntax: "<number>"; inherits: false; initial-value: 0; }
+@property --gamut--scale-e5 { syntax: "<number>"; inherits: false; initial-value: 0; }
+@property --gamut--scale-e6 { syntax: "<number>"; inherits: false; initial-value: 0; }
+@property --gamut--scale-e7 { syntax: "<number>"; inherits: false; initial-value: 0; }
+@property --gamut--scale-z2 { syntax: "<number>"; inherits: false; initial-value: 0; }
+@property --gamut--scale-z3 { syntax: "<number>"; inherits: false; initial-value: 0; }
+@property --gamut--scale-z4 { syntax: "<number>"; inherits: false; initial-value: 0; }
+@property --gamut--scale-z5 { syntax: "<number>"; inherits: false; initial-value: 0; }
+@property --gamut--scale-z6 { syntax: "<number>"; inherits: false; initial-value: 0; }
+@property --gamut--scale-z7 { syntax: "<number>"; inherits: false; initial-value: 0; }
+@property --gamut--scale-z8 { syntax: "<number>"; inherits: false; initial-value: 0; }
+@property --gamut--scale-u1 { syntax: "<number>"; inherits: false; initial-value: 0; }
+@property --gamut--scale-u2 { syntax: "<number>"; inherits: false; initial-value: 0; }
+@property --gamut--scale-u3 { syntax: "<number>"; inherits: false; initial-value: 0; }
+@property --gamut--scale-u4 { syntax: "<number>"; inherits: false; initial-value: 0; }
+@property --gamut--scale-u5 { syntax: "<number>"; inherits: false; initial-value: 0; }
+@property --gamut--scale-u6 { syntax: "<number>"; inherits: false; initial-value: 0; }
+@property --gamut--scale-u7 { syntax: "<number>"; inherits: false; initial-value: 0; }
+@property --gamut--scale-u8 { syntax: "<number>"; inherits: false; initial-value: 0; }
+@property --gamut--scale-g { syntax: "<percentage>"; inherits: false; initial-value: 0%; }
+.gamut-color-interpolate {
+  --gamut--scale-n: clamp(1, var(--gamut-stops, 2), 8);
+  --gamut--scale-t: var(--gamut-t, 0);
+  --gamut--scale-c1: var(--gamut-stop-1, #808080);
+  --gamut--scale-c2: var(--gamut-stop-2, var(--gamut--scale-c1));
+  --gamut--scale-c3: var(--gamut-stop-3, var(--gamut--scale-c2));
+  --gamut--scale-c4: var(--gamut-stop-4, var(--gamut--scale-c3));
+  --gamut--scale-c5: var(--gamut-stop-5, var(--gamut--scale-c4));
+  --gamut--scale-c6: var(--gamut-stop-6, var(--gamut--scale-c5));
+  --gamut--scale-c7: var(--gamut-stop-7, var(--gamut--scale-c6));
+  --gamut--scale-c8: var(--gamut-stop-8, var(--gamut--scale-c7));
+  --gamut--scale-p1: var(--gamut-at-1, 0);
+  --gamut--scale-e1: max(var(--gamut--scale-p1), var(--gamut-to-1, -infinity));
+  --gamut--scale-p2: max(var(--gamut--scale-e1), var(--gamut-at-2, -infinity));
+  --gamut--scale-e2: max(var(--gamut--scale-p2), var(--gamut-to-2, -infinity));
+  --gamut--scale-p3: max(var(--gamut--scale-e2), var(--gamut-at-3, -infinity));
+  --gamut--scale-e3: max(var(--gamut--scale-p3), var(--gamut-to-3, -infinity));
+  --gamut--scale-p4: max(var(--gamut--scale-e3), var(--gamut-at-4, -infinity));
+  --gamut--scale-e4: max(var(--gamut--scale-p4), var(--gamut-to-4, -infinity));
+  --gamut--scale-p5: max(var(--gamut--scale-e4), var(--gamut-at-5, -infinity));
+  --gamut--scale-e5: max(var(--gamut--scale-p5), var(--gamut-to-5, -infinity));
+  --gamut--scale-p6: max(var(--gamut--scale-e5), var(--gamut-at-6, -infinity));
+  --gamut--scale-e6: max(var(--gamut--scale-p6), var(--gamut-to-6, -infinity));
+  --gamut--scale-p7: max(var(--gamut--scale-e6), var(--gamut-at-7, -infinity));
+  --gamut--scale-e7: max(var(--gamut--scale-p7), var(--gamut-to-7, -infinity));
+  --gamut--scale-p8: max(var(--gamut--scale-e7), var(--gamut-at-8, -infinity));
+  --gamut--scale-e8: max(var(--gamut--scale-p8), var(--gamut-to-8, -infinity));
+  --gamut--scale-u1: clamp(0, sign(-1e30 - var(--gamut-at-1, calc(-infinity))), 1);
+  --gamut--scale-u2: clamp(0, sign(-1e30 - var(--gamut-at-2, calc(-infinity))), 1);
+  --gamut--scale-u3: clamp(0, sign(-1e30 - var(--gamut-at-3, calc(-infinity))), 1);
+  --gamut--scale-u4: clamp(0, sign(-1e30 - var(--gamut-at-4, calc(-infinity))), 1);
+  --gamut--scale-u5: clamp(0, sign(-1e30 - var(--gamut-at-5, calc(-infinity))), 1);
+  --gamut--scale-u6: clamp(0, sign(-1e30 - var(--gamut-at-6, calc(-infinity))), 1);
+  --gamut--scale-u7: clamp(0, sign(-1e30 - var(--gamut-at-7, calc(-infinity))), 1);
+  --gamut--scale-u8: clamp(0, sign(-1e30 - var(--gamut-at-8, calc(-infinity))), 1);
+  --gamut--scale-g: calc(min(1, var(--gamut--scale-u1) + var(--gamut--scale-u2) * clamp(0, var(--gamut--scale-n) - 1, 1) + var(--gamut--scale-u3) * clamp(0, var(--gamut--scale-n) - 2, 1) + var(--gamut--scale-u4) * clamp(0, var(--gamut--scale-n) - 3, 1) + var(--gamut--scale-u5) * clamp(0, var(--gamut--scale-n) - 4, 1) + var(--gamut--scale-u6) * clamp(0, var(--gamut--scale-n) - 5, 1) + var(--gamut--scale-u7) * clamp(0, var(--gamut--scale-n) - 6, 1) + var(--gamut--scale-u8) * clamp(0, var(--gamut--scale-n) - 7, 1)) * 200%);
+  --gamut--scale-d2: max(0, var(--gamut--scale-p2) - var(--gamut--scale-e1));
+  --gamut--scale-d3: max(0, var(--gamut--scale-p3) - var(--gamut--scale-e2));
+  --gamut--scale-d4: max(0, var(--gamut--scale-p4) - var(--gamut--scale-e3));
+  --gamut--scale-d5: max(0, var(--gamut--scale-p5) - var(--gamut--scale-e4));
+  --gamut--scale-d6: max(0, var(--gamut--scale-p6) - var(--gamut--scale-e5));
+  --gamut--scale-d7: max(0, var(--gamut--scale-p7) - var(--gamut--scale-e6));
+  --gamut--scale-d8: max(0, var(--gamut--scale-p8) - var(--gamut--scale-e7));
+  --gamut--scale-z2: calc(1 - sign(var(--gamut--scale-d2)));
+  --gamut--scale-z3: calc(1 - sign(var(--gamut--scale-d3)));
+  --gamut--scale-z4: calc(1 - sign(var(--gamut--scale-d4)));
+  --gamut--scale-z5: calc(1 - sign(var(--gamut--scale-d5)));
+  --gamut--scale-z6: calc(1 - sign(var(--gamut--scale-d6)));
+  --gamut--scale-z7: calc(1 - sign(var(--gamut--scale-d7)));
+  --gamut--scale-z8: calc(1 - sign(var(--gamut--scale-d8)));
+  --gamut--scale-s1: var(--gamut--scale-c1);
+  --gamut--scale-s2: color-mix(in var(--gamut-space, oklab), color-mix(in var(--gamut-space, oklab), var(--gamut--scale-s1), color-mix(in var(--gamut-space, oklab), color-mix(in var(--gamut-space, oklab), var(--gamut--scale-c1), var(--gamut--scale-c1) calc(clamp(0, (var(--gamut--scale-t) - var(--gamut--scale-p1)) / max(var(--gamut--scale-e1) - var(--gamut--scale-p1), (1 - sign(var(--gamut--scale-e1) - var(--gamut--scale-p1)))) + (1 - sign(var(--gamut--scale-e1) - var(--gamut--scale-p1))) * (1 + sign(var(--gamut--scale-t) - var(--gamut--scale-p1))), 1) * 100%)), var(--gamut--scale-c2) 0%) calc(clamp(0, sign(var(--gamut--scale-t) - var(--gamut--scale-p1)) + 1, 1) * clamp(0, var(--gamut--scale-n) - 0, 1) * 100%)), var(--gamut--scale-c2) calc(clamp(0,
+      (var(--gamut--scale-t) - var(--gamut--scale-e1)) / max(var(--gamut--scale-d2), var(--gamut--scale-z2))
+      + var(--gamut--scale-z2) * (1 + sign(var(--gamut--scale-t) - var(--gamut--scale-e1))),
+      1) * clamp(0, var(--gamut--scale-n) - 1, 1) * 100%));
+  --gamut--scale-s3: color-mix(in var(--gamut-space, oklab), color-mix(in var(--gamut-space, oklab), var(--gamut--scale-s2), color-mix(in var(--gamut-space, oklab), color-mix(in var(--gamut-space, oklab), var(--gamut--scale-c2), var(--gamut--scale-c2) calc(clamp(0, (var(--gamut--scale-t) - var(--gamut--scale-p2)) / max(var(--gamut--scale-e2) - var(--gamut--scale-p2), (1 - sign(var(--gamut--scale-e2) - var(--gamut--scale-p2)))) + (1 - sign(var(--gamut--scale-e2) - var(--gamut--scale-p2))) * (1 + sign(var(--gamut--scale-t) - var(--gamut--scale-p2))), 1) * 100%)), var(--gamut--scale-c3) 0%) calc(clamp(0, sign(var(--gamut--scale-t) - var(--gamut--scale-p2)) + 1, 1) * clamp(0, var(--gamut--scale-n) - 1, 1) * 100%)), var(--gamut--scale-c3) calc(clamp(0,
+      (var(--gamut--scale-t) - var(--gamut--scale-e2)) / max(var(--gamut--scale-d3), var(--gamut--scale-z3))
+      + var(--gamut--scale-z3) * (1 + sign(var(--gamut--scale-t) - var(--gamut--scale-e2))),
+      1) * clamp(0, var(--gamut--scale-n) - 2, 1) * 100%));
+  --gamut--scale-s4: color-mix(in var(--gamut-space, oklab), color-mix(in var(--gamut-space, oklab), var(--gamut--scale-s3), color-mix(in var(--gamut-space, oklab), color-mix(in var(--gamut-space, oklab), var(--gamut--scale-c3), var(--gamut--scale-c3) calc(clamp(0, (var(--gamut--scale-t) - var(--gamut--scale-p3)) / max(var(--gamut--scale-e3) - var(--gamut--scale-p3), (1 - sign(var(--gamut--scale-e3) - var(--gamut--scale-p3)))) + (1 - sign(var(--gamut--scale-e3) - var(--gamut--scale-p3))) * (1 + sign(var(--gamut--scale-t) - var(--gamut--scale-p3))), 1) * 100%)), var(--gamut--scale-c4) 0%) calc(clamp(0, sign(var(--gamut--scale-t) - var(--gamut--scale-p3)) + 1, 1) * clamp(0, var(--gamut--scale-n) - 2, 1) * 100%)), var(--gamut--scale-c4) calc(clamp(0,
+      (var(--gamut--scale-t) - var(--gamut--scale-e3)) / max(var(--gamut--scale-d4), var(--gamut--scale-z4))
+      + var(--gamut--scale-z4) * (1 + sign(var(--gamut--scale-t) - var(--gamut--scale-e3))),
+      1) * clamp(0, var(--gamut--scale-n) - 3, 1) * 100%));
+  --gamut--scale-s5: color-mix(in var(--gamut-space, oklab), color-mix(in var(--gamut-space, oklab), var(--gamut--scale-s4), color-mix(in var(--gamut-space, oklab), color-mix(in var(--gamut-space, oklab), var(--gamut--scale-c4), var(--gamut--scale-c4) calc(clamp(0, (var(--gamut--scale-t) - var(--gamut--scale-p4)) / max(var(--gamut--scale-e4) - var(--gamut--scale-p4), (1 - sign(var(--gamut--scale-e4) - var(--gamut--scale-p4)))) + (1 - sign(var(--gamut--scale-e4) - var(--gamut--scale-p4))) * (1 + sign(var(--gamut--scale-t) - var(--gamut--scale-p4))), 1) * 100%)), var(--gamut--scale-c5) 0%) calc(clamp(0, sign(var(--gamut--scale-t) - var(--gamut--scale-p4)) + 1, 1) * clamp(0, var(--gamut--scale-n) - 3, 1) * 100%)), var(--gamut--scale-c5) calc(clamp(0,
+      (var(--gamut--scale-t) - var(--gamut--scale-e4)) / max(var(--gamut--scale-d5), var(--gamut--scale-z5))
+      + var(--gamut--scale-z5) * (1 + sign(var(--gamut--scale-t) - var(--gamut--scale-e4))),
+      1) * clamp(0, var(--gamut--scale-n) - 4, 1) * 100%));
+  --gamut--scale-s6: color-mix(in var(--gamut-space, oklab), color-mix(in var(--gamut-space, oklab), var(--gamut--scale-s5), color-mix(in var(--gamut-space, oklab), color-mix(in var(--gamut-space, oklab), var(--gamut--scale-c5), var(--gamut--scale-c5) calc(clamp(0, (var(--gamut--scale-t) - var(--gamut--scale-p5)) / max(var(--gamut--scale-e5) - var(--gamut--scale-p5), (1 - sign(var(--gamut--scale-e5) - var(--gamut--scale-p5)))) + (1 - sign(var(--gamut--scale-e5) - var(--gamut--scale-p5))) * (1 + sign(var(--gamut--scale-t) - var(--gamut--scale-p5))), 1) * 100%)), var(--gamut--scale-c6) 0%) calc(clamp(0, sign(var(--gamut--scale-t) - var(--gamut--scale-p5)) + 1, 1) * clamp(0, var(--gamut--scale-n) - 4, 1) * 100%)), var(--gamut--scale-c6) calc(clamp(0,
+      (var(--gamut--scale-t) - var(--gamut--scale-e5)) / max(var(--gamut--scale-d6), var(--gamut--scale-z6))
+      + var(--gamut--scale-z6) * (1 + sign(var(--gamut--scale-t) - var(--gamut--scale-e5))),
+      1) * clamp(0, var(--gamut--scale-n) - 5, 1) * 100%));
+  --gamut--scale-s7: color-mix(in var(--gamut-space, oklab), color-mix(in var(--gamut-space, oklab), var(--gamut--scale-s6), color-mix(in var(--gamut-space, oklab), color-mix(in var(--gamut-space, oklab), var(--gamut--scale-c6), var(--gamut--scale-c6) calc(clamp(0, (var(--gamut--scale-t) - var(--gamut--scale-p6)) / max(var(--gamut--scale-e6) - var(--gamut--scale-p6), (1 - sign(var(--gamut--scale-e6) - var(--gamut--scale-p6)))) + (1 - sign(var(--gamut--scale-e6) - var(--gamut--scale-p6))) * (1 + sign(var(--gamut--scale-t) - var(--gamut--scale-p6))), 1) * 100%)), var(--gamut--scale-c7) 0%) calc(clamp(0, sign(var(--gamut--scale-t) - var(--gamut--scale-p6)) + 1, 1) * clamp(0, var(--gamut--scale-n) - 5, 1) * 100%)), var(--gamut--scale-c7) calc(clamp(0,
+      (var(--gamut--scale-t) - var(--gamut--scale-e6)) / max(var(--gamut--scale-d7), var(--gamut--scale-z7))
+      + var(--gamut--scale-z7) * (1 + sign(var(--gamut--scale-t) - var(--gamut--scale-e6))),
+      1) * clamp(0, var(--gamut--scale-n) - 6, 1) * 100%));
+  --gamut--scale-s8: color-mix(in var(--gamut-space, oklab), color-mix(in var(--gamut-space, oklab), var(--gamut--scale-s7), color-mix(in var(--gamut-space, oklab), color-mix(in var(--gamut-space, oklab), var(--gamut--scale-c7), var(--gamut--scale-c7) calc(clamp(0, (var(--gamut--scale-t) - var(--gamut--scale-p7)) / max(var(--gamut--scale-e7) - var(--gamut--scale-p7), (1 - sign(var(--gamut--scale-e7) - var(--gamut--scale-p7)))) + (1 - sign(var(--gamut--scale-e7) - var(--gamut--scale-p7))) * (1 + sign(var(--gamut--scale-t) - var(--gamut--scale-p7))), 1) * 100%)), var(--gamut--scale-c8) 0%) calc(clamp(0, sign(var(--gamut--scale-t) - var(--gamut--scale-p7)) + 1, 1) * clamp(0, var(--gamut--scale-n) - 6, 1) * 100%)), var(--gamut--scale-c8) calc(clamp(0,
+      (var(--gamut--scale-t) - var(--gamut--scale-e7)) / max(var(--gamut--scale-d8), var(--gamut--scale-z8))
+      + var(--gamut--scale-z8) * (1 + sign(var(--gamut--scale-t) - var(--gamut--scale-e7))),
+      1) * clamp(0, var(--gamut--scale-n) - 7, 1) * 100%));
+  --gamut--scale-s9: color-mix(in var(--gamut-space, oklab), var(--gamut--scale-s8), color-mix(in var(--gamut-space, oklab), var(--gamut--scale-c8), var(--gamut--scale-c8) calc(clamp(0, (var(--gamut--scale-t) - var(--gamut--scale-p8)) / max(var(--gamut--scale-e8) - var(--gamut--scale-p8), (1 - sign(var(--gamut--scale-e8) - var(--gamut--scale-p8)))) + (1 - sign(var(--gamut--scale-e8) - var(--gamut--scale-p8))) * (1 + sign(var(--gamut--scale-t) - var(--gamut--scale-p8))), 1) * 100%)) calc(clamp(0, sign(var(--gamut--scale-t) - var(--gamut--scale-p8)) + 1, 1) * clamp(0, var(--gamut--scale-n) - 7, 1) * 100%));
+  --gamut-out: color-mix(in var(--gamut-space, oklab), var(--gamut--scale-s9) 100%, color-mix(in srgb, color(srgb none none none / none) var(--gamut--scale-g), color(srgb none none none / none)) 0%);
+}
+@supports not (color: color-mix(in oklab, red, blue calc(clamp(0, 0.3 + sign(0.5), 1) * 100%))) {
+  .gamut-color-interpolate { --gamut-out: var(--gamut-stop-1, #808080); }
+}

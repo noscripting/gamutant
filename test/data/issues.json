@@ -1,0 +1,202 @@
+{
+ "read": {
+  "1332": "2026-10-28",
+  "4711": "2026-10-28",
+  "5153": "2026-10-28",
+  "5277": "2026-10-28",
+  "5782": "2026-10-28",
+  "6937": "2026-10-28",
+  "7358": "2026-10-28",
+  "7360": "2026-10-28",
+  "8431": "2026-10-28",
+  "8659": "2026-10-28",
+  "8715": "2026-10-28",
+  "9449": "2026-10-28",
+  "10038": "2026-10-28",
+  "10110": "2026-10-28",
+  "10460": "2026-10-28",
+  "10579": "2026-10-28",
+  "11346": "2026-10-28",
+  "11533": "2026-10-28",
+  "11534": "2026-10-28",
+  "11619": "2026-10-28",
+  "11713": "2026-10-28",
+  "11946": "2026-10-28",
+  "13157": "2026-10-28",
+  "13254": "2026-10-28",
+  "13597": "2026-10-28",
+  "13836": "2026-10-28",
+  "13992": "2026-10-28",
+  "13994": "2026-10-28"
+ },
+ "issues": {
+  "1332": {
+   "state": "open",
+   "comments": 70,
+   "updated": "2025-12-14",
+   "title": "[css-images] Add easing functions to color stops"
+  },
+  "4711": {
+   "state": "closed",
+   "comments": 19,
+   "updated": "2021-03-02",
+   "title": "[css-color-5] color-mix to allow more than two colors?"
+  },
+  "5153": {
+   "state": "open",
+   "comments": 4,
+   "updated": "2022-08-02",
+   "title": "[css-color-6] color-contrast() with automatic continuous lightness adjustment"
+  },
+  "5277": {
+   "state": "closed",
+   "comments": 6,
+   "updated": "2021-08-26",
+   "title": "[css-color-5] Hue interpolation and multiple colors"
+  },
+  "5782": {
+   "state": "open",
+   "comments": 18,
+   "updated": "2026-04-29",
+   "title": "[css-color-6] Findings on SCSS function usage to inform direction of Color 6"
+  },
+  "6937": {
+   "state": "open",
+   "comments": 8,
+   "updated": "2024-08-28",
+   "title": "[css-color-6] `color-extract()` function to extract individual color components"
+  },
+  "7358": {
+   "state": "open",
+   "comments": 23,
+   "updated": "2023-08-06",
+   "title": "[css-color-6] color-contrast() should take transparency into account"
+  },
+  "7360": {
+   "state": "open",
+   "comments": 5,
+   "updated": "2023-03-07",
+   "title": "[css-color] color-contrast() should support ranges of candidate colors, not just discrete color candidates"
+  },
+  "8431": {
+   "state": "open",
+   "comments": 41,
+   "updated": "2024-08-29",
+   "title": "[css-color-6] add color functions for some (or all) compositing/blending operations"
+  },
+  "8659": {
+   "state": "open",
+   "comments": 8,
+   "updated": "2026-03-23",
+   "title": "[css-color] Add OkHSL"
+  },
+  "8715": {
+   "state": "open",
+   "comments": 6,
+   "updated": "2026-04-24",
+   "title": "[css color-mix] Feature request: Physical color mixing option (Kubelka-Munk)"
+  },
+  "9449": {
+   "state": "open",
+   "comments": 223,
+   "updated": "2026-09-28",
+   "title": "[css-color-4] Channel clipping breaks author expectations, especially when using 'perceptually uniform' spaces"
+  },
+  "10038": {
+   "state": "open",
+   "comments": 11,
+   "updated": "2026-06-11",
+   "title": "[css-color-4] a new property to limit to a specific color gamut"
+  },
+  "10110": {
+   "state": "open",
+   "comments": 9,
+   "updated": "2025-04-27",
+   "title": "[css-color-4] Need a future-proof way to adjust lightness of a color"
+  },
+  "10460": {
+   "state": "closed",
+   "comments": 23,
+   "updated": "2025-02-13",
+   "title": "[css-color-hdr] Absolute luminance of PQ"
+  },
+  "10579": {
+   "state": "open",
+   "comments": 85,
+   "updated": "2026-09-01",
+   "title": "[css-color-4] Evaluate static gamut mapping algorithms for oklab/oklch spaces"
+  },
+  "11346": {
+   "state": "closed",
+   "comments": 2,
+   "updated": "2025-02-12",
+   "title": "[css-color-hdr] Define \"media white\" better"
+  },
+  "11533": {
+   "state": "open",
+   "comments": 3,
+   "updated": "2026-01-11",
+   "title": "[css-color-6] How to support color math involving more than one color?"
+  },
+  "11534": {
+   "state": "open",
+   "comments": 2,
+   "updated": "2025-01-30",
+   "title": "`contrast-color()` MVP should support explicit light/dark colors rather than unspecified \"very light/dark colors\""
+  },
+  "11619": {
+   "state": "open",
+   "comments": 4,
+   "updated": "2025-02-19",
+   "title": "[css-color] We should consider addressing different use cases contemplated for contrast-color() with separate CSS functions"
+  },
+  "11713": {
+   "state": "closed",
+   "comments": 17,
+   "updated": "2025-07-19",
+   "title": "[css-color-hdr] Why do the new non-rgb/xyz colorspaces use the color() function?"
+  },
+  "11946": {
+   "state": "open",
+   "comments": 4,
+   "updated": "2025-05-13",
+   "title": "[css-color-6] Current state of relative chroma feature in oklch()"
+  },
+  "13157": {
+   "state": "open",
+   "comments": 21,
+   "updated": "2026-09-10",
+   "title": "[css-conditional-5][css-color] Define `style()` color comparison in more precise terms"
+  },
+  "13254": {
+   "state": "open",
+   "comments": 14,
+   "updated": "2026-03-26",
+   "title": "[css-color-6] Does color-layers() need a color interpolation method (or similar)?"
+  },
+  "13597": {
+   "state": "open",
+   "comments": 4,
+   "updated": "2026-03-05",
+   "title": "[css-color-hdr-1] Clarify parsing and serialization of `hdr-color()`"
+  },
+  "13836": {
+   "state": "open",
+   "comments": 21,
+   "updated": "2026-05-15",
+   "title": "[css-color-5] `light-dark()` should resolve at used value time, not computed value time"
+  },
+  "13992": {
+   "state": "open",
+   "comments": 8,
+   "updated": "2026-10-24",
+   "title": "[css-color-5] Serialization of the alpha() function is not specified"
+  },
+  "13994": {
+   "state": "open",
+   "comments": 21,
+   "updated": "2026-08-01",
+   "title": "[css-color-5] Clarification on resolved value of the alpha() function"
+  }
+ }
+}

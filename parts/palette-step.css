@@ -1,0 +1,272 @@
+/*! gamutant.css 1.0.0, palette-step.css: the palette-step part alone
+   SPDX-License-Identifier: MIT AND Apache-2.0
+   Copyright (c) 2026 gamutant contributors
+   Copyright (c) 2021 Google LLC
+   Ported to CSS from material-color-utilities 0.4.0 (Apache-2.0) and changed: TonalPalette.tone(), HctSolver, Cam16
+   Third-party notices: LICENSE-THIRD-PARTY */
+@property --gamut--rel { syntax: '<number>'; inherits: false; initial-value: 1; }
+@property --gamut--in0 { syntax: '<color>'; inherits: false; initial-value: black; }
+@property --gamut--step-t { syntax: '<number>'; inherits: false; initial-value: 0; }
+@property --gamut-out { syntax: '<color>'; inherits: true; initial-value: transparent; }
+@property --gamut--mt-s1 { syntax: '<color>'; initial-value: black; inherits: false; }
+@property --gamut--mt-s2 { syntax: '<color>'; initial-value: black; inherits: false; }
+@property --gamut--mt-gf { syntax: '<color>'; initial-value: black; inherits: false; }
+@property --gamut--mt-j1 { syntax: '<color>'; initial-value: black; inherits: false; }
+@property --gamut--mt-j2 { syntax: '<color>'; initial-value: black; inherits: false; }
+@property --gamut--mt-j3 { syntax: '<color>'; initial-value: black; inherits: false; }
+@property --gamut--mt-pi { syntax: '<color>'; initial-value: black; inherits: false; }
+@property --gamut--mt-p { syntax: '<color>'; initial-value: black; inherits: false; }
+@property --gamut--mt-pw { syntax: '<color>'; initial-value: black; inherits: false; }
+@property --gamut--mt-hd { syntax: '<color>'; initial-value: black; inherits: false; }
+@property --gamut--mt-st0 { syntax: '<color>'; initial-value: black; inherits: false; }
+@property --gamut--mt-ma0 { syntax: '<color>'; initial-value: black; inherits: false; }
+@property --gamut--mt-da0 { syntax: '<color>'; initial-value: black; inherits: false; }
+@property --gamut--mt-mb0 { syntax: '<color>'; initial-value: black; inherits: false; }
+@property --gamut--mt-db0 { syntax: '<color>'; initial-value: black; inherits: false; }
+@property --gamut--mt-st1 { syntax: '<color>'; initial-value: black; inherits: false; }
+@property --gamut--mt-ma1 { syntax: '<color>'; initial-value: black; inherits: false; }
+@property --gamut--mt-da1 { syntax: '<color>'; initial-value: black; inherits: false; }
+@property --gamut--mt-mb1 { syntax: '<color>'; initial-value: black; inherits: false; }
+@property --gamut--mt-db1 { syntax: '<color>'; initial-value: black; inherits: false; }
+@property --gamut--mt-st2 { syntax: '<color>'; initial-value: black; inherits: false; }
+@property --gamut--mt-ma2 { syntax: '<color>'; initial-value: black; inherits: false; }
+@property --gamut--mt-da2 { syntax: '<color>'; initial-value: black; inherits: false; }
+@property --gamut--mt-mb2 { syntax: '<color>'; initial-value: black; inherits: false; }
+@property --gamut--mt-db2 { syntax: '<color>'; initial-value: black; inherits: false; }
+@property --gamut--mt-mf { syntax: '<color>'; initial-value: black; inherits: false; }
+@property --gamut--mt-tone { syntax: '<number>'; initial-value: 0; inherits: false; }
+@property --gamut--mt-yt { syntax: '<number>'; initial-value: 0; inherits: false; }
+@property --gamut--mt-te { syntax: '<number>'; initial-value: 0; inherits: false; }
+@property --gamut--mt-t99 { syntax: '<number>'; initial-value: 0; inherits: false; }
+@property --gamut--mt-y { syntax: '<number>'; initial-value: 0; inherits: false; }
+@property --gamut--mt-q0 { syntax: '<number>'; initial-value: 0; inherits: false; }
+@property --gamut--mt-iy0 { syntax: '<number>'; initial-value: 0; inherits: false; }
+@property --gamut--mt-iy1 { syntax: '<number>'; initial-value: 0; inherits: false; }
+.gamut-palette-step { --gamut-out: var(--gamut--x-k0); }
+@supports (color: color(from red srgb-linear calc(atan2(g, r) / 1rad) calc(mod(pow(r, .42), 1)) b)) {
+.gamut-palette-step { --gamut--step-t: clamp(0, var(--gamut-step, calc((sibling-index() - 1) / max(1, sibling-count() - 1))), 1); }
+@supports not (order: sibling-index()) {
+.gamut-palette-step:nth-child(1) { --gamut--i: 1; } .gamut-palette-step:nth-child(2) { --gamut--i: 2; } .gamut-palette-step:nth-child(3) { --gamut--i: 3; } .gamut-palette-step:nth-child(4) { --gamut--i: 4; } .gamut-palette-step:nth-child(5) { --gamut--i: 5; } .gamut-palette-step:nth-child(6) { --gamut--i: 6; } .gamut-palette-step:nth-child(7) { --gamut--i: 7; } .gamut-palette-step:nth-child(8) { --gamut--i: 8; } .gamut-palette-step:nth-child(9) { --gamut--i: 9; } .gamut-palette-step:nth-child(10) { --gamut--i: 10; } .gamut-palette-step:nth-child(11) { --gamut--i: 11; } .gamut-palette-step:nth-child(12) { --gamut--i: 12; } .gamut-palette-step:nth-child(13) { --gamut--i: 13; } .gamut-palette-step:nth-child(14) { --gamut--i: 14; } .gamut-palette-step:nth-child(15) { --gamut--i: 15; } .gamut-palette-step:nth-child(16) { --gamut--i: 16; } .gamut-palette-step:nth-child(17) { --gamut--i: 17; } .gamut-palette-step:nth-child(18) { --gamut--i: 18; } .gamut-palette-step:nth-child(19) { --gamut--i: 19; } .gamut-palette-step:nth-child(20) { --gamut--i: 20; } .gamut-palette-step:nth-child(21) { --gamut--i: 21; } .gamut-palette-step:nth-child(22) { --gamut--i: 22; } .gamut-palette-step:nth-child(23) { --gamut--i: 23; } .gamut-palette-step:nth-child(24) { --gamut--i: 24; }
+.gamut-palette-step:nth-last-child(1) { --gamut--m: 1; } .gamut-palette-step:nth-last-child(2) { --gamut--m: 2; } .gamut-palette-step:nth-last-child(3) { --gamut--m: 3; } .gamut-palette-step:nth-last-child(4) { --gamut--m: 4; } .gamut-palette-step:nth-last-child(5) { --gamut--m: 5; } .gamut-palette-step:nth-last-child(6) { --gamut--m: 6; } .gamut-palette-step:nth-last-child(7) { --gamut--m: 7; } .gamut-palette-step:nth-last-child(8) { --gamut--m: 8; } .gamut-palette-step:nth-last-child(9) { --gamut--m: 9; } .gamut-palette-step:nth-last-child(10) { --gamut--m: 10; } .gamut-palette-step:nth-last-child(11) { --gamut--m: 11; } .gamut-palette-step:nth-last-child(12) { --gamut--m: 12; } .gamut-palette-step:nth-last-child(13) { --gamut--m: 13; } .gamut-palette-step:nth-last-child(14) { --gamut--m: 14; } .gamut-palette-step:nth-last-child(15) { --gamut--m: 15; } .gamut-palette-step:nth-last-child(16) { --gamut--m: 16; } .gamut-palette-step:nth-last-child(17) { --gamut--m: 17; } .gamut-palette-step:nth-last-child(18) { --gamut--m: 18; } .gamut-palette-step:nth-last-child(19) { --gamut--m: 19; } .gamut-palette-step:nth-last-child(20) { --gamut--m: 20; } .gamut-palette-step:nth-last-child(21) { --gamut--m: 21; } .gamut-palette-step:nth-last-child(22) { --gamut--m: 22; } .gamut-palette-step:nth-last-child(23) { --gamut--m: 23; } .gamut-palette-step:nth-last-child(24) { --gamut--m: 24; }
+.gamut-palette-step { --gamut--step-t: clamp(0, var(--gamut-step, calc((var(--gamut--i) - 1) / max(1, var(--gamut--i) + var(--gamut--m) - 2))), 1); }
+}
+@property --gamut--mt-yf { syntax: '<color>'; inherits: false; initial-value: black; }
+@property --gamut--mt-yellow { syntax: '<number>'; inherits: false; initial-value: 0; }
+:where(:has(> .gamut-palette-step)) {
+  --gamut--s-k1s: atan2((r + g - 2 * b) * 11 / 9, 11 * r - 12 * g + b); --gamut--mt-yf: color(from color(from var(--gamut--x-k0) srgb-linear var(--gamut--x-kh) var(--gamut--x-ki) var(--gamut--x-kj)) srgb-linear calc(clamp(0, sign(var(--gamut--s-k1s) / 1rad - 1.832596) + 1, 1) * clamp(0, sign(2.181662 - var(--gamut--s-k1s) / 1rad), 1)) 0 0); }
+@container style(--gamut--mt-yf: color(srgb-linear 1 0 0)) { .gamut-palette-step { --gamut--mt-yellow: 1; } }
+.gamut-palette-step {
+  --gamut--s-k1t: max(max(1.21487 * cos(g) + .5182652 * sin(g), -.367054 * cos(g) - .01512907 * sin(g), .05866592 * cos(g) - 1.376217 * sin(g)) * var(--gamut--mt-iy1), -1 * min(1.21487 * cos(g) + .5182652 * sin(g), -.367054 * cos(g) - .01512907 * sin(g), .05866592 * cos(g) - 1.376217 * sin(g)) * var(--gamut--mt-iy0));
+  --gamut--s-k1u: calc(1 / max(max(1.21487 * cos(g + .001) + .5182652 * sin(g + .001), -.367054 * cos(g + .001) - .01512907 * sin(g + .001), .05866592 * cos(g + .001) - 1.376217 * sin(g + .001)) * var(--gamut--mt-iy1), -1 * min(1.21487 * cos(g + .001) + .5182652 * sin(g + .001), -.367054 * cos(g + .001) - .01512907 * sin(g + .001), .05866592 * cos(g + .001) - 1.376217 * sin(g + .001)) * var(--gamut--mt-iy0)));
+  --gamut--s-k1v: (678.0902 * (b + .01034523) / max(1e-9, (r * r + g * g) * pow(b, .7318483) + 11 * r + 108 * g));
+  --gamut--s-k1w: (1 + 27.13 * pow(.003935829 * var(--gamut--mt-y) + (.0001198502 * cos(g + .001) - .004494211 * sin(g + .001)) * b, -.42));
+  --gamut--s-k1x: (1 + 27.13 * pow(.003935829 * var(--gamut--mt-y) + (.0001198502 * cos(g) - .004494211 * sin(g)) * b, -.42));
+  --gamut--s-k1y: calc(b * pow(.5 + var(--gamut--mt-y) / (2 * max(1e-9, 97.68544 * pow(max(0, 27.13 / (400 / (9.666289 * b + var(--gamut--s-k1v) * (.321454 * r + .2052744 * g)) - 1)), 2.380952) + 162.1891 * pow(max(0, 27.13 / (400 / (9.666289 * b + var(--gamut--s-k1v) * (-.6350677 * r - .1860299 * g)) - 1)), 2.380952) - 2.473356 * pow(max(0, 27.13 / (400 / (9.666289 * b + var(--gamut--s-k1v) * (-.1568068 * r - 4.490378 * g)) - 1)), 2.380952))), .759113));
+  --gamut--s-k1z: calc(mod(atan2((g + b) * 11 / 9, 11 * g - 12 * b) / 1rad - r + 9.424778, 6.283185) - 3.141593);
+  --gamut--s-k20: calc(1000000 * (1 / (1 + 27.13 * pow(.003894726 * var(--gamut--mt-y) + (-.0003584107 * cos(g + .001) - .0001898628 * sin(g + .001)) * b, -.42)) - 1 / var(--gamut--s-k1w)));
+  --gamut--s-k21: calc(1000000 * (1 / (1 + 27.13 * pow(.003870102 * var(--gamut--mt-y) + (.000598111 * cos(g + .001) + .0002014415 * sin(g + .001)) * b, -.42)) - 1 / var(--gamut--s-k1w)));
+  --gamut--s-k22: calc(1000000 * (1 / (1 + 27.13 * pow(.003894726 * var(--gamut--mt-y) + (-.0003584107 * cos(g) - .0001898628 * sin(g)) * b, -.42)) - 1 / var(--gamut--s-k1x)));
+  --gamut--s-k23: calc(1000000 * (1 / (1 + 27.13 * pow(.003870102 * var(--gamut--mt-y) + (.000598111 * cos(g) + .0002014415 * sin(g)) * b, -.42)) - 1 / var(--gamut--s-k1x)));
+  --gamut--s-k24: (678.0902 * (var(--gamut--mt-q0) + .01034523) / max(1e-9, (r * r + g * g) * pow(var(--gamut--mt-q0), .7318483) + 11 * r + 108 * g));
+  --gamut--s-k25: max(1e-30, pow(var(--gamut--rel), 1.111111) * ((11 * r - 12 * g + b) * (11 * r - 12 * g + b) + (r + g - 2 * b) * 11 / 9 * (r + g - 2 * b) * 11 / 9) * pow(max(0, (40 * r + 20 * g + b) / 589.6437), .7318483));
+  --gamut--s-k26: calc(g - clamp(0, sign(50 - g), 1) * clamp(-1, r * .001 / (b - r), 1));
+  --gamut--s-k27: clamp(0, sign(var(--gamut--mt-te) - 8), 1);
+  --gamut--s-k28: ((20 * r + 20 * g + 21 * b) / 20 + .305);
+  --gamut--in0: var(--gamut--x-k4);
+  --gamut--rel: var(--gamut-chroma-scale, 1);
+  --gamut--mt-tone: clamp(0, var(--gamut-tone, calc(95 - 85 * var(--gamut--step-t))), 100);
+  --gamut--mt-yt: calc(clamp(0, 1 - abs(var(--gamut--mt-tone) - 99) * 1000000, 1) * var(--gamut--mt-yellow));
+  --gamut--mt-te: calc(var(--gamut--mt-tone) - var(--gamut--mt-yt));
+  --gamut--mt-t99: clamp(0, 1 - abs(var(--gamut--mt-te) - 99) * 1000000, 1);
+  --gamut--mt-y: calc(var(--gamut--s-k27) * 100 * pow((var(--gamut--mt-te) + 16) / 116, 3) + (1 - var(--gamut--s-k27)) * var(--gamut--mt-te) * .1107056);
+  --gamut--mt-q0: pow(.11 * sqrt(var(--gamut--mt-y)), .759113);
+  --gamut--mt-iy0: calc(1 / var(--gamut--mt-y));
+  --gamut--mt-iy1: calc(1 / (100 - var(--gamut--mt-y)));
+  --gamut--mt-s1: color(from var(--gamut--in0) srgb-linear var(--gamut--x-kh) var(--gamut--x-ki) var(--gamut--x-kj));
+  --gamut--mt-s2: color(from var(--gamut--mt-s1) srgb-linear calc(253 * var(--gamut--s-k28) / var(--gamut--s-k25) * (11 * r - 12 * g + b)) calc(253 * var(--gamut--s-k28) / var(--gamut--s-k25) * (r + g - 2 * b) * 11 / 9) calc(atan2((r + g - 2 * b) * 11 / 9, (11 * r - 12 * g + b)) / 1rad));
+  --gamut--mt-gf: color(from var(--gamut--mt-s2) srgb-linear r g calc(min(1, clamp(0, sign(hypot(r, g) - 545291800 * (cos(b + 2) + 3.8)), 1) + clamp(0, sign(1e-20 - abs(r) - abs(g)), 1) + clamp(0, sign(var(--gamut--mt-te) - 99.9999), 1) + clamp(0, sign(.0001 - var(--gamut--mt-te)), 1))));
+  --gamut--mt-j1: color(from var(--gamut--mt-gf) srgb-linear r g calc(var(--gamut--mt-q0) * pow(.5 + var(--gamut--mt-y) / (2 * max(1e-9, 97.68544 * pow(max(0, 27.13 / (400 / (9.666289 * var(--gamut--mt-q0) + var(--gamut--s-k24) * (.321454 * r + .2052744 * g)) - 1)), 2.380952) + 162.1891 * pow(max(0, 27.13 / (400 / (9.666289 * var(--gamut--mt-q0) + var(--gamut--s-k24) * (-.6350677 * r - .1860299 * g)) - 1)), 2.380952) - 2.473356 * pow(max(0, 27.13 / (400 / (9.666289 * var(--gamut--mt-q0) + var(--gamut--s-k24) * (-.1568068 * r - 4.490378 * g)) - 1)), 2.380952))), .759113) - 1000000 * b));
+  --gamut--mt-j2: color(from var(--gamut--mt-j1) srgb-linear r g var(--gamut--s-k1y));
+  --gamut--mt-j3: color(from var(--gamut--mt-j2) srgb-linear r g var(--gamut--s-k1y));
+  --gamut--mt-pi: color(from var(--gamut--mt-j3) srgb-linear calc(1000 * pow(max(0, 27.13 / (400 / (9.666289 * b + var(--gamut--s-k1v) * (.321454 * r + .2052744 * g)) - 1)), 2.380952)) calc(1000 * pow(max(0, 27.13 / (400 / (9.666289 * b + var(--gamut--s-k1v) * (-.6350677 * r - .1860299 * g)) - 1)), 2.380952)) calc(1000 * pow(max(0, 27.13 / (400 / (9.666289 * b + var(--gamut--s-k1v) * (-.1568068 * r - 4.490378 * g)) - 1)), 2.380952)));
+  --gamut--mt-p: color(from var(--gamut--mt-pi) srgb-linear calc(.0137322 * r - .01100425 * g - .00007278681 * b) calc(-.00271816 * r + .00559658 * g - .0003246047 * b) calc(.0000196229 * r - .0005717381 * g + .003087233 * b));
+  --gamut--mt-pw: color(from var(--gamut--mt-p) srgb-linear r g b / calc(clamp(0, sign(min(r, g, b) + .00001), 1) * clamp(0, sign(1.0001 - max(r, g, b)), 1) * clamp(0, sign(var(--gamut--mt-y) / 10000 - abs(.2126 * r + .7152 * g + .0722 * b - var(--gamut--mt-y) / 100)), 1)));
+  --gamut--mt-hd: color(from color(from var(--gamut--mt-s2) srgb-linear b calc(mod(b * 57.29578 + 360, 360)) 0) srgb-linear r g calc(var(--gamut--mt-t99) * (1 - clamp(0, sign(g - 113.851) + 1, 1) * clamp(0, sign(255 - g), 1))));
+  --gamut--mt-st0: color(from var(--gamut--mt-hd) srgb-linear r calc(r + b * (-.5166283 - .4344233 * clamp(0, sign(g - 255) + 1, 1) + .1232643 * clamp(0, sign(g - 259.7382) + 1, 1) + .1349042 * clamp(0, sign(g - 264.6726) + 1, 1) + .1135047 * clamp(0, sign(g - 278.792) + 1, 1) + .06275006 * clamp(0, sign(g - 285.6988) + 1, 1) + 100.531 - r)) 0);
+  --gamut--mt-ma0: color(from var(--gamut--mt-st0) srgb-linear r g calc(1 / var(--gamut--s-k1t)));
+  --gamut--mt-da0: color(from var(--gamut--mt-ma0) srgb-linear r var(--gamut--s-k23) var(--gamut--s-k22));
+  --gamut--mt-mb0: color(from var(--gamut--mt-st0) srgb-linear r g var(--gamut--s-k1u));
+  --gamut--mt-db0: color(from var(--gamut--mt-mb0) srgb-linear r var(--gamut--s-k21) var(--gamut--s-k20));
+  --gamut--mt-st1: color-mix(in srgb-linear, color(from var(--gamut--mt-ma0) srgb-linear r none none), color(from color-mix(in srgb-linear, color(from var(--gamut--mt-da0) srgb-linear var(--gamut--s-k1z) none none), color-mix(in srgb-linear, color(from var(--gamut--mt-ma0) srgb-linear none g none), color(from var(--gamut--mt-db0) srgb-linear none none var(--gamut--s-k1z)))) srgb-linear none var(--gamut--s-k26) none));
+  --gamut--mt-ma1: color(from var(--gamut--mt-st1) srgb-linear r g calc(1 / var(--gamut--s-k1t)));
+  --gamut--mt-da1: color(from var(--gamut--mt-ma1) srgb-linear r var(--gamut--s-k23) var(--gamut--s-k22));
+  --gamut--mt-mb1: color(from var(--gamut--mt-st1) srgb-linear r g var(--gamut--s-k1u));
+  --gamut--mt-db1: color(from var(--gamut--mt-mb1) srgb-linear r var(--gamut--s-k21) var(--gamut--s-k20));
+  --gamut--mt-st2: color-mix(in srgb-linear, color(from var(--gamut--mt-ma1) srgb-linear r none none), color(from color-mix(in srgb-linear, color(from var(--gamut--mt-da1) srgb-linear var(--gamut--s-k1z) none none), color-mix(in srgb-linear, color(from var(--gamut--mt-ma1) srgb-linear none g none), color(from var(--gamut--mt-db1) srgb-linear none none var(--gamut--s-k1z)))) srgb-linear none var(--gamut--s-k26) none));
+  --gamut--mt-ma2: color(from var(--gamut--mt-st2) srgb-linear r g calc(1 / var(--gamut--s-k1t)));
+  --gamut--mt-da2: color(from var(--gamut--mt-ma2) srgb-linear r var(--gamut--s-k23) var(--gamut--s-k22));
+  --gamut--mt-mb2: color(from var(--gamut--mt-st2) srgb-linear r g var(--gamut--s-k1u));
+  --gamut--mt-db2: color(from var(--gamut--mt-mb2) srgb-linear r var(--gamut--s-k21) var(--gamut--s-k20));
+  --gamut--mt-mf: color(from color-mix(in srgb-linear, color-mix(in srgb-linear, color(from var(--gamut--mt-pw) srgb-linear calc(2 * alpha) none none), color(from var(--gamut--mt-gf) srgb-linear calc(4 * b) none none)), color(from color-mix(in srgb-linear, color(from var(--gamut--mt-da2) srgb-linear var(--gamut--s-k1z) none none), color-mix(in srgb-linear, color(from var(--gamut--mt-ma2) srgb-linear none g none), color(from var(--gamut--mt-db2) srgb-linear none none var(--gamut--s-k1z)))) srgb-linear none var(--gamut--s-k26) none)) srgb-linear r g calc(clamp(0, 2 - r, 1) * 1 / var(--gamut--s-k1t)));
+  --gamut-out: color(from color(from color(from color-mix(in srgb-linear, var(--gamut--mt-pw), color(from var(--gamut--mt-mf) srgb-linear calc(var(--gamut--mt-y) / 100 + (1.21487 * cos(g) + .5182652 * sin(g)) * b / 100) calc(var(--gamut--mt-y) / 100 + (-.367054 * cos(g) - .01512907 * sin(g)) * b / 100) calc(var(--gamut--mt-y) / 100 + (.05866592 * cos(g) - 1.376217 * sin(g)) * b / 100) / calc(1 - clamp(0, 1 - abs(r - 1), 1)))) srgb-linear clamp(0, r, 1) clamp(0, g, 1) clamp(0, b, 1) / 1) srgb calc(r + var(--gamut--mt-yt) * (round((round(r * 255) + 255) / 2) / 255 - r)) calc(g + var(--gamut--mt-yt) * (round((round(g * 255) + 255) / 2) / 255 - g)) calc(b + var(--gamut--mt-yt) * (round((round(b * 255) + 255) / 2) / 255 - b)) / 1) srgb-linear r g b / 1);
+}
+}
+.gamut-palette-step,
+:where(:has(> .gamut-palette-step)),
+.gamut-palette-step {
+  --gamut--x-k0: var(--gamut-in, oklch(var(--gamut-l, 0.5) var(--gamut-c, 0) var(--gamut-h, 0)));
+}
+.gamut-palette-step {
+  --gamut--x-k4: oklch(from color-mix(in oklab, oklab(from oklch(from var(--gamut--x-k0) l c h / clamp(0, sign(c - 0.000001), 1)) l a b / alpha), oklab(from lch(from var(--gamut--x-k0) l min(c, 400) h) l a b / 0.000001)) round(l, 0.000001) c h / 1);
+}
+:where(:has(> .gamut-palette-step)), .gamut-palette-step {
+  --gamut--s-k2i: (.1200834 * r + .2389694 * g + .02795743 * b);
+  --gamut--s-k2j: (.05891087 * r + .297855 * g + .03270666 * b);
+  --gamut--s-k2k: (.01014669 * r + .05364214 * g + .329794 * b);
+  --gamut--x-kh: calc(400 * sign(var(--gamut--s-k2i)) / (1 + 27.13 * pow(abs(var(--gamut--s-k2i)), -.42)));
+  --gamut--x-ki: calc(400 * sign(var(--gamut--s-k2j)) / (1 + 27.13 * pow(abs(var(--gamut--s-k2j)), -.42)));
+  --gamut--x-kj: calc(400 * sign(var(--gamut--s-k2k)) / (1 + 27.13 * pow(abs(var(--gamut--s-k2k)), -.42)));
+}
+@function --gamut--palette-step-yf(--c) returns <color> { result: color(from color(from var(--c) srgb-linear calc(400 * sign((.1200834 * r + .2389694 * g + .02795743 * b)) / (1 + 27.13 * pow(abs((.1200834 * r + .2389694 * g + .02795743 * b)), -.42))) calc(400 * sign((.05891087 * r + .297855 * g + .03270666 * b)) / (1 + 27.13 * pow(abs((.05891087 * r + .297855 * g + .03270666 * b)), -.42))) calc(400 * sign((.01014669 * r + .05364214 * g + .329794 * b)) / (1 + 27.13 * pow(abs((.01014669 * r + .05364214 * g + .329794 * b)), -.42)))) srgb-linear calc(clamp(0, sign(atan2((r + g - 2 * b) * 11 / 9, 11 * r - 12 * g + b) / 1rad - 1.832596) + 1, 1) * clamp(0, sign(2.181662 - atan2((r + g - 2 * b) * 11 / 9, 11 * r - 12 * g + b) / 1rad), 1)) 0 0); }
+@function --gamut--palette-step-step-t() returns <number> { result: clamp(0, var(--gamut-step, calc((sibling-index() - 1) / max(1, sibling-count() - 1))), 1); }
+@function --gamut--palette-step-step-t-1() returns <number> { result: clamp(0, var(--gamut-step, calc((var(--gamut--i) - 1) / max(1, var(--gamut--i) + var(--gamut--m) - 2))), 1); }
+@function --gamut--palette-step-in0() returns <color> { result: oklch(from color-mix(in oklab, oklab(from oklch(from var(--gamut-in, oklch(var(--gamut-l, 0.5) var(--gamut-c, 0) var(--gamut-h, 0))) l c h / clamp(0, sign(c - 0.000001), 1)) l a b / alpha), oklab(from lch(from var(--gamut-in, oklch(var(--gamut-l, 0.5) var(--gamut-c, 0) var(--gamut-h, 0))) l min(c, 400) h) l a b / 0.000001)) round(l, 0.000001) c h / 1); }
+@function --gamut--palette-step-rel() returns <number> { result: var(--gamut-chroma-scale, 1); }
+@function --gamut--palette-step-mt-tone(--gamut--step-t <number>) returns <number> { result: clamp(0, var(--gamut-tone, calc(95 - 85 * var(--gamut--step-t))), 100); }
+@function --gamut--palette-step-mt-yt(--gamut--mt-tone <number>, --gamut--mt-yellow <number>) returns <number> { result: calc(clamp(0, 1 - abs(var(--gamut--mt-tone) - 99) * 1000000, 1) * var(--gamut--mt-yellow)); }
+@function --gamut--palette-step-mt-te(--gamut--mt-tone <number>, --gamut--mt-yt <number>) returns <number> { result: calc(var(--gamut--mt-tone) - var(--gamut--mt-yt)); }
+@function --gamut--palette-step-mt-t99(--gamut--mt-te <number>) returns <number> { result: clamp(0, 1 - abs(var(--gamut--mt-te) - 99) * 1000000, 1); }
+@function --gamut--palette-step-mt-y(--gamut--mt-te <number>) returns <number> { result: calc(var(--gamut--s-k27) * 100 * pow((var(--gamut--mt-te) + 16) / 116, 3) + (1 - var(--gamut--s-k27)) * var(--gamut--mt-te) * .1107056); }
+@function --gamut--palette-step-mt-q0(--gamut--mt-y <number>) returns <number> { result: pow(.11 * sqrt(var(--gamut--mt-y)), .759113); }
+@function --gamut--palette-step-mt-iy0(--gamut--mt-y <number>) returns <number> { result: calc(1 / var(--gamut--mt-y)); }
+@function --gamut--palette-step-mt-iy1(--gamut--mt-y <number>) returns <number> { result: calc(1 / (100 - var(--gamut--mt-y))); }
+@function --gamut--palette-step-mt-s1(--gamut--in0 <color>) returns <color> { result: color(from var(--gamut--in0) srgb-linear calc(400 * sign((.1200834 * r + .2389694 * g + .02795743 * b)) / (1 + 27.13 * pow(abs((.1200834 * r + .2389694 * g + .02795743 * b)), -.42))) calc(400 * sign((.05891087 * r + .297855 * g + .03270666 * b)) / (1 + 27.13 * pow(abs((.05891087 * r + .297855 * g + .03270666 * b)), -.42))) calc(400 * sign((.01014669 * r + .05364214 * g + .329794 * b)) / (1 + 27.13 * pow(abs((.01014669 * r + .05364214 * g + .329794 * b)), -.42)))); }
+@function --gamut--palette-step-mt-s2(--gamut--mt-s1 <color>) returns <color> { result: color(from var(--gamut--mt-s1) srgb-linear calc(253 * var(--gamut--s-k28) / var(--gamut--s-k25) * (11 * r - 12 * g + b)) calc(253 * var(--gamut--s-k28) / var(--gamut--s-k25) * (r + g - 2 * b) * 11 / 9) calc(atan2((r + g - 2 * b) * 11 / 9, (11 * r - 12 * g + b)) / 1rad)); }
+@function --gamut--palette-step-mt-gf(--gamut--mt-s2 <color>, --gamut--mt-te <number>) returns <color> { result: color(from var(--gamut--mt-s2) srgb-linear r g calc(min(1, clamp(0, sign(hypot(r, g) - 545291800 * (cos(b + 2) + 3.8)), 1) + clamp(0, sign(1e-20 - abs(r) - abs(g)), 1) + clamp(0, sign(var(--gamut--mt-te) - 99.9999), 1) + clamp(0, sign(.0001 - var(--gamut--mt-te)), 1)))); }
+@function --gamut--palette-step-mt-j1(--gamut--mt-gf <color>, --gamut--mt-q0 <number>, --gamut--mt-y <number>) returns <color> { result: color(from var(--gamut--mt-gf) srgb-linear r g calc(var(--gamut--mt-q0) * pow(.5 + var(--gamut--mt-y) / (2 * max(1e-9, 97.68544 * pow(max(0, 27.13 / (400 / (9.666289 * var(--gamut--mt-q0) + var(--gamut--s-k24) * (.321454 * r + .2052744 * g)) - 1)), 2.380952) + 162.1891 * pow(max(0, 27.13 / (400 / (9.666289 * var(--gamut--mt-q0) + var(--gamut--s-k24) * (-.6350677 * r - .1860299 * g)) - 1)), 2.380952) - 2.473356 * pow(max(0, 27.13 / (400 / (9.666289 * var(--gamut--mt-q0) + var(--gamut--s-k24) * (-.1568068 * r - 4.490378 * g)) - 1)), 2.380952))), .759113) - 1000000 * b)); }
+@function --gamut--palette-step-mt-j2(--gamut--mt-j1 <color>) returns <color> { result: color(from var(--gamut--mt-j1) srgb-linear r g var(--gamut--s-k1y)); }
+@function --gamut--palette-step-mt-j3(--gamut--mt-j2 <color>) returns <color> { result: color(from var(--gamut--mt-j2) srgb-linear r g var(--gamut--s-k1y)); }
+@function --gamut--palette-step-mt-pi(--gamut--mt-j3 <color>) returns <color> { result: color(from var(--gamut--mt-j3) srgb-linear calc(1000 * pow(max(0, 27.13 / (400 / (9.666289 * b + var(--gamut--s-k1v) * (.321454 * r + .2052744 * g)) - 1)), 2.380952)) calc(1000 * pow(max(0, 27.13 / (400 / (9.666289 * b + var(--gamut--s-k1v) * (-.6350677 * r - .1860299 * g)) - 1)), 2.380952)) calc(1000 * pow(max(0, 27.13 / (400 / (9.666289 * b + var(--gamut--s-k1v) * (-.1568068 * r - 4.490378 * g)) - 1)), 2.380952))); }
+@function --gamut--palette-step-mt-p(--gamut--mt-pi <color>) returns <color> { result: color(from var(--gamut--mt-pi) srgb-linear calc(.0137322 * r - .01100425 * g - .00007278681 * b) calc(-.00271816 * r + .00559658 * g - .0003246047 * b) calc(.0000196229 * r - .0005717381 * g + .003087233 * b)); }
+@function --gamut--palette-step-mt-pw(--gamut--mt-p <color>, --gamut--mt-y <number>) returns <color> { result: color(from var(--gamut--mt-p) srgb-linear r g b / calc(clamp(0, sign(min(r, g, b) + .00001), 1) * clamp(0, sign(1.0001 - max(r, g, b)), 1) * clamp(0, sign(var(--gamut--mt-y) / 10000 - abs(.2126 * r + .7152 * g + .0722 * b - var(--gamut--mt-y) / 100)), 1))); }
+@function --gamut--palette-step-mt-hd(--gamut--mt-s2 <color>, --gamut--mt-t99 <number>) returns <color> { result: color(from color(from var(--gamut--mt-s2) srgb-linear b calc(mod(b * 57.29578 + 360, 360)) 0) srgb-linear r g calc(var(--gamut--mt-t99) * (1 - clamp(0, sign(g - 113.851) + 1, 1) * clamp(0, sign(255 - g), 1)))); }
+@function --gamut--palette-step-mt-st0(--gamut--mt-hd <color>) returns <color> { result: color(from var(--gamut--mt-hd) srgb-linear r calc(r + b * (-.5166283 - .4344233 * clamp(0, sign(g - 255) + 1, 1) + .1232643 * clamp(0, sign(g - 259.7382) + 1, 1) + .1349042 * clamp(0, sign(g - 264.6726) + 1, 1) + .1135047 * clamp(0, sign(g - 278.792) + 1, 1) + .06275006 * clamp(0, sign(g - 285.6988) + 1, 1) + 100.531 - r)) 0); }
+@function --gamut--palette-step-mt-ma0(--gamut--mt-st0 <color>) returns <color> { result: color(from var(--gamut--mt-st0) srgb-linear r g calc(1 / var(--gamut--s-k1t))); }
+@function --gamut--palette-step-mt-da0(--gamut--mt-ma0 <color>) returns <color> { result: color(from var(--gamut--mt-ma0) srgb-linear r var(--gamut--s-k23) var(--gamut--s-k22)); }
+@function --gamut--palette-step-mt-mb0(--gamut--mt-st0 <color>) returns <color> { result: color(from var(--gamut--mt-st0) srgb-linear r g var(--gamut--s-k1u)); }
+@function --gamut--palette-step-mt-db0(--gamut--mt-mb0 <color>) returns <color> { result: color(from var(--gamut--mt-mb0) srgb-linear r var(--gamut--s-k21) var(--gamut--s-k20)); }
+@function --gamut--palette-step-mt-st1(--gamut--mt-ma0 <color>, --gamut--mt-da0 <color>, --gamut--mt-db0 <color>) returns <color> { result: color-mix(in srgb-linear, color(from var(--gamut--mt-ma0) srgb-linear r none none), color(from color-mix(in srgb-linear, color(from var(--gamut--mt-da0) srgb-linear var(--gamut--s-k1z) none none), color-mix(in srgb-linear, color(from var(--gamut--mt-ma0) srgb-linear none g none), color(from var(--gamut--mt-db0) srgb-linear none none var(--gamut--s-k1z)))) srgb-linear none var(--gamut--s-k26) none)); }
+@function --gamut--palette-step-mt-ma1(--gamut--mt-st1 <color>) returns <color> { result: color(from var(--gamut--mt-st1) srgb-linear r g calc(1 / var(--gamut--s-k1t))); }
+@function --gamut--palette-step-mt-da1(--gamut--mt-ma1 <color>) returns <color> { result: color(from var(--gamut--mt-ma1) srgb-linear r var(--gamut--s-k23) var(--gamut--s-k22)); }
+@function --gamut--palette-step-mt-mb1(--gamut--mt-st1 <color>) returns <color> { result: color(from var(--gamut--mt-st1) srgb-linear r g var(--gamut--s-k1u)); }
+@function --gamut--palette-step-mt-db1(--gamut--mt-mb1 <color>) returns <color> { result: color(from var(--gamut--mt-mb1) srgb-linear r var(--gamut--s-k21) var(--gamut--s-k20)); }
+@function --gamut--palette-step-mt-st2(--gamut--mt-ma1 <color>, --gamut--mt-da1 <color>, --gamut--mt-db1 <color>) returns <color> { result: color-mix(in srgb-linear, color(from var(--gamut--mt-ma1) srgb-linear r none none), color(from color-mix(in srgb-linear, color(from var(--gamut--mt-da1) srgb-linear var(--gamut--s-k1z) none none), color-mix(in srgb-linear, color(from var(--gamut--mt-ma1) srgb-linear none g none), color(from var(--gamut--mt-db1) srgb-linear none none var(--gamut--s-k1z)))) srgb-linear none var(--gamut--s-k26) none)); }
+@function --gamut--palette-step-mt-ma2(--gamut--mt-st2 <color>) returns <color> { result: color(from var(--gamut--mt-st2) srgb-linear r g calc(1 / var(--gamut--s-k1t))); }
+@function --gamut--palette-step-mt-da2(--gamut--mt-ma2 <color>) returns <color> { result: color(from var(--gamut--mt-ma2) srgb-linear r var(--gamut--s-k23) var(--gamut--s-k22)); }
+@function --gamut--palette-step-mt-mb2(--gamut--mt-st2 <color>) returns <color> { result: color(from var(--gamut--mt-st2) srgb-linear r g var(--gamut--s-k1u)); }
+@function --gamut--palette-step-mt-db2(--gamut--mt-mb2 <color>) returns <color> { result: color(from var(--gamut--mt-mb2) srgb-linear r var(--gamut--s-k21) var(--gamut--s-k20)); }
+@function --gamut--palette-step-mt-mf(--gamut--mt-pw <color>, --gamut--mt-gf <color>, --gamut--mt-da2 <color>, --gamut--mt-ma2 <color>, --gamut--mt-db2 <color>) returns <color> { result: color(from color-mix(in srgb-linear, color-mix(in srgb-linear, color(from var(--gamut--mt-pw) srgb-linear calc(2 * alpha) none none), color(from var(--gamut--mt-gf) srgb-linear calc(4 * b) none none)), color(from color-mix(in srgb-linear, color(from var(--gamut--mt-da2) srgb-linear var(--gamut--s-k1z) none none), color-mix(in srgb-linear, color(from var(--gamut--mt-ma2) srgb-linear none g none), color(from var(--gamut--mt-db2) srgb-linear none none var(--gamut--s-k1z)))) srgb-linear none var(--gamut--s-k26) none)) srgb-linear r g calc(clamp(0, 2 - r, 1) * 1 / var(--gamut--s-k1t))); }
+@function --gamut-palette-step(--gamut-in: initial, --gamut-chroma-scale: initial, --gamut--arg-step: none, --gamut--arg-tone: none) returns <color> {
+  --gamut-step: if(style(--gamut--arg-step: none): initial; else: var(--gamut--arg-step));
+  --gamut-tone: if(style(--gamut--arg-tone: none): initial; else: var(--gamut--arg-tone));
+  --gamut--mt-yellow: if(style(--gamut--mt-yf: color(srgb-linear 1 0 0)): 1; else: 0);
+  --gamut--mt-yf: --gamut--palette-step-yf(var(--gamut-in, oklch(var(--gamut-l, 0.5) var(--gamut-c, 0) var(--gamut-h, 0))));
+  --gamut--i: initial;
+  --gamut--m: initial;
+  --gamut-l: initial;
+  --gamut-c: initial;
+  --gamut-h: initial;
+  result: var(--gamut-in, oklch(var(--gamut-l, 0.5) var(--gamut-c, 0) var(--gamut-h, 0)));
+  @supports (color: color(from red srgb-linear calc(atan2(g, r) / 1rad) calc(mod(pow(r, .42), 1)) b)) { result: color(from color(from color(from color-mix(in srgb-linear, var(--gamut--mt-pw, black), color(from var(--gamut--mt-mf, black) srgb-linear calc(var(--gamut--mt-y, 0) / 100 + (1.21487 * cos(g) + .5182652 * sin(g)) * b / 100) calc(var(--gamut--mt-y, 0) / 100 + (-.367054 * cos(g) - .01512907 * sin(g)) * b / 100) calc(var(--gamut--mt-y, 0) / 100 + (.05866592 * cos(g) - 1.376217 * sin(g)) * b / 100) / calc(1 - clamp(0, 1 - abs(r - 1), 1)))) srgb-linear clamp(0, r, 1) clamp(0, g, 1) clamp(0, b, 1) / 1) srgb calc(r + var(--gamut--mt-yt, 0) * (round((round(r * 255) + 255) / 2) / 255 - r)) calc(g + var(--gamut--mt-yt, 0) * (round((round(g * 255) + 255) / 2) / 255 - g)) calc(b + var(--gamut--mt-yt, 0) * (round((round(b * 255) + 255) / 2) / 255 - b)) / 1) srgb-linear r g b / 1); }
+  --gamut--step-t: initial;
+  @supports (color: color(from red srgb-linear calc(atan2(g, r) / 1rad) calc(mod(pow(r, .42), 1)) b)) { --gamut--step-t: --gamut--palette-step-step-t(); }
+  @supports (color: color(from red srgb-linear calc(atan2(g, r) / 1rad) calc(mod(pow(r, .42), 1)) b)) { @supports not (order: sibling-index()) { --gamut--step-t: --gamut--palette-step-step-t-1(); } }
+  @supports (color: color(from red srgb-linear calc(atan2(g, r) / 1rad) calc(mod(pow(r, .42), 1)) b)) { --gamut--s-k1t: max(max(1.21487 * cos(g) + .5182652 * sin(g), -.367054 * cos(g) - .01512907 * sin(g), .05866592 * cos(g) - 1.376217 * sin(g)) * var(--gamut--mt-iy1, 0), -1 * min(1.21487 * cos(g) + .5182652 * sin(g), -.367054 * cos(g) - .01512907 * sin(g), .05866592 * cos(g) - 1.376217 * sin(g)) * var(--gamut--mt-iy0, 0)); }
+  @supports (color: color(from red srgb-linear calc(atan2(g, r) / 1rad) calc(mod(pow(r, .42), 1)) b)) { --gamut--s-k1u: calc(1 / max(max(1.21487 * cos(g + .001) + .5182652 * sin(g + .001), -.367054 * cos(g + .001) - .01512907 * sin(g + .001), .05866592 * cos(g + .001) - 1.376217 * sin(g + .001)) * var(--gamut--mt-iy1, 0), -1 * min(1.21487 * cos(g + .001) + .5182652 * sin(g + .001), -.367054 * cos(g + .001) - .01512907 * sin(g + .001), .05866592 * cos(g + .001) - 1.376217 * sin(g + .001)) * var(--gamut--mt-iy0, 0))); }
+  @supports (color: color(from red srgb-linear calc(atan2(g, r) / 1rad) calc(mod(pow(r, .42), 1)) b)) { --gamut--s-k1v: (678.0902 * (b + .01034523) / max(1e-9, (r * r + g * g) * pow(b, .7318483) + 11 * r + 108 * g)); }
+  @supports (color: color(from red srgb-linear calc(atan2(g, r) / 1rad) calc(mod(pow(r, .42), 1)) b)) { --gamut--s-k1w: (1 + 27.13 * pow(.003935829 * var(--gamut--mt-y, 0) + (.0001198502 * cos(g + .001) - .004494211 * sin(g + .001)) * b, -.42)); }
+  @supports (color: color(from red srgb-linear calc(atan2(g, r) / 1rad) calc(mod(pow(r, .42), 1)) b)) { --gamut--s-k1x: (1 + 27.13 * pow(.003935829 * var(--gamut--mt-y, 0) + (.0001198502 * cos(g) - .004494211 * sin(g)) * b, -.42)); }
+  @supports (color: color(from red srgb-linear calc(atan2(g, r) / 1rad) calc(mod(pow(r, .42), 1)) b)) { --gamut--s-k1y: calc(b * pow(.5 + var(--gamut--mt-y, 0) / (2 * max(1e-9, 97.68544 * pow(max(0, 27.13 / (400 / (9.666289 * b + var(--gamut--s-k1v) * (.321454 * r + .2052744 * g)) - 1)), 2.380952) + 162.1891 * pow(max(0, 27.13 / (400 / (9.666289 * b + var(--gamut--s-k1v) * (-.6350677 * r - .1860299 * g)) - 1)), 2.380952) - 2.473356 * pow(max(0, 27.13 / (400 / (9.666289 * b + var(--gamut--s-k1v) * (-.1568068 * r - 4.490378 * g)) - 1)), 2.380952))), .759113)); }
+  @supports (color: color(from red srgb-linear calc(atan2(g, r) / 1rad) calc(mod(pow(r, .42), 1)) b)) { --gamut--s-k1z: calc(mod(atan2((g + b) * 11 / 9, 11 * g - 12 * b) / 1rad - r + 9.424778, 6.283185) - 3.141593); }
+  @supports (color: color(from red srgb-linear calc(atan2(g, r) / 1rad) calc(mod(pow(r, .42), 1)) b)) { --gamut--s-k20: calc(1000000 * (1 / (1 + 27.13 * pow(.003894726 * var(--gamut--mt-y, 0) + (-.0003584107 * cos(g + .001) - .0001898628 * sin(g + .001)) * b, -.42)) - 1 / var(--gamut--s-k1w))); }
+  @supports (color: color(from red srgb-linear calc(atan2(g, r) / 1rad) calc(mod(pow(r, .42), 1)) b)) { --gamut--s-k21: calc(1000000 * (1 / (1 + 27.13 * pow(.003870102 * var(--gamut--mt-y, 0) + (.000598111 * cos(g + .001) + .0002014415 * sin(g + .001)) * b, -.42)) - 1 / var(--gamut--s-k1w))); }
+  @supports (color: color(from red srgb-linear calc(atan2(g, r) / 1rad) calc(mod(pow(r, .42), 1)) b)) { --gamut--s-k22: calc(1000000 * (1 / (1 + 27.13 * pow(.003894726 * var(--gamut--mt-y, 0) + (-.0003584107 * cos(g) - .0001898628 * sin(g)) * b, -.42)) - 1 / var(--gamut--s-k1x))); }
+  @supports (color: color(from red srgb-linear calc(atan2(g, r) / 1rad) calc(mod(pow(r, .42), 1)) b)) { --gamut--s-k23: calc(1000000 * (1 / (1 + 27.13 * pow(.003870102 * var(--gamut--mt-y, 0) + (.000598111 * cos(g) + .0002014415 * sin(g)) * b, -.42)) - 1 / var(--gamut--s-k1x))); }
+  @supports (color: color(from red srgb-linear calc(atan2(g, r) / 1rad) calc(mod(pow(r, .42), 1)) b)) { --gamut--s-k24: (678.0902 * (var(--gamut--mt-q0, 0) + .01034523) / max(1e-9, (r * r + g * g) * pow(var(--gamut--mt-q0, 0), .7318483) + 11 * r + 108 * g)); }
+  @supports (color: color(from red srgb-linear calc(atan2(g, r) / 1rad) calc(mod(pow(r, .42), 1)) b)) { --gamut--s-k25: max(1e-30, pow(var(--gamut--rel, 1), 1.111111) * ((11 * r - 12 * g + b) * (11 * r - 12 * g + b) + (r + g - 2 * b) * 11 / 9 * (r + g - 2 * b) * 11 / 9) * pow(max(0, (40 * r + 20 * g + b) / 589.6437), .7318483)); }
+  @supports (color: color(from red srgb-linear calc(atan2(g, r) / 1rad) calc(mod(pow(r, .42), 1)) b)) { --gamut--s-k26: calc(g - clamp(0, sign(50 - g), 1) * clamp(-1, r * .001 / (b - r), 1)); }
+  @supports (color: color(from red srgb-linear calc(atan2(g, r) / 1rad) calc(mod(pow(r, .42), 1)) b)) { --gamut--s-k27: clamp(0, sign(var(--gamut--mt-te, 0) - 8), 1); }
+  @supports (color: color(from red srgb-linear calc(atan2(g, r) / 1rad) calc(mod(pow(r, .42), 1)) b)) { --gamut--s-k28: ((20 * r + 20 * g + 21 * b) / 20 + .305); }
+  --gamut--in0: initial;
+  @supports (color: color(from red srgb-linear calc(atan2(g, r) / 1rad) calc(mod(pow(r, .42), 1)) b)) { --gamut--in0: --gamut--palette-step-in0(); }
+  --gamut--rel: initial;
+  @supports (color: color(from red srgb-linear calc(atan2(g, r) / 1rad) calc(mod(pow(r, .42), 1)) b)) { --gamut--rel: --gamut--palette-step-rel(); }
+  --gamut--mt-tone: initial;
+  @supports (color: color(from red srgb-linear calc(atan2(g, r) / 1rad) calc(mod(pow(r, .42), 1)) b)) { --gamut--mt-tone: --gamut--palette-step-mt-tone(var(--gamut--step-t, 0)); }
+  --gamut--mt-yt: initial;
+  @supports (color: color(from red srgb-linear calc(atan2(g, r) / 1rad) calc(mod(pow(r, .42), 1)) b)) { --gamut--mt-yt: --gamut--palette-step-mt-yt(var(--gamut--mt-tone, 0), var(--gamut--mt-yellow, 0)); }
+  --gamut--mt-te: initial;
+  @supports (color: color(from red srgb-linear calc(atan2(g, r) / 1rad) calc(mod(pow(r, .42), 1)) b)) { --gamut--mt-te: --gamut--palette-step-mt-te(var(--gamut--mt-tone, 0), var(--gamut--mt-yt, 0)); }
+  --gamut--mt-t99: initial;
+  @supports (color: color(from red srgb-linear calc(atan2(g, r) / 1rad) calc(mod(pow(r, .42), 1)) b)) { --gamut--mt-t99: --gamut--palette-step-mt-t99(var(--gamut--mt-te, 0)); }
+  --gamut--mt-y: initial;
+  @supports (color: color(from red srgb-linear calc(atan2(g, r) / 1rad) calc(mod(pow(r, .42), 1)) b)) { --gamut--mt-y: --gamut--palette-step-mt-y(var(--gamut--mt-te, 0)); }
+  --gamut--mt-q0: initial;
+  @supports (color: color(from red srgb-linear calc(atan2(g, r) / 1rad) calc(mod(pow(r, .42), 1)) b)) { --gamut--mt-q0: --gamut--palette-step-mt-q0(var(--gamut--mt-y, 0)); }
+  --gamut--mt-iy0: initial;
+  @supports (color: color(from red srgb-linear calc(atan2(g, r) / 1rad) calc(mod(pow(r, .42), 1)) b)) { --gamut--mt-iy0: --gamut--palette-step-mt-iy0(var(--gamut--mt-y, 0)); }
+  --gamut--mt-iy1: initial;
+  @supports (color: color(from red srgb-linear calc(atan2(g, r) / 1rad) calc(mod(pow(r, .42), 1)) b)) { --gamut--mt-iy1: --gamut--palette-step-mt-iy1(var(--gamut--mt-y, 0)); }
+  --gamut--mt-s1: initial;
+  @supports (color: color(from red srgb-linear calc(atan2(g, r) / 1rad) calc(mod(pow(r, .42), 1)) b)) { --gamut--mt-s1: --gamut--palette-step-mt-s1(var(--gamut--in0, black)); }
+  --gamut--mt-s2: initial;
+  @supports (color: color(from red srgb-linear calc(atan2(g, r) / 1rad) calc(mod(pow(r, .42), 1)) b)) { --gamut--mt-s2: --gamut--palette-step-mt-s2(var(--gamut--mt-s1, black)); }
+  --gamut--mt-gf: initial;
+  @supports (color: color(from red srgb-linear calc(atan2(g, r) / 1rad) calc(mod(pow(r, .42), 1)) b)) { --gamut--mt-gf: --gamut--palette-step-mt-gf(var(--gamut--mt-s2, black), var(--gamut--mt-te, 0)); }
+  --gamut--mt-j1: initial;
+  @supports (color: color(from red srgb-linear calc(atan2(g, r) / 1rad) calc(mod(pow(r, .42), 1)) b)) { --gamut--mt-j1: --gamut--palette-step-mt-j1(var(--gamut--mt-gf, black), var(--gamut--mt-q0, 0), var(--gamut--mt-y, 0)); }
+  --gamut--mt-j2: initial;
+  @supports (color: color(from red srgb-linear calc(atan2(g, r) / 1rad) calc(mod(pow(r, .42), 1)) b)) { --gamut--mt-j2: --gamut--palette-step-mt-j2(var(--gamut--mt-j1, black)); }
+  --gamut--mt-j3: initial;
+  @supports (color: color(from red srgb-linear calc(atan2(g, r) / 1rad) calc(mod(pow(r, .42), 1)) b)) { --gamut--mt-j3: --gamut--palette-step-mt-j3(var(--gamut--mt-j2, black)); }
+  --gamut--mt-pi: initial;
+  @supports (color: color(from red srgb-linear calc(atan2(g, r) / 1rad) calc(mod(pow(r, .42), 1)) b)) { --gamut--mt-pi: --gamut--palette-step-mt-pi(var(--gamut--mt-j3, black)); }
+  --gamut--mt-p: initial;
+  @supports (color: color(from red srgb-linear calc(atan2(g, r) / 1rad) calc(mod(pow(r, .42), 1)) b)) { --gamut--mt-p: --gamut--palette-step-mt-p(var(--gamut--mt-pi, black)); }
+  --gamut--mt-pw: initial;
+  @supports (color: color(from red srgb-linear calc(atan2(g, r) / 1rad) calc(mod(pow(r, .42), 1)) b)) { --gamut--mt-pw: --gamut--palette-step-mt-pw(var(--gamut--mt-p, black), var(--gamut--mt-y, 0)); }
+  --gamut--mt-hd: initial;
+  @supports (color: color(from red srgb-linear calc(atan2(g, r) / 1rad) calc(mod(pow(r, .42), 1)) b)) { --gamut--mt-hd: --gamut--palette-step-mt-hd(var(--gamut--mt-s2, black), var(--gamut--mt-t99, 0)); }
+  --gamut--mt-st0: initial;
+  @supports (color: color(from red srgb-linear calc(atan2(g, r) / 1rad) calc(mod(pow(r, .42), 1)) b)) { --gamut--mt-st0: --gamut--palette-step-mt-st0(var(--gamut--mt-hd, black)); }
+  --gamut--mt-ma0: initial;
+  @supports (color: color(from red srgb-linear calc(atan2(g, r) / 1rad) calc(mod(pow(r, .42), 1)) b)) { --gamut--mt-ma0: --gamut--palette-step-mt-ma0(var(--gamut--mt-st0, black)); }
+  --gamut--mt-da0: initial;
+  @supports (color: color(from red srgb-linear calc(atan2(g, r) / 1rad) calc(mod(pow(r, .42), 1)) b)) { --gamut--mt-da0: --gamut--palette-step-mt-da0(var(--gamut--mt-ma0, black)); }
+  --gamut--mt-mb0: initial;
+  @supports (color: color(from red srgb-linear calc(atan2(g, r) / 1rad) calc(mod(pow(r, .42), 1)) b)) { --gamut--mt-mb0: --gamut--palette-step-mt-mb0(var(--gamut--mt-st0, black)); }
+  --gamut--mt-db0: initial;
+  @supports (color: color(from red srgb-linear calc(atan2(g, r) / 1rad) calc(mod(pow(r, .42), 1)) b)) { --gamut--mt-db0: --gamut--palette-step-mt-db0(var(--gamut--mt-mb0, black)); }
+  --gamut--mt-st1: initial;
+  @supports (color: color(from red srgb-linear calc(atan2(g, r) / 1rad) calc(mod(pow(r, .42), 1)) b)) { --gamut--mt-st1: --gamut--palette-step-mt-st1(var(--gamut--mt-ma0, black), var(--gamut--mt-da0, black), var(--gamut--mt-db0, black)); }
+  --gamut--mt-ma1: initial;
+  @supports (color: color(from red srgb-linear calc(atan2(g, r) / 1rad) calc(mod(pow(r, .42), 1)) b)) { --gamut--mt-ma1: --gamut--palette-step-mt-ma1(var(--gamut--mt-st1, black)); }
+  --gamut--mt-da1: initial;
+  @supports (color: color(from red srgb-linear calc(atan2(g, r) / 1rad) calc(mod(pow(r, .42), 1)) b)) { --gamut--mt-da1: --gamut--palette-step-mt-da1(var(--gamut--mt-ma1, black)); }
+  --gamut--mt-mb1: initial;
+  @supports (color: color(from red srgb-linear calc(atan2(g, r) / 1rad) calc(mod(pow(r, .42), 1)) b)) { --gamut--mt-mb1: --gamut--palette-step-mt-mb1(var(--gamut--mt-st1, black)); }
+  --gamut--mt-db1: initial;
+  @supports (color: color(from red srgb-linear calc(atan2(g, r) / 1rad) calc(mod(pow(r, .42), 1)) b)) { --gamut--mt-db1: --gamut--palette-step-mt-db1(var(--gamut--mt-mb1, black)); }
+  --gamut--mt-st2: initial;
+  @supports (color: color(from red srgb-linear calc(atan2(g, r) / 1rad) calc(mod(pow(r, .42), 1)) b)) { --gamut--mt-st2: --gamut--palette-step-mt-st2(var(--gamut--mt-ma1, black), var(--gamut--mt-da1, black), var(--gamut--mt-db1, black)); }
+  --gamut--mt-ma2: initial;
+  @supports (color: color(from red srgb-linear calc(atan2(g, r) / 1rad) calc(mod(pow(r, .42), 1)) b)) { --gamut--mt-ma2: --gamut--palette-step-mt-ma2(var(--gamut--mt-st2, black)); }
+  --gamut--mt-da2: initial;
+  @supports (color: color(from red srgb-linear calc(atan2(g, r) / 1rad) calc(mod(pow(r, .42), 1)) b)) { --gamut--mt-da2: --gamut--palette-step-mt-da2(var(--gamut--mt-ma2, black)); }
+  --gamut--mt-mb2: initial;
+  @supports (color: color(from red srgb-linear calc(atan2(g, r) / 1rad) calc(mod(pow(r, .42), 1)) b)) { --gamut--mt-mb2: --gamut--palette-step-mt-mb2(var(--gamut--mt-st2, black)); }
+  --gamut--mt-db2: initial;
+  @supports (color: color(from red srgb-linear calc(atan2(g, r) / 1rad) calc(mod(pow(r, .42), 1)) b)) { --gamut--mt-db2: --gamut--palette-step-mt-db2(var(--gamut--mt-mb2, black)); }
+  --gamut--mt-mf: initial;
+  @supports (color: color(from red srgb-linear calc(atan2(g, r) / 1rad) calc(mod(pow(r, .42), 1)) b)) { --gamut--mt-mf: --gamut--palette-step-mt-mf(var(--gamut--mt-pw, black), var(--gamut--mt-gf, black), var(--gamut--mt-da2, black), var(--gamut--mt-ma2, black), var(--gamut--mt-db2, black)); }
+}

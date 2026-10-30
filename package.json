@@ -1,0 +1,48 @@
+{
+  "name": "gamutant.css",
+  "version": "0.0.1",
+  "description": "Gamut mapping, contrast and color operations in one stylesheet, no script: each part follows a CSS draft, a CSSWG issue or a published color library.",
+  "license": "MIT AND Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/noscripting/gamutant.git"
+  },
+  "keywords": [
+    "css",
+    "color",
+    "gamut-mapping",
+    "oklch",
+    "contrast-color",
+    "color-mix",
+    "okhsl",
+    "display-p3",
+    "no-javascript"
+  ],
+  "main": "gamutant.css",
+  "style": "gamutant.css",
+  "exports": {
+    ".": "./gamutant.css",
+    "./*.css": "./*.css",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "gamutant.css",
+    "parts/*.css",
+    "README.md",
+    "TUTORIAL.md",
+    "CHANGELOG.md",
+    "LICENSE",
+    "LICENSE-THIRD-PARTY",
+    "compat.json"
+  ],
+  "scripts": {
+    "browsers": "node test/browsers.mjs",
+    "test": "node test/run.mjs"
+  },
+  "devDependencies": {
+    "playwright": "1.60.0",
+    "pngjs": "7.0.0",
+    "colorjs.io": "0.7.1",
+    "spectral.js": "3.0.0"
+  }
+}

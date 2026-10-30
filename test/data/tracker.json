@@ -1,0 +1,146 @@
+{
+ "measured": "Chrome 155, WebKit 26.4 and Firefox 158",
+ "parts": {
+  ".gamut-fit-screen": {
+   "issues": [
+    9449,
+    10579,
+    10038
+   ],
+   "status": "In Chrome 155, WebKit 26.4 and Firefox 158 a canvas paints `oklch(0.7 0.4 30)` as 255 0 0."
+  },
+  "--gamut-method": {
+   "issues": [
+    9449,
+    10579
+   ],
+   "status": "No draft defines a syntax for it."
+  },
+  ".gamut-screen-edge": {
+   "issues": [
+    11946
+   ],
+   "status": "No draft defines a syntax for it."
+  },
+  ".gamut-palette-step": {
+   "issues": [],
+   "status": "No draft defines a syntax for it. #11533 asks for color math over more than one color, with tints from an accent and its lightest tint as one example; this part takes one seed's HCT hue and chroma and gives Material 3's tonal palette."
+  },
+  ".gamut-fit-gradient": {
+   "issues": [
+    9449,
+    1332
+   ],
+   "status": "No draft defines a syntax for it. #9449 asks for mapping in place of clipping, and `linear-gradient(in oklch, \u2026)` clips the colors between its stops; #1332, resolved 2021-09-01, puts an easing function between two stops (`black, ease-in-out, transparent`), in no draft yet."
+  },
+  ".gamut-readable-text": {
+   "issues": [
+    5153,
+    7360,
+    11619
+   ],
+   "status": "Chrome 155, WebKit 26.4 and Firefox 158 ship `contrast-color()` with black or white only. #5153 asks to adjust a given text color's lightness to a ratio, #7360 to pick from a range of colors and #11619's third case to tweak a color until the contrast is good enough. This part takes a color toward white, black or another color in linear sRGB, not along OkLCh lightness. The WG deferred #5153 and #7360."
+  },
+  ".gamut-contrast-color": {
+   "issues": [
+    11534,
+    11619,
+    7358
+   ],
+   "status": "Chrome 155, WebKit 26.4 and Firefox 158 don't ship it. They ship CSS Color 5's `contrast-color()`, black or white only."
+  },
+  ".gamut-color-layers": {
+   "issues": [
+    13254,
+    8431
+   ],
+   "status": "Chrome 155, WebKit 26.4 and Firefox 158 don't ship it."
+  },
+  ".gamut-color-interpolate": {
+   "issues": [],
+   "status": "Chrome 155, WebKit 26.4 and Firefox 158 don't ship it. css-values-5 \u00a77.5 specifies it; #6694 asked for color ramps and #10034 (color-scale(), retracted by its author) for scales."
+  },
+  ".gamut-okhsl": {
+   "issues": [
+    8659
+   ],
+   "status": "No draft defines a syntax for it."
+  },
+  ".gamut-okhsl-from": {
+   "issues": [
+    10110,
+    8659
+   ],
+   "status": "No draft defines a syntax for it."
+  },
+  ".gamut-okhsv": {
+   "issues": [
+    8659
+   ],
+   "status": "No draft defines a syntax for it."
+  },
+  ".gamut-color-mix": {
+   "issues": [
+    4711,
+    5277
+   ],
+   "status": "Firefox 158 ships it; Chrome 155 and WebKit 26.4 don't."
+  },
+  ".gamut-mix-paint": {
+   "issues": [
+    8715
+   ],
+   "status": "Chrome 155, WebKit 26.4 and Firefox 158 don't ship it. The issue names spectral.js and Mixbox; the part follows spectral.js 3.0.0. The draft's editor answered that Kubelka-Munk is one pigment model of many."
+  },
+  ".gamut-alpha": {
+   "issues": [
+    13994,
+    13992
+   ],
+   "status": "Chrome 155 and Firefox 158 ship it; WebKit 26.4 doesn't. Both ask how its result serializes, which the part leaves to the browser."
+  },
+  ".gamut-light-dark": {
+   "issues": [
+    13836
+   ],
+   "status": "No draft defines a syntax for it. #13836 asks for `light-dark()` to resolve where a color is used; the part keeps a token as its two colors and resolves it there."
+  },
+  ".gamut-color-equal": {
+   "issues": [
+    13157
+   ],
+   "status": "No draft defines a syntax for it. CSS Color 4 \u00a712 defines the comparison for `style()` queries and transitions; the part gives it as a number."
+  },
+  ".gamut-device-cmyk": {
+   "issues": [],
+   "status": "Chrome 155, WebKit 26.4 and Firefox 158 don't ship it. CSS Color 5 specifies it (\u00a76); #13934 asks for more, interpolating it in ink amounts."
+  },
+  ".gamut-rec2100-pq": {
+   "issues": [
+    10460,
+    11346
+   ],
+   "status": "Chrome 155, WebKit 26.4 and Firefox 158 don't ship it."
+  },
+  ".gamut-jzazbz": {
+   "issues": [
+    11713
+   ],
+   "status": "Chrome 155, WebKit 26.4 and Firefox 158 don't ship it."
+  },
+  ".gamut-hdr-color": {
+   "issues": [
+    13597
+   ],
+   "status": "Chrome 155, WebKit 26.4 and Firefox 158 don't ship it."
+  },
+  ".gamut-color-extract": {
+   "issues": [
+    6937,
+    5782,
+    11533
+   ],
+   "status": "No draft defines a syntax for it."
+  }
+ }
+}

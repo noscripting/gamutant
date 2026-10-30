@@ -1,0 +1,9 @@
+/*! gamutant.css 1.0.0, device-cmyk.css: the device-cmyk part alone
+   SPDX-License-Identifier: MIT
+   Copyright (c) 2026 gamutant contributors
+   Third-party notices: LICENSE-THIRD-PARTY */
+@property --gamut-out { syntax: '<color>'; inherits: true; initial-value: transparent; }
+.gamut-device-cmyk { --gamut-out: color(from color(srgb var(--gamut-cmyk-c, 0) var(--gamut-cmyk-m, 0) var(--gamut-cmyk-y, 0) / var(--gamut-cmyk-k, 0)) srgb calc((1 - clamp(0, r, 1)) * (1 - alpha)) calc((1 - clamp(0, g, 1)) * (1 - alpha)) calc((1 - clamp(0, b, 1)) * (1 - alpha)) / var(--gamut-cmyk-alpha, 1)); }
+@function --gamut-device-cmyk(--gamut-cmyk-c: initial, --gamut-cmyk-m: initial, --gamut-cmyk-y: initial, --gamut-cmyk-k: initial, --gamut-cmyk-alpha: initial) returns <color> {
+  result: color(from color(srgb var(--gamut-cmyk-c, 0) var(--gamut-cmyk-m, 0) var(--gamut-cmyk-y, 0) / var(--gamut-cmyk-k, 0)) srgb calc((1 - clamp(0, r, 1)) * (1 - alpha)) calc((1 - clamp(0, g, 1)) * (1 - alpha)) calc((1 - clamp(0, b, 1)) * (1 - alpha)) / var(--gamut-cmyk-alpha, 1));
+}

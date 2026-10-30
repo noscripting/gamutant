@@ -1,0 +1,20 @@
+/*! gamutant.css 1.0.0, rec2100-linear.css: the rec2100-linear part alone
+   SPDX-License-Identifier: MIT
+   Copyright (c) 2026 gamutant contributors
+   Includes material derived from CSS Color HDR Module Level 1 (https://drafts.csswg.org/css-color-hdr-1/). Copyright © 2026 World Wide Web Consortium. https://www.w3.org/copyright/software-license-2023/
+   Third-party notices: LICENSE-THIRD-PARTY */
+@property --gamut-out { syntax: '<color>'; inherits: true; initial-value: transparent; }
+@property --gamut--r21-in { syntax: '<color>'; inherits: false; initial-value: transparent; }
+@property --gamut--r21-lin { syntax: '<color>'; inherits: false; initial-value: transparent; }
+.gamut-rec2100-linear {
+  --gamut--r21-in: color(xyz-d65 var(--gamut-rec2100-r, 0) var(--gamut-rec2100-g, 0) var(--gamut-rec2100-b, 0) / var(--gamut-rec2100-alpha, 1));
+  --gamut-out: color(from var(--gamut--r21-lin) xyz-d65 calc(0.6369580483012913 * x + 0.14461690358620838 * y + 0.16888097516417205 * z) calc(0.26270021201126703 * x + 0.677998071518871 * y + 0.059301716469861945 * z) calc(0.028072693049087508 * y + 1.0609850577107909 * z) / alpha);
+}
+.gamut-rec2100-linear { --gamut--r21-lin: var(--gamut--r21-in); }
+@function --gamut--rec2100-linear-r21-in() returns <color> { result: color(xyz-d65 var(--gamut-rec2100-r, 0) var(--gamut-rec2100-g, 0) var(--gamut-rec2100-b, 0) / var(--gamut-rec2100-alpha, 1)); }
+@function --gamut--rec2100-linear-r21-lin(--gamut--r21-in <color>) returns <color> { result: var(--gamut--r21-in); }
+@function --gamut-rec2100-linear(--gamut-rec2100-r: initial, --gamut-rec2100-g: initial, --gamut-rec2100-b: initial, --gamut-rec2100-alpha: initial) returns <color> {
+  --gamut--r21-in: --gamut--rec2100-linear-r21-in();
+  result: color(from var(--gamut--r21-lin, transparent) xyz-d65 calc(0.6369580483012913 * x + 0.14461690358620838 * y + 0.16888097516417205 * z) calc(0.26270021201126703 * x + 0.677998071518871 * y + 0.059301716469861945 * z) calc(0.028072693049087508 * y + 1.0609850577107909 * z) / alpha);
+  --gamut--r21-lin: --gamut--rec2100-linear-r21-lin(var(--gamut--r21-in, transparent));
+}

@@ -1,0 +1,174 @@
+[
+ {
+  "cls": "screen-edge",
+  "args": [
+   "--gamut-in",
+   "--gamut-rel",
+   "--gamut: var(--gamut-target, screen)"
+  ],
+  "container": {
+   "--gamut-target": "--gamut"
+  }
+ },
+ {
+  "cls": "palette-step",
+  "args": [
+   "--gamut-in",
+   "--gamut-chroma-scale",
+   "--gamut-step none",
+   "--gamut-tone none"
+  ]
+ },
+ {
+  "cls": "readable-text",
+  "args": [
+   "--gamut-bg",
+   "--gamut-ratio",
+   "--gamut-readable-from none",
+   "--gamut-readable-to none"
+  ],
+  "out": "--gamut-text"
+ },
+ {
+  "cls": "contrast-color",
+  "args": [
+   "--gamut-bg",
+   "--gamut-contrast-ratio none",
+   "--gamut-try-1",
+   "--gamut-try-2",
+   "--gamut-try-3",
+   "--gamut-try-4",
+   "--gamut-try-5",
+   "--gamut-try-6"
+  ],
+  "out": "--gamut-text"
+ },
+ {
+  "cls": "color-mix",
+  "args": [
+   "--gamut-mix-space",
+   "--gamut-mix-1",
+   "--gamut-mix-pct-1 none",
+   "--gamut-mix-2",
+   "--gamut-mix-pct-2 none",
+   "--gamut-mix-3",
+   "--gamut-mix-pct-3 none",
+   "--gamut-mix-4",
+   "--gamut-mix-pct-4 none",
+   "--gamut-mix-5",
+   "--gamut-mix-pct-5 none",
+   "--gamut-mix-6",
+   "--gamut-mix-pct-6 none"
+  ],
+  "container": {
+   "--gamut-mix-space": "--gamut-mix-space"
+  }
+ },
+ {
+  "cls": "okhsl",
+  "args": [
+   "--gamut-okhsl-h",
+   "--gamut-okhsl-s",
+   "--gamut-okhsl-l"
+  ]
+ },
+ {
+  "cls": "okhsl-from",
+  "args": [
+   "--gamut-in",
+   "--gamut-okhsl-s none",
+   "--gamut-okhsl-l none"
+  ]
+ },
+ {
+  "cls": "okhsv",
+  "args": [
+   "--gamut-okhsv-h",
+   "--gamut-okhsv-s",
+   "--gamut-okhsv-v"
+  ]
+ },
+ {
+  "cls": "device-cmyk",
+  "args": [
+   "--gamut-cmyk-c",
+   "--gamut-cmyk-m",
+   "--gamut-cmyk-y",
+   "--gamut-cmyk-k",
+   "--gamut-cmyk-alpha"
+  ]
+ },
+ {
+  "cls": "rec2100-pq",
+  "args": [
+   "--gamut-rec2100-r",
+   "--gamut-rec2100-g",
+   "--gamut-rec2100-b",
+   "--gamut-rec2100-alpha"
+  ]
+ },
+ {
+  "cls": "rec2100-hlg",
+  "args": [
+   "--gamut-rec2100-r",
+   "--gamut-rec2100-g",
+   "--gamut-rec2100-b",
+   "--gamut-rec2100-alpha"
+  ]
+ },
+ {
+  "cls": "rec2100-linear",
+  "args": [
+   "--gamut-rec2100-r",
+   "--gamut-rec2100-g",
+   "--gamut-rec2100-b",
+   "--gamut-rec2100-alpha"
+  ]
+ },
+ {
+  "cls": "jzazbz",
+  "args": [
+   "--gamut-jzazbz-jz",
+   "--gamut-jzazbz-az",
+   "--gamut-jzazbz-bz",
+   "--gamut-jzazbz-alpha"
+  ]
+ },
+ {
+  "cls": "jzczhz",
+  "args": [
+   "--gamut-jzczhz-jz",
+   "--gamut-jzczhz-cz",
+   "--gamut-jzczhz-hz",
+   "--gamut-jzczhz-alpha"
+  ]
+ },
+ {
+  "cls": "ictcp",
+  "args": [
+   "--gamut-ictcp-i",
+   "--gamut-ictcp-ct",
+   "--gamut-ictcp-cp",
+   "--gamut-ictcp-alpha"
+  ]
+ },
+ {
+  "cls": "color-equal",
+  "args": [
+   "--gamut-equal-a",
+   "--gamut-equal-b"
+  ],
+  "out": "--gamut-equal",
+  "number": true
+ },
+ {
+  "cls": "hdr-color",
+  "args": [
+   "--gamut-hdr-1",
+   "--gamut-hdr-h1",
+   "--gamut-hdr-2",
+   "--gamut-hdr-h2",
+   "--gamut-headroom"
+  ]
+ }
+]
