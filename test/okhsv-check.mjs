@@ -34,7 +34,7 @@ for (const [name, type, opts] of pick()) {
     if (off > worst) { worst = off; worstAt = c.join(' '); }
     if (!(off <= 1.5)) bad.push(`okhsv(${c.join(' ')}) -> ${got[i]}, ${off.toFixed(2)}/255 off`); });
   failed ||= bad.length > 0;
-  console.log(`${name}: ${cases.length - bad.length} of ${cases.length} within 1 of 255 of ok_color.h as written (worst ${worst.toFixed(3)}/255 at okhsv(${worstAt}))${atC ? `, ${atC} at the blue corner on its other branch` : ''}${bad.length ? `\n  ${bad.slice(0, 8).join('\n  ')}` : ''}`);
+  console.log(`${name}: ${cases.length - bad.length} of ${cases.length} within 1/255 of ok_color.h as written (worst ${worst.toFixed(3)}/255 at okhsv(${worstAt}))${atC ? `, ${atC} at the blue corner on its other branch` : ''}${bad.length ? `\n  ${bad.slice(0, 8).join('\n  ')}` : ''}`);
   await b.close();
 }
 process.exit(failed ? 1 : 0);

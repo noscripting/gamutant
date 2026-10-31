@@ -4,7 +4,7 @@ A CSS-only color polyfill. Gamutant is a stylesheet that fits colors into what t
 
 ## License
 
-MIT, see LICENSE; `.gamut-palette-step` is also under Apache-2.0, see LICENSE-THIRD-PARTY. Math comes from Color.js by Lea Verou and Chris Lilley, Björn Ottosson’s Okhsl and gamut clipping code, spectral.js by Ronald van Wijnen, Google’s material-color-utilities and the CSS Color drafts’ sample code.
+MIT, see LICENSE; `.gamut-palette-step` is also under Apache-2.0, and the parts that carry the CSS Color drafts' sample code (`.gamut-okhsl-from`, `.gamut-color-extract` and the HDR spaces) under the W3C Software and Document License, see LICENSE-THIRD-PARTY. Math comes from Color.js by Lea Verou and Chris Lilley, Björn Ottosson’s Okhsl and gamut clipping code, spectral.js by Ronald van Wijnen, Google’s material-color-utilities and the CSS Color drafts’ sample code.
 
 ## Installation
 
@@ -81,7 +81,7 @@ Brings a color the screen can't show into its gamut, as [CSS Color 4](https://dr
 ```
 
 - Set `--gamut-target` on an ancestor to fit to another gamut: `srgb`, `display-p3`, `rec2020`, `a98-rgb` or `prophoto-rgb`.
-- `--gamut-method` on an ancestor picks the method. The default, `css`, turns the hue up to 6° at chroma 0.2; `edge-seeker` ([Alexey Ardov's](https://drafts.csswg.org/css-color-4/#GMA-EdgeSeeker)), `ray-trace` ([Isaac Muse's](https://drafts.csswg.org/css-color-4/#GMA-Raytrace)) and `adaptive` ([Ottosson's](https://bottosson.github.io/posts/gamutclipping/)) keep it within 2°, 5° and 2° at chroma 0.05 and up, but not to `prophoto-rgb`.
+- `--gamut-method` on an ancestor picks the method. The default, `css`, turns the hue up to 6° at chroma 0.2; `edge-seeker` ([Alexey Ardov's](https://drafts.csswg.org/css-color-4/#GMA-EdgeSeeker)), `ray-trace` ([Isaac Muse's](https://drafts.csswg.org/css-color-4/#GMA-Raytrace)) and `adaptive` ([Ottosson's](https://bottosson.github.io/posts/gamutclipping/)) keep it within 2°, 5° and 2° at chroma 0.05 and up, but not to `prophoto-rgb`. `adaptive` gives up lightness toward the hue's most colorful color; the other three hold it.
 
 ### `.gamut-screen-edge`
 
@@ -130,7 +130,7 @@ A gradient between two colors with every stop fitted to the screen ([CSS Color 4
 
 ### `.gamut-readable-text`
 
-A text color that reads on an opaque background: the background's color mixed toward black or white to a 4.5 contrast ratio ([#5153](https://github.com/w3c/csswg-drafts/issues/5153)). Beside another part on one element, `--gamut-bg: var(--gamut-out)` reads that part's color. On a gradient of light colors read its darkest end, of dark ones its lightest; colors between can contrast less.
+A text color that reads on an opaque background: the background's color mixed toward black or white to a WCAG 2 contrast ratio of 4.5 ([#5153](https://github.com/w3c/csswg-drafts/issues/5153)). Beside another part on one element, `--gamut-bg: var(--gamut-out)` reads that part's color. On a gradient of light colors read its darkest end, of dark ones its lightest; colors between can contrast less.
 
 ```html
 <p class="gamut-readable-text" style="
@@ -160,7 +160,7 @@ Picks a background's text color from up to six, as `contrast-color()` does ([CSS
 
 ### `.gamut-color-mix`
 
-Mixes up to six colors, as `color-mix()` mixes two ([CSS Color 5](https://drafts.csswg.org/css-color-5/#color-mix)). Colors with no share split what is left.
+Mixes up to six colors, as `color-mix()` does with any number ([CSS Color 5](https://drafts.csswg.org/css-color-5/#color-mix)). Colors with no share split what is left.
 
 ```html
 <div class="gamut-color-mix" style="
@@ -198,7 +198,7 @@ The color at a point along up to eight stops, like `color-interpolate()` ([CSS V
 
 ### `.gamut-color-layers`
 
-Stacks up to six colors into one, as `color-layers()` does ([CSS Color 6](https://drafts.csswg.org/css-color-6/#color-layers)). `--gamut-layer-1` is on top. The blend mode is a class.
+Stacks up to six colors into one, as `color-layers()` does ([CSS Color 6](https://drafts.csswg.org/css-color-6/#color-layers)). `--gamut-layer-1` is on top. The blend mode is a class, one of Compositing 1's 15: `.gamut-blend-multiply` to `.gamut-blend-luminosity`.
 
 ```html
 <div class="gamut-color-layers gamut-blend-multiply" style="
@@ -222,7 +222,7 @@ A color with a new alpha, as `alpha()` does ([CSS Color 5](https://drafts.csswg.
 
 ### `.gamut-device-cmyk`
 
-A color from CMYK, as `device-cmyk()` does ([CSS Color 5](https://drafts.csswg.org/css-color-5/#device-cmyk)).
+A color from CMYK, by `device-cmyk()`'s naive conversion ([CSS Color 5](https://drafts.csswg.org/css-color-5/#device-cmyk)).
 
 ```html
 <div class="gamut-device-cmyk" style="
@@ -253,7 +253,7 @@ A light and a dark color set once, picked by the color scheme of the element wit
 
 ### `.gamut-color-equal`
 
-Whether two colors are equal, as 1 or 0 for its children: their channels compared as [CSS Color 4](https://drafts.csswg.org/css-color-4/#comparing-color-values) does, not as painted.
+Whether two colors are equal, as 1 or 0 for its children: compared in OkLab within 0.00001, as [CSS Color 4](https://drafts.csswg.org/css-color-4/#comparing-color-values) compares two colors of different spaces (two of one space too: CSS doesn't say which space a color was written in), not as painted.
 
 ```html
 <div class="gamut-color-equal" style="
@@ -285,7 +285,7 @@ Colors picked in Okhsl and Okhsv ([Ottosson's color picker spaces](https://botto
 "></div>
 ```
 
-- Set `--gamut-target: display-p3` or `rec2020` on an ancestor to pick in that gamut (P3 constants: Isaac Muse's, [#8659](https://github.com/w3c/csswg-drafts/issues/8659)).
+- Set `--gamut-target: display-p3` or `rec2020` on an ancestor to pick in that gamut (P3 constants: Isaac Muse's, [#8659](https://github.com/w3c/csswg-drafts/issues/8659); Rec. 2020's fitted here, to within 35/255 of Ottosson's model near its blue primary).
 
 ### `.gamut-rec2100-pq`, `.gamut-rec2100-hlg`, `.gamut-rec2100-linear`
 
@@ -339,6 +339,8 @@ A color's channels as numbers, for CSS that needs them ([#6937](https://github.c
   <div class="gamut-color-extract-read gamut-extract-oklch" style="width: calc(var(--gamut-oklch-l) * 100%)"></div>
 </div>
 ```
+
+- A class `.gamut-extract-<space>` beside `.gamut-color-extract-read` adds that space's channels as `--gamut-<space>-<channel>`, for `srgb`, `srgb-linear`, `display-p3`, `a98-rgb`, `prophoto-rgb`, `rec2020`, `xyz-d50`, `lab`, `lch`, `oklab`, `oklch`, `hsl` and `hwb`.
 
 ## Browsers
 

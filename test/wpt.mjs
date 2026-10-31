@@ -162,7 +162,7 @@ const SIX = ['bisque', 'darkgoldenrod', 'olive', 'sienna', 'darkgreen', 'maroon'
 // alpha: CSS Color 5 §4.10's alpha() as the spec model computes it, painted (channels clamped, a missing alpha as 0)
 [['red', '0.5'], ['oklch(0.7 0.15 30 / 0.4)', 'calc(alpha * 0.5)'], ['color(display-p3 0.2 0.6 0.3)', '80%'], ['#33669980', undefined],
   ['lab(50 20 -30)', 'none'], ['oklch(0.6 0.1 none)', '0.7'], ['hsl(200 60% 40%)', '1.5'], ['color(rec2020 0.3 0.5 0.4 / 0.5)', 'calc(alpha + 0.3)']].forEach(([o, a], i) => {
-  // a rec2020 color painted as all three engines encode rec2020, by BT.2020's curve (Q28): this test is alpha()'s, and
+  // a rec2020 color painted as all three engines encode rec2020, by BT.2020's curve (not CSS Color 4's 2.4 power): this test is alpha()'s, and
   // Color.js 0.7.1's rec2020 is the draft's gamma 2.4 (its --rec2020-oetf is BT.2020's)
   const w = resolve(`alpha(from ${o}${a === undefined ? '' : ` / ${a}`})`), c = new Color(serialize({ ...w, c: w.c.map((v) => v ?? 0), alpha: 1 }).replace(/^color\(rec2020 /, 'color(--rec2020-oetf ')).to('srgb').coords;
   const exp = [...c.map((v) => Math.min(1, Math.max(0, v))), w.alpha ?? 0];

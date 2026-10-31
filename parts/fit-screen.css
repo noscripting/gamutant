@@ -148,7 +148,7 @@
   --gamut--sec-b: if(style(--gamut--clip: rec2020): calc(0.0163914389 * r + 0.0880133079 * g + 0.895595253 * b); style(--gamut--clip: a98-rgb): calc(0.0411619485 * g + 0.958838052 * b); style(--gamut--clip: prophoto-rgb): calc(0.0168753409 * r + 0.117659414 * g + 0.865465245 * b); else: b);
   --gamut--dist: if(style(--gamut--clip: rec2020): calc(0.5 - max(abs(0.627403896 * r + 0.329283038 * g + 0.0433130657 * b - 0.5), abs(0.0690972894 * r + 0.919540395 * g + 0.0113623156 * b - 0.5), abs(0.0163914389 * r + 0.0880133079 * g + 0.895595253 * b - 0.5))); style(--gamut--clip: a98-rgb): calc(0.5 - max(abs(0.715125607 * r + 0.284874393 * g - 0.5), abs(g - 0.5), abs(0.0411619485 * g + 0.958838052 * b - 0.5))); style(--gamut--clip: prophoto-rgb): calc(0.5 - max(abs(0.529276978 * r + 0.330154502 * g + 0.14056852 * b - 0.5), abs(0.0983658595 * r + 0.873470713 * g + 0.0281634276 * b - 0.5), abs(0.0168753409 * r + 0.117659414 * g + 0.865465245 * b - 0.5))); else: min(r, g, b, 1 - max(r, g, b)));
   --gamut--rk: if(style(--gamut--clip: rec2020) or style(--gamut--clip: a98-rgb) or style(--gamut--clip: prophoto-rgb): 4; else: 2);
-  --gamut--src: oklch(from var(--gamut-in, oklch(var(--gamut-l, 0.5) var(--gamut-c, 0) var(--gamut-h, 0))) clamp(0, l, 1) calc(min(c, 100) * clamp(0, sign(l * (1 - l)), 1)) h / none);
+  --gamut--src: oklch(from var(--gamut-in, oklch(var(--gamut-l, 0.5) var(--gamut-c, 0) var(--gamut-h, 0))) clamp(0, l, 1) calc(min(c, 100) * clamp(0, sign(l * (1 - l)), 1) * sign(max(0, l - 0.015))) h / none);
   --gamut--ray-lh: --gamut--step-ray-lh(var(--gamut--src));
   --gamut--ray-x0: --gamut--step-ray-x0(var(--gamut--src), var(--gamut--lin), var(--gamut--sec-r), var(--gamut--sec-g), var(--gamut--sec-b));
   --gamut--ray-p1: --gamut--step-ray-p1(var(--gamut--ray-lh), var(--gamut--ray-x0));
@@ -311,7 +311,7 @@
   --gamut--s-k18: calc(alpha + (g - alpha) / var(--gamut--s-kx));
   --gamut--s-k19: calc(alpha + (b - alpha) / var(--gamut--s-kx));
   --gamut--n: initial; --gamut--m1: initial; --gamut--m2: initial; --gamut--m3: initial; --gamut--m4: initial; --gamut--m5: initial; --gamut--m6: initial; --gamut--m7: initial; --gamut--m8: initial; --gamut--m9: initial; --gamut--m10: initial; --gamut--m11: initial; --gamut--e: initial; --gamut--o: initial; --gamut--f0: initial; --gamut--f1: initial; --gamut--f2: initial; --gamut--f3: initial; --gamut--f4: initial; --gamut--f5: initial; --gamut--f6: initial; --gamut--f7: initial; --gamut--f8: initial; --gamut--f9: initial; --gamut--f10: initial; --gamut--f11: initial; --gamut--f12: initial; --gamut--g: initial;
-  --gamut--src: oklch(from var(--gamut--in0) clamp(0, l, 1) calc(min(c, 100) * clamp(0, sign(l * (1 - l)), 1)) h / none);
+  --gamut--src: oklch(from var(--gamut--in0) clamp(0, l, 1) calc(min(c, 100) * clamp(0, sign(l * (1 - l)), 1) * sign(max(0, l - 0.015))) h / none);
   --gamut--sec-r: initial; --gamut--sec-g: initial; --gamut--sec-b: initial; --gamut--dist: initial; --gamut--clip: initial; --gamut--rk: initial;
   --gamut--ray-lh: oklch(from var(--gamut--src) l none h / none);
   --gamut--ray-x0: color(from oklch(from var(--gamut--src) l c h / calc(l * l * l)) var(--gamut--lin) var(--gamut--s-k17) var(--gamut--s-k18) var(--gamut--s-k19) / 1);

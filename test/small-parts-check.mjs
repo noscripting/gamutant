@@ -85,6 +85,10 @@ for (let i = 0; i < 30; i++) {
   const at = alpha === 1 ? s : write(c, wk);
   const nudge = (d) => { const o = c.to('oklab'); o.coords[0] += d; return write(o, other); };
   random.push([at, at], [at, write(c, other)], [at, nudge(3e-6)], [at, nudge(3e-5)]);
+  // and in its own space, its first component nudged by 3e-5 and 3e-6 of its range: §12 step 2 tells them apart, the
+  // part (in OkLab) may not (an audit, 2026-10-31)
+  const ownNudge = (d) => { const x = c.to(CJS[wk]); x.coords[0] += d * ({ lab: 100, lch: 100, hsl: 360, hwb: 360 }[wk] ?? 1); x.alpha = c.alpha; return write(x, wk); };
+  random.push([at, ownNudge(3e-5)], [at, ownNudge(3e-6)]);
   const plain = kind === 'hex' ? write(new Color(s), 'srgb') : s, slot = Math.floor(rnd() * 3), nn = withNone(plain, slot);
   random.push([nn, plain.replace(/^([a-z-]+\()(.*)\)$/, (m, h, body) => { const t = body.split(/\s+/), off = h === 'color(' ? 1 : 0; t[off + slot] = '0'; return `${h}${t.join(' ')})`; })], [nn, nn], [nn, write(new Color(s), other)]);
   if (rnd() < 0.3) random.push([nn, write(new Color(nn).to(CJS[other]), wk === 'srgb' && kind !== 'hex' && kind !== 'rgb' ? 'srgb' : wk)]);
@@ -156,7 +160,13 @@ for (const e of pick()) {
       const q37 = e[0] === 'Firefox' && [a, b].some((x) => /^color\((?!srgb )[\w-]+ [^)]*none/.test(x));
       if (q37 && forms.every(([, x]) => x === '1')) { tally.blind['QUIRKS.md Q37 (Firefox)'] = (tally.blind['QUIRKS.md Q37 (Firefox)'] ?? 0) + 1; return; }
       if (why[i] && forms.every(([, x]) => x === forms[0][1])) { tally.blind[why[i]] = (tally.blind[why[i]] ?? 0) + 1; return; }
-      if (!hasNone(new Color(ORACLE_AS[a] ?? a)) && !hasNone(new Color(ORACLE_AS[b] ?? b)) && own4 === v && forms.every(([, x]) => x === forms[0][1])) { tally.engine++; if (process.env.APART) console.log(`  apart: ${a} | ${b}: rule ${t ? 1 : 0}, part ${child}; the engine's OkLab ${oa} | ${ob}`); return; }
+      // two colors of one space: the part compares them in OkLab too (CSS can't read which space a color was written
+      // in), so a pair §12 step 2 decides by components counts apart where the engine's OkLab of the two gives the
+      // part's answer (SPEC.md EQ1)
+      const [ca, cb] = [a, b].map((x) => new Color(ORACLE_AS[x] ?? x)), one = (x) => (SRGB.has(x.space.id) ? 'srgb' : x.space.id);
+      const sameSpace = one(ca) === one(cb) && !hasNone(ca) && !hasNone(cb);
+      if (sameSpace && own4 === v && forms.every(([, x]) => x === forms[0][1])) { const k = 'in one space, compared in OkLab'; tally.blind[k] = (tally.blind[k] ?? 0) + 1; return; }
+      if (!sameSpace && !hasNone(ca) && !hasNone(cb) && own4 === v && forms.every(([, x]) => x === forms[0][1])) { tally.engine++; if (process.env.APART) console.log(`  apart: ${a} | ${b}: rule ${t ? 1 : 0}, part ${child}; the engine's OkLab ${oa} | ${ob}`); return; }
       bad.push(`${src} ${a} | ${b}: the rule says ${t ? 1 : 0}, the part ${wrong.map(([w, x]) => `${x || '(unset)'} ${w}`).join(', ')}`);
     });
     // the engines' own differences, as many as measured (278 pairs, 2026-10-30): more fails, as in color-mix-check

@@ -1,5 +1,5 @@
 // Checks .gamut-color-layers (build.mjs layersPart()) two ways, in Chrome, WebKit and Firefox:
-// - against Compositing 1 in JS (source-over, §10.2's 15 blend modes, separable and not, in sRGB, first layer on top): WPT's own
+// - against Compositing 1 in JS (source-over, §10.1 and §10.2's 15 blend modes, separable and not, in sRGB, first layer on top): WPT's own
 //   color-layers-no-blend-mode cases, then random stacks (translucent and Display P3 colors) in every mode; within
 //   1/255 a channel (bytes at most 1 apart: 1.5/255; premultiplied where the stack's alpha is under 0.15), 2/255 alpha;
 // - against the browser's own paint: the same layers stacked as boxes with mix-blend-mode in an isolated group (what

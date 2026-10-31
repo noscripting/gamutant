@@ -1,5 +1,5 @@
 // Checks .gamut-color-interpolate (src/scale.css, as gamutant.css holds it) in Chrome, WebKit and Firefox against Color.js 0.7.1's
-// mix() (premultiplied, shorter hue): the computed --gamut-out of 1,375 cases (1 to 8 stops in oklab, oklch, srgb-linear,
+// mix() (premultiplied, shorter hue): the computed --gamut-out of 1,384 cases (1 to 8 stops in oklab, oklch, srgb-linear,
 // srgb and lab; interior points, the stops themselves, coincident positions and a step either side of them, t past both
 // ends, absent counts and colors) within 1/255 a channel in sRGB, unclipped (this sheet's own bar); a stop within the
 // count with no position, which css-values-5 §7.5's grammar (`<input-position>{1,2} : <color>`, every stop) makes

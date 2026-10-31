@@ -28,7 +28,7 @@ const css = readFileSync(process.env.SHEET ?? new URL('../gamutant.css', import.
 const N = +(process.argv[2] ?? 60);
 let seed = 10579; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
 const f = (x, d = 4) => +(+x).toFixed(d);
-// a target: its methods.mjs space, Color.js's encoded space (rec2020 as the engines encode it: Q28) and linear space
+// a target: its methods.mjs space, Color.js's encoded space (rec2020 as the engines encode it, by BT.2020's curve, not CSS Color 4's 2.4 power) and linear space
 const T = { srgb: ['srgb', 'srgb', 'srgb-linear'], 'display-p3': ['p3', 'p3', 'p3-linear'], rec2020: ['rec2020', '--rec2020-oetf', 'rec2020-linear'],
   'a98-rgb': ['a98', 'a98rgb', 'a98rgb-linear'], 'prophoto-rgb': ['prophoto', 'prophoto', 'prophoto-linear'] };
 const engine = (s) => s.replace(/^color\(rec2020 /, 'color(--rec2020-oetf ');
@@ -76,6 +76,9 @@ for (const m of ['ray-trace', 'edge-seeker']) for (const t of METHOD_TARGETS[m])
     'oklch(0.7 4.5 30)', 'oklch(0.7 1000 30)', 'oklch(0.7 1e9 30)', 'oklch(0.5 1e9 264)', 'oklch(0.452 0.313 264.052)', 'oklch(0.98 0.4 110)', 'oklch(0.03 0.3 140)', 'oklch(0.0001 0.3 30)', 'oklch(0.00008 1 250)', 'oklch(0.9999 0.3 200)',
     'rgb(255 0 0)', 'oklch(0.6 0 none)', 'color(display-p3 0 1 0)', 'oklch(90% 0.3 240)', 'oklch(40% 0.35 210)', 'oklch(0.7 0.8 30)', 'oklch(0.9 2 30)', 'oklch(0.9 2 150)'])
     MAP.push({ m, t, input: s });
+  // near black, where WebKit 26.4's rays from the dark anchor ran parallel to a face and exited at a primary (oklch(0.008
+  // 0.1 260) full blue: an audit, 2026-10-31)
+  for (const L of [0.006, 0.008, 0.009, 0.01, 0.011, 0.013, 0.0149, 0.016]) for (let h = 0; h < 360; h += 45) MAP.push({ m, t, input: `oklch(${L} 0.1 ${h})` });
 }
 // edge-seeker to prophoto-rgb: the method steps aside (§14.2.4: "not, for example, ProPhoto RGB"), the css method's output
 const ASIDE = [];

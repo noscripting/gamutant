@@ -15,7 +15,7 @@ import { toLch, toLin, edgeExits } from './ref/methods.mjs';
 const C0 = createRequire(import.meta.url)('colorjs.io'), Color = C0.default ?? C0;
 const css = readFileSync(process.env.SHEET ?? new URL('../gamutant.css', import.meta.url), 'utf8');
 const fitOnly = process.env.FIT_ONLY === '1';
-// rec2020 by BT.2020's curve, as all three engines encode it (Q28): Color.js 0.7.1 calls that space --rec2020-oetf, its
+// rec2020 by BT.2020's curve, as all three engines encode it (not CSS Color 4's 2.4 power): Color.js 0.7.1 calls that space --rec2020-oetf, its
 // rec2020 being CSS Color 4's gamma 2.4; the gamut is the same, only the encoding compared differs
 const N = +(process.argv[2] ?? 150); if (!(N >= 1)) { console.log(`FAIL ${process.argv[2]} cases: at least 1`); process.exit(1); }
 const TARGETS = { rec2020: '--rec2020-oetf', 'a98-rgb': 'a98rgb', 'prophoto-rgb': 'prophoto' };
@@ -25,7 +25,7 @@ const inputs = Array.from({ length: N }, (_, i) => i % 5 === 4
   ? [r6(0.15 + rnd() * 0.75), r6(rnd() * 0.06), r6(rnd() * 360)]          // a few low-chroma colors, inside every gamut
   : [r6(0.05 + rnd() * 0.9), r6(0.1 + rnd() * 0.9), r6(rnd() * 360)]);   // chroma up to 1, the search's reach
 const lin = (sp) => (sp === '--rec2020-oetf' ? 'rec2020-linear' : `${sp}-linear`); // the linear space a target's gamut is tested in
-// an engine's color(rec2020 ...) is BT.2020-encoded (Q28): read it as that, not as Color.js 0.7.1's gamma-2.4 rec2020
+// an engine's color(rec2020 ...) is BT.2020-encoded in all three engines: read it as that, not as Color.js 0.7.1's gamma-2.4 rec2020
 const engine = (css) => css.replace(/^color\(rec2020 /, 'color(--rec2020-oetf ');
 const inGamut = (sp, l, c, h) => new Color('oklch', [l, c, h]).to(lin(sp)).coords.every((v) => v >= -1e-9 && v <= 1 + 1e-9);
 const MS = { rec2020: 'rec2020', 'a98-rgb': 'a98', 'prophoto-rgb': 'prophoto' }; // methods.mjs's names

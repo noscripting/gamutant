@@ -214,7 +214,7 @@
       },
       "G10": {
         "__compat": {
-          "description": "`--gamut-target: rec2020`, `a98-rgb` or `prophoto-rgb` on an ancestor MUST map `.gamut-fit-screen`'s input to that gamut (css-color-4 §14), within 2/255 a channel of Color.js 0.7.1's `css` method (rec2020 by BT.2020's curve, as the engines encode it), an input inside it unchanged within 1/255.",
+          "description": "`--gamut-target: rec2020`, `a98-rgb` or `prophoto-rgb` on an ancestor MUST map `.gamut-fit-screen`'s input to that gamut (css-color-4 §14), within 2/255 a channel of Color.js 0.7.1's `css` method for inputs of chroma up to 1 (rec2020 by BT.2020's curve, as the engines encode it, where css-color-4 §10.8 gives a 2.4 power, #12574), an input inside it unchanged within 1/255.",
           "support": {
             "chrome": {
               "version_added": "≤155"
@@ -285,7 +285,7 @@
       },
       "G17": {
         "__compat": {
-          "description": "With `--gamut-method: adaptive` on an ancestor, `.gamut-fit-screen` MUST map an input outside any target gamut G2 to G4 and G10 give, its lightness between 0 and 1 (G18 sets the ends), as `gamut_clip_adaptive_L0_L_cusp` with alpha 0.05 (How software gamut maps, 2021) for that gamut, its cusp the hue's most chroma: within 2/255 a channel of that method in Color.js 0.7.1 with the cusp found numerically, except at hues where that cusp leaves the cube's edges. (Ottosson's own code keeps chroma at lightness 1, `oklch(1 0.4 150)` to sRGB (0.77, 1, 0.81); G18 takes CSS Color 4's white there.)",
+          "description": "With `--gamut-method: adaptive` on an ancestor, `.gamut-fit-screen` MUST map an input outside any target gamut G2 to G4 and G10 give, its lightness between 0 and 1 (G18 sets the ends), as `gamut_clip_adaptive_L0_L_cusp` with alpha 0.05 (How software gamut maps, 2021) for that gamut, its cusp the hue's most chroma: within 2/255 a channel of that method written in JS on Color.js 0.7.1's conversions with the cusp found numerically, except at hues where that cusp leaves the cube's edges. (Ottosson's own code keeps chroma at lightness 1, `oklch(1 0.4 150)` to sRGB (0.77, 1, 0.81); G18 takes CSS Color 4's white there.)",
           "support": {
             "chrome": {
               "version_added": "≤155"
@@ -355,7 +355,7 @@
       },
       "G20": {
         "__compat": {
-          "description": "With `--gamut-method: ray-trace` on an ancestor, to any of the five targets, `.gamut-fit-screen` MUST map an input outside the gamut as Ray Trace does (css-color-4 §14.2.5-6), within 1/255 a channel of Color.js 0.7.1's `raytrace` method (in linear light for rec2020, a98-rgb and prophoto-rgb); below lightness 2e-4, black within 1/255.",
+          "description": "With `--gamut-method: ray-trace` on an ancestor, to any of the five targets, `.gamut-fit-screen` MUST map an input outside the gamut as Ray Trace does (css-color-4 §14.2.5-6), within 1/255 a channel of Color.js 0.7.1's `raytrace` method (in linear light for rec2020, a98-rgb and prophoto-rgb); below lightness 0.015, the grey of the input's lightness, within 1/255 of Color.js down to lightness 0.006.",
           "support": {
             "chrome": {
               "version_added": "≤155"
@@ -469,7 +469,7 @@
       },
       "G25": {
         "__compat": {
-          "description": "With each `--gamut-method` to each target, `.gamut-fit-screen`'s output MUST keep as much of the input's lightness and hue as README.md says: with `css`, within deltaEOK 0.0205 (css-color-4 §14.2.3's JND of 0.02, and the last halving) of a color of the input's lightness and hue; to srgb, display-p3, rec2020 and a98-rgb, in outputs of chroma 0.05 or more, the hue within 2° with `edge-seeker` and `adaptive` and within 5° with `ray-trace`, the lightness within 0.0205 with `edge-seeker` and `ray-trace`, and with `adaptive` the lightness between the input's and its hue's cusp's (How software gamut maps, 2021); to prophoto-rgb, some output of chroma 0.05 or more turned 20° or more with `ray-trace` and with `adaptive`. These follow from G15, G17, G20 and G22 on the colors checked, not for every color.",
+          "description": "With each `--gamut-method` to each target, `.gamut-fit-screen`'s output MUST keep as much of the input's lightness and hue as README.md says: with `css`, within deltaEOK 0.0205 (css-color-4 §14.2.1's JND of 0.02, and the last halving) of a color of the input's lightness and hue; to srgb, display-p3, rec2020 and a98-rgb, in outputs of chroma 0.05 or more, the hue within 2° with `edge-seeker` and `adaptive` and within 5° with `ray-trace`, the lightness within 0.0205 with `edge-seeker` and `ray-trace`, and with `adaptive` the lightness between the input's and its hue's cusp's (How software gamut maps, 2021); to prophoto-rgb, some output of chroma 0.05 or more turned 20° or more with `ray-trace` and with `adaptive`. These follow from G15, G17, G20 and G22 on the colors checked, not for every color.",
           "support": {
             "chrome": {
               "version_added": "≤155"
@@ -491,7 +491,7 @@
       },
       "R1": {
         "__compat": {
-          "description": "`.gamut-screen-edge` MUST read `--gamut-in` and `--gamut-rel`, a number, default 1 (any other value acting as 1), and MUST write `--gamut-out`: the input's OkLCh lightness and hue, with chroma `rel × edge`, the edge being the target gamut's largest chroma there, whatever the input's own (#11946); an input of chroma 1e-4 or less MUST take hue 0, or its own in an `oklch()` of chroma 0 (css-color-4 §4.4.1).",
+          "description": "`.gamut-screen-edge` MUST read `--gamut-in` and `--gamut-rel`, a number, default 1 (any other value acting as 1, a percentage too; above 1, rel × edge lies outside the gamut and is clipped to it channel by channel), and MUST write `--gamut-out`: the input's OkLCh lightness and hue, with chroma `rel × edge`, the edge being the target gamut's largest chroma there, whatever the input's own (#11946); an input of chroma 1e-4 or less MUST take hue 0, or its own in an `oklch()` of chroma 0 (css-color-4 §4.4.1).",
           "support": {
             "chrome": {
               "version_added": "≤155"
@@ -653,7 +653,7 @@
       },
       "P9": {
         "__compat": {
-          "description": "P6's tone T MUST be `--gamut-tone` where set (a number, clamped to 0 to 100), else `95 − 85 t`: t is `--gamut-step` where set on the step or inherited (a number, clamped to 0 to 1), else `(i − 1) / (n − 1)` for step i of n siblings.",
+          "description": "P6's tone T MUST be `--gamut-tone` where set (a number, clamped to 0 to 100), else `95 − 85 t`: t is `--gamut-step` where set on the step or inherited (a number, clamped to 0 to 1), else `(i − 1) / (n − 1)` for step i of n siblings, and 0 for a step with no siblings.",
           "support": {
             "chrome": {
               "version_added": "≤155"
@@ -675,7 +675,7 @@
       },
       "S1": {
         "__compat": {
-          "description": "`.gamut-fit-gradient` MUST read `--gamut-gradient-from` and `--gamut-gradient-to`, any `<color>`s, and `--gamut-gradient-hue`, `shorter`, `longer`, `increasing` or `decreasing`, alone or followed by `hue` (css-color-4 §13.5's `<hue-interpolation-method>`), any other value or none meaning `shorter`, and MUST write `--gamut-gradient-stops`, 9 colors separated by commas.",
+          "description": "`.gamut-fit-gradient` MUST read `--gamut-gradient-from` and `--gamut-gradient-to`, any `<color>`s, and `--gamut-gradient-hue`, `shorter`, `longer`, `increasing` or `decreasing`, alone or followed by `hue` (css-color-4 §13.2's `<hue-interpolation-method>`), any other value or none meaning `shorter`, and MUST write `--gamut-gradient-stops`, 9 colors separated by commas.",
           "support": {
             "chrome": {
               "version_added": "≤155"
@@ -765,9 +765,31 @@
           }
         }
       },
+      "S5": {
+        "__compat": {
+          "description": "`.gamut-fit-gradient` MUST set `--gamut-gradient-space` to the name of the target's RGB space, a `<color-space>` for a gradient's interpolation (css-color-4 §13.2): `srgb`, `display-p3`, `rec2020`, `a98-rgb` or `prophoto-rgb` by `--gamut-target`, else the screen's (G3, G4), `srgb` on a P3 screen where the engine doesn't parse `display-p3-linear`, where the mapping keeps sRGB too. A color interpolated in that space between two neighbouring stops of S2 MUST be inside the target, within 1e-4 a channel.",
+          "support": {
+            "chrome": {
+              "version_added": "≤155"
+            },
+            "safari": {
+              "version_added": null,
+              "notes": "Not measured in Safari. Playwright's WebKit 26.4, headless: PASS."
+            },
+            "firefox": {
+              "version_added": "≤158"
+            }
+          },
+          "status": {
+            "experimental": true,
+            "standard_track": false,
+            "deprecated": false
+          }
+        }
+      },
       "T1": {
         "__compat": {
-          "description": "`.gamut-readable-text` MUST read `--gamut-bg`, opaque and inside sRGB (inside Display P3 where T8 applies), `--gamut-ratio`, default 4.5 (a value that isn't a number counts as 4.5), and `--gamut-readable-from` and `--gamut-readable-to`, colors, and MUST write `--gamut-text`; with neither of the last two set, the background mixed toward white where its luminance is below 0.179129 and toward black above.",
+          "description": "`.gamut-readable-text` MUST read `--gamut-bg`, opaque and inside sRGB (inside Display P3 where T8 applies), `--gamut-ratio`, default 4.5 (a value that isn't a number counts as 4.5, one below 1 as 1), and `--gamut-readable-from` and `--gamut-readable-to`, colors, and MUST write `--gamut-text`; with neither of the last two set, the background mixed toward white where its luminance is below 0.179129 and toward black above.",
           "support": {
             "chrome": {
               "version_added": "≤155"
@@ -1021,7 +1043,7 @@
       },
       "C3": {
         "__compat": {
-          "description": "Without a target, the candidate with the greatest contrast MUST win, the earlier on a tie (css-color-6 §2.1.2).",
+          "description": "Without a target, the candidate with the greatest contrast MUST win, the earlier on a tie (css-color-6 §2.1.2), on the colors as given: in the draft's own example there, which picks `purple` on colors rounded to bytes, `hsl(300 100% 25%)` wins (6.087 to 6.059, as in Color.js).",
           "support": {
             "chrome": {
               "version_added": "≤155"
@@ -1091,7 +1113,7 @@
       },
       "L1": {
         "__compat": {
-          "description": "`.gamut-color-layers` MUST read `--gamut-layer-1` to `--gamut-layer-6`, the first on top, and an optional class `blend-multiply`, `blend-screen`, `blend-overlay`, `blend-darken`, `blend-lighten`, `blend-color-dodge`, `blend-color-burn`, `blend-hard-light`, `blend-soft-light`, `blend-difference`, `blend-exclusion`, `blend-hue`, `blend-saturation`, `blend-color` or `blend-luminosity`.",
+          "description": "`.gamut-color-layers` MUST read `--gamut-layer-1` to `--gamut-layer-6`, the first on top, and an optional class `gamut-blend-` and one of `multiply`, `screen`, `overlay`, `darken`, `lighten`, `color-dodge`, `color-burn`, `hard-light`, `soft-light`, `difference`, `exclusion`, `hue`, `saturation`, `color` or `luminosity`.",
           "support": {
             "chrome": {
               "version_added": "≤155"
@@ -1160,7 +1182,7 @@
       },
       "L4": {
         "__compat": {
-          "description": "`blend-hue`, `blend-saturation`, `blend-color` and `blend-luminosity` MUST blend whole colors with Compositing 1 §10.2's Lum, Sat, SetLum, SetSat and ClipColor, on channels clamped to 0..1.",
+          "description": "`gamut-blend-hue`, `gamut-blend-saturation`, `gamut-blend-color` and `gamut-blend-luminosity` MUST blend whole colors with Compositing 1 §10.2's Lum, Sat, SetLum, SetSat and ClipColor, on channels clamped to 0..1.",
           "support": {
             "chrome": {
               "version_added": "≤155"
@@ -1320,7 +1342,7 @@
           "support": {
             "chrome": {
               "version_added": false,
-              "notes": "FAIL: 596 of 600; 4 follow Chrome's own color-mix() dropping a grey's hue",
+              "notes": "FAIL: 595 of 600; 4 follow Chrome's own color-mix() dropping a grey's hue, 1 keeps a lightness below 0 as it does",
               "impl_url": [
                 "https://issues.chromium.org/issues/565837690 (new)",
                 "https://issues.chromium.org/issues/564362185 (fixed)"
@@ -1333,7 +1355,7 @@
             },
             "firefox": {
               "version_added": false,
-              "notes": "FAIL: 596 of 600; 4 follow Firefox's own hsl skipping the 180° turn",
+              "notes": "FAIL: 595 of 600; 4 follow Firefox's own hsl skipping the 180° turn, 1 takes a step through sRGB",
               "impl_url": "https://bugzilla.mozilla.org/show_bug.cgi?id=2084587 (new)"
             }
           },
@@ -1467,7 +1489,7 @@
       },
       "EQ1": {
         "__compat": {
-          "description": "`.gamut-color-equal` MUST read `--gamut-equal-a` and `--gamut-equal-b` and MUST give each child `--gamut-equal`, an inherited `<number>`: 1 when the two are equivalent colors by css-color-4 §12 as csswg-drafts #13157 resolved it, with the engine's own OkLab conversions (`oklab(from …)`), else 0; outside it, a `none` hue at zero chroma or saturation, and two colors with the same `none`s in two spaces whose other channels match, compare as equal (§4).",
+          "description": "`.gamut-color-equal` MUST read `--gamut-equal-a` and `--gamut-equal-b` and MUST give each child `--gamut-equal`, an inherited `<number>`: 1 when the two are equivalent colors by css-color-4 §12 as csswg-drafts #13157 resolved it, with the engine's own OkLab conversions (`oklab(from …)`), else 0; outside it (§4): every pair is compared as the resolution compares two colors of two spaces, in OkLab within 0.00001, two of one space too, as CSS reads no color's written space; a `none` hue at zero chroma or saturation, and two colors with the same `none`s in two spaces whose other channels match, compare as equal; and a powerless hue makes no `none` across spaces (`oklch(0.5 0 40)` equals `oklab(0.5 0 0)`), as WPT's query-style-color.html takes it (csswg-drafts #14472, open).",
           "support": {
             "chrome": {
               "version_added": "≤155"
@@ -1478,7 +1500,7 @@
             },
             "firefox": {
               "version_added": false,
-              "notes": "FAIL: 253 of 278 as the rule says, and 12 more as Firefox's own OkLab conversion says; 9 pairs with a `none` in a `color()` space other than srgb read as equal"
+              "notes": "FAIL: 302 of 341 as the rule says, and 12 more as Firefox's own OkLab conversion says; 14 of one space compared in OkLab, 4 outside it; 9 pairs with a `none` in a `color()` space other than srgb read as equal"
             }
           },
           "status": {
@@ -1516,7 +1538,7 @@
       },
       "D1": {
         "__compat": {
-          "description": "`.gamut-device-cmyk` MUST read `--gamut-cmyk-c`, `--gamut-cmyk-m`, `--gamut-cmyk-y` and `--gamut-cmyk-k`, numbers from 0 to 1 or percentages, each clamped to 0 to 1 (css-color-5 §6), and `--gamut-cmyk-alpha`, and MUST write red `1 − min(1, c × (1 − k) + k)`, green the same with m and blue with y (css-color-5 §6.1).",
+          "description": "`.gamut-device-cmyk` MUST read `--gamut-cmyk-c`, `--gamut-cmyk-m`, `--gamut-cmyk-y` and `--gamut-cmyk-k`, numbers from 0 to 1 or percentages, each clamped to 0 to 1 (css-color-5 §6), and `--gamut-cmyk-alpha`, and MUST write red `1 − min(1, c × (1 − k) + k)`, green the same with m and blue with y (css-color-5 §6.1's naive conversion; §6's conversion through an `@color-profile` is not covered), within 0.5/255 a channel.",
           "support": {
             "chrome": {
               "version_added": "≤155"
@@ -2055,7 +2077,7 @@
       },
       "E3": {
         "__compat": {
-          "description": "A class `extract-<space>` on the child, for each of 13 spaces from `srgb` to `hwb`, MUST add that space's channels under its relative-color keywords, computed from the extracted x, y and z (for a color off the 8-bit sRGB grid, the engine's own conversion to XYZ), within 1e-12 of each range, 5e-5 in Firefox 158, hues where chroma is above 1e-4 of its range (1e-3 in Firefox 158, and HSL saturation where min(l, 1 − l) is).",
+          "description": "A class `gamut-extract-<space>` on the child, for each of 13 spaces from `srgb` to `hwb`, MUST add that space's channels under its relative-color keywords, computed from the extracted x, y and z (for a color off the 8-bit sRGB grid, the engine's own conversion to XYZ), within 1e-12 of each range, 5e-5 in Firefox 158, hues where chroma is above 1e-4 of its range (1e-3 in Firefox 158, and HSL saturation where min(l, 1 − l) is).",
           "support": {
             "chrome": {
               "version_added": "≤155"

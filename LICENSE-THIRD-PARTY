@@ -24,8 +24,8 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER I
 OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 .gamut-color-mix's paint (.gamut-mix-paint) follows spectral.js 3.0.0's Kubelka-Munk mix and carries its base
-reflectances, and its colour matching functions times its XYZ to linear sRGB matrix, cut to 30 samples, which color-mix.css and gamutant.css carry
-(https://github.com/rvanwijnen/spectral.js); test/vendor/spectral.mjs loads it for the checks. Under this notice:
+reflectances, and its colour matching functions times its XYZ to linear sRGB matrix, cut to 30 samples, which color-mix.css and gamutant.css carry, as does
+lab/paint.html's three-paint sheet in the published repository (https://github.com/rvanwijnen/spectral.js); test/vendor/spectral.mjs loads it for the checks. Under this notice:
 
 MIT License
 

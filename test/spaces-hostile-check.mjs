@@ -7,7 +7,7 @@
 // - a hue given as an angle (deg, rad, turn) is that angle, as in oklch() (.gamut-okhsl, .gamut-okhsv, .gamut-jzczhz), and `none` is 0;
 // - a saturation, lightness or value given as a percentage reads as 0, as O1 and V1 say (.gamut-okhsl, .gamut-okhsv);
 // - .gamut-okhsl-from with --gamut-okhsl-l or -s `none` keeps the color's own, as with it unset;
-// - .gamut-hdr-color: where a channel is below 0 in either color, eps grows by the most negative (SPEC.md H3), never NaN;
+// - .gamut-hdr-color: where a channel is below 0 in either color, eps grows by the most negative (SPEC.md HC2), never NaN;
 //   one color alone is used at every headroom; a headroom that isn't a number reads as 0;
 // - .rec2100-*, .gamut-jzazbz, .gamut-jzczhz and .gamut-ictcp with a channel `none`: that channel 0 (CSS Color 4 §4.4).
 // Each case's expected value is its control's in the same engine (the same part on the input written as SPEC.md says it
@@ -99,7 +99,7 @@ const xyzOf = (s) => { if (!s) return null; try { const c = new Color(s); return
 const off = (a, b) => (a && b ? Math.max(...[0, 1, 2].map((k) => Math.abs(a[k] - b[k]) / Math.max(1, Math.abs(b[k])))) : Infinity);
 const show = (v) => (v ? `${v.slice(0, 3).map((x) => +x.toFixed(6)).join(' ')} / ${+(+v[3]).toFixed(4)}` : 'invalid');
 // §5.1 over the engine's own xyz-d65: per channel pow(a + eps, 1 - w) pow(b + eps, w) - eps in cd/m², eps 0.001 plus
-// the most negative of the two (SPEC.md H3)
+// the most negative of the two (SPEC.md HC2)
 const hdr = (a, b, w) => [0, 1, 2].map((k) => { const e = 0.001 + Math.max(0, -203 * Math.min(a[k], b[k]));
   return ((a[k] * 203 + e) ** (1 - w) * (b[k] * 203 + e) ** w - e) / 203; }).concat(1);
 let failed = false;

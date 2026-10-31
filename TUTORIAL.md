@@ -1,6 +1,6 @@
 # gamutant: tutorial
 
-You build one page: a vivid green fitted to the screen, text that reads on it, and five tints of it.
+You build one page: a vivid green fitted to the screen, text that reads on it, and five tones of it, lighter and darker.
 
 ## Before you start
 
@@ -65,9 +65,9 @@ Put a paragraph inside the box, so it inherits the box's `--gamut-out`:
 Reload. The text is a dark green, `#004815`, at 4.55:1 on the box. The paragraph reads the box's `--gamut-out`, which it
 inherits. The two parts could also share the box, `class="gamut-fit-screen gamut-readable-text"`, since they write different results.
 
-## 4. Make five tints
+## 4. Make five tones
 
-The class `.gamut-palette-step` makes one tint per element, from light to dark down a list: Material 3's tonal palette of the
+The class `.gamut-palette-step` makes one tone per element, from light to dark down a list: Material 3's tonal palette of the
 color. Each step reads the list's `--gamut-in` and its own place in the list, and writes `--gamut-out`.
 
 ```html
@@ -120,7 +120,7 @@ The whole page, as it ends:
 </html>
 ```
 
-Reload. The box is `#00C248` and the five tints the same on every screen. Read in script, `getComputedStyle()` gives the box's color in linear light, `color(srgb-linear …)`: the same color, written another way, not a hex. The text is worked out for the screen it is on, so it could differ on a wide-gamut one; here it is `#004815` on an sRGB screen and on a Display P3 one alike.
+Reload. The box is `#00C248` and the five tones the same on every screen. Read in script, `getComputedStyle()` gives the box's color in linear light, `color(srgb-linear …)`: the same color, written another way, not a hex. The text is worked out for the screen it is on, so it could differ on a wide-gamut one; here it is `#004815` on an sRGB screen and on a Display P3 one alike.
 
 
 ## Next

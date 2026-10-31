@@ -2,7 +2,7 @@
 // for line in doubles: the reference for .gamut-okhsl (#8659). Hue in degrees (the same hue as oklch()), s and l from 0 to 1.
 // okhsvToOklab: its okhsv_to_srgb, the reference for .gamut-okhsv, on the same cusp (FORCE included). Color.js 0.7.1's Okhsv
 // is ok_color.h refitted (its green k4 is -0.14503204, ok_color.h's +0.14503204), up to 1.1/255 from it.
-// Each function takes a gamut last (#8659's P3 and Rec. 2020 variants): a constant set, SRGB (ok_color.h's own, the
+// Each function takes a gamut last (#8659's P3 constants and a Rec. 2020 set fitted here): a constant set, SRGB (ok_color.h's own, the
 // default) or one of OKHSL_GAMUTS (okhsl-fit.mjs), run line for line the same; or exact(space), Ottosson's model with
 // the cusp's maximum saturation and the gamut's edge at L found by bisection on Color.js 0.7.1's conversions, and its
 // get_ST_mid as ok_color.h has it (a smooth curve chosen under the cusp, not an approximation of a number).

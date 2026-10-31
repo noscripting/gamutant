@@ -2,7 +2,7 @@
   "name": "gamutant.css",
   "version": "0.0.1",
   "description": "Gamut mapping, contrast and color operations in one stylesheet, no script: each part follows a CSS draft, a CSSWG issue or a published color library.",
-  "license": "MIT AND Apache-2.0",
+  "license": "MIT AND Apache-2.0 AND W3C-20150513",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/noscripting/gamutant.git"

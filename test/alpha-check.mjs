@@ -1,5 +1,5 @@
 // Checks .gamut-alpha (build.mjs alphaPart()) against CSS Color 5 §4.10's alpha() as the spec model computes it
-// (specs/css-color/model.mjs; npm install --prefix specs/css-color), in Chrome, WebKit and Firefox: 20 origins, every
+// (specs/css-color/model.mjs; npm install --prefix specs/css-color), in Chrome, WebKit and Firefox: 22 origins, every
 // kind of color and past sRGB, missing components included, by 10 alphas (unset, numbers, a percentage, past 0 and 1,
 // calc() of the origin's alpha, none). A case passes when the part's color, read in the spec's own space (Color.js
 // 0.7.1), has every number and its alpha within set_up_fuzzy_color_test's 0.01 of the spec's, a missing component or
