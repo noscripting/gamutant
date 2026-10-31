@@ -2,6 +2,8 @@
 
 A CSS-only color polyfill. Gamutant is a stylesheet that fits colors into what the screen can show (its gamut), picks readable text colors and works in Okhsl, Okhsv and the HDR color spaces. Use it as classes, or as CSS functions where `@function` runs. No JavaScript needed.
 
+Browsers today clip each channel of a color past the screen. Its gamut mapping runs CSS Color 4's three algorithms instead (§14.2: the binary search with local MINDE, EdgeSeeker and Ray Trace), and Björn Ottosson's adaptive clipping. It passes WPT's 29 gamut-mapping canvas cases in all three engines, and the default and Ray Trace come within 0.84/255 of Color.js 0.7.1; [lab/mappers.html](lab/mappers.html) shows each method beside the clip.
+
 ## License
 
 MIT, see LICENSE; `.gamut-palette-step` is also under Apache-2.0, and the parts that carry the CSS Color drafts' sample code (`.gamut-okhsl-from`, `.gamut-color-extract` and the HDR spaces) under the W3C Software and Document License, see LICENSE-THIRD-PARTY. Math comes from Color.js by Lea Verou and Chris Lilley, Björn Ottosson’s Okhsl and gamut clipping code, spectral.js by Ronald van Wijnen, Google’s material-color-utilities and the CSS Color drafts’ sample code.
@@ -80,7 +82,7 @@ Brings a color the screen can't show into its gamut, as [CSS Color 4](https://dr
 "></div>
 ```
 
-- Set `--gamut-target` on an ancestor to fit to another gamut: `srgb`, `display-p3`, `rec2020`, `a98-rgb` or `prophoto-rgb`.
+- Set `--gamut-target` on an ancestor to fit to another gamut: `srgb`, `display-p3`, `rec2020`, `a98-rgb` or `prophoto-rgb`. A `rec2020` color is encoded as all three engines decode it, by BT.2020's curve, not by the 2.4 power CSS Color 4 §10.8 now gives ([#12574](https://github.com/w3c/csswg-drafts/issues/12574)).
 - `--gamut-method` on an ancestor picks the method. The default, `css`, turns the hue up to 6° at chroma 0.2; `edge-seeker` ([Alexey Ardov's](https://drafts.csswg.org/css-color-4/#GMA-EdgeSeeker)), `ray-trace` ([Isaac Muse's](https://drafts.csswg.org/css-color-4/#GMA-Raytrace)) and `adaptive` ([Ottosson's](https://bottosson.github.io/posts/gamutclipping/)) keep it within 2°, 5° and 2° at chroma 0.05 and up, but not to `prophoto-rgb`. `adaptive` gives up lightness toward the hue's most colorful color; the other three hold it.
 
 ### `.gamut-screen-edge`
@@ -130,7 +132,7 @@ A gradient between two colors with every stop fitted to the screen ([CSS Color 4
 
 ### `.gamut-readable-text`
 
-A text color that reads on an opaque background: the background's color mixed toward black or white to a WCAG 2 contrast ratio of 4.5 ([#5153](https://github.com/w3c/csswg-drafts/issues/5153)). Beside another part on one element, `--gamut-bg: var(--gamut-out)` reads that part's color. On a gradient of light colors read its darkest end, of dark ones its lightest; colors between can contrast less.
+A text color that reads on an opaque background: the background's color mixed toward black or white to a WCAG 2 contrast ratio of 4.5, the continuous lightness adjustment [#5153](https://github.com/w3c/csswg-drafts/issues/5153) asked for (deferred). Beside another part on one element, `--gamut-bg: var(--gamut-out)` reads that part's color. On a gradient of light colors read its darkest end, of dark ones its lightest; colors between can contrast less.
 
 ```html
 <p class="gamut-readable-text" style="
@@ -145,7 +147,7 @@ A text color that reads on an opaque background: the background's color mixed to
 
 ### `.gamut-contrast-color`
 
-Picks a background's text color from up to six, as `contrast-color()` does ([CSS Color 6](https://drafts.csswg.org/css-color-6/#colorcontrast)): the first to reach `--gamut-contrast-ratio`, else white or black; with no ratio, the one that contrasts most.
+Picks a background's text color from up to six, as `contrast-color()` does ([CSS Color 6](https://drafts.csswg.org/css-color-6/#colorcontrast)): the first to reach `--gamut-contrast-ratio`, else white or black; with no ratio, the one that contrasts most. The ratio is WCAG 2's, as Color 6's `wcag2` names it. With one color in, CSS Color 5's own `contrast-color()` already ships in all three engines (it picks by WCAG 2's ratio there too, though [CSS Color 5 §8](https://drafts.csswg.org/css-color-5/#contrast-color) advises against that ratio alone).
 
 ```html
 <p class="gamut-contrast-color" style="
@@ -236,7 +238,7 @@ A color from CMYK, by `device-cmyk()`'s naive conversion ([CSS Color 5](https://
 
 ### `.gamut-light-dark`
 
-A light and a dark color set once, picked by the color scheme of the element with the class; its children inherit the pick. For tokens registered as `<color>` ([#13836](https://github.com/w3c/csswg-drafts/issues/13836)).
+A light and a dark color set once, picked by the color scheme of the element with the class; its children inherit the pick. For tokens registered as `<color>`: a workaround for [#13836](https://github.com/w3c/csswg-drafts/issues/13836), which asks `light-dark()` to resolve at used-value time.
 
 ```html
 <body style="
@@ -253,7 +255,7 @@ A light and a dark color set once, picked by the color scheme of the element wit
 
 ### `.gamut-color-equal`
 
-Whether two colors are equal, as 1 or 0 for its children: compared in OkLab within 0.00001, as [CSS Color 4](https://drafts.csswg.org/css-color-4/#comparing-color-values) compares two colors of different spaces (two of one space too: CSS doesn't say which space a color was written in), not as painted.
+Whether two colors are equal, as 1 or 0 for its children: compared in OkLab within 0.00001, as [CSS Color 4](https://drafts.csswg.org/css-color-4/#comparing-color-values) compares two colors of different spaces, not as painted. A stylesheet can't read which space a color was written in, so two of one space are compared that way too, and §12's rules for missing and powerless components aren't followed.
 
 ```html
 <div class="gamut-color-equal" style="
@@ -285,7 +287,7 @@ Colors picked in Okhsl and Okhsv ([Ottosson's color picker spaces](https://botto
 "></div>
 ```
 
-- Set `--gamut-target: display-p3` or `rec2020` on an ancestor to pick in that gamut (P3 constants: Isaac Muse's, [#8659](https://github.com/w3c/csswg-drafts/issues/8659); Rec. 2020's fitted here, to within 35/255 of Ottosson's model near its blue primary).
+- Set `--gamut-target: display-p3` or `rec2020` on an ancestor to pick in that gamut (P3 constants: Isaac Muse's, [#8659](https://github.com/w3c/csswg-drafts/issues/8659); Rec. 2020's are this library's own fit, published nowhere else, within 35/255 of Ottosson's model near its blue primary).
 
 ### `.gamut-rec2100-pq`, `.gamut-rec2100-hlg`, `.gamut-rec2100-linear`
 
@@ -315,7 +317,7 @@ Colors in the HDR spaces Jzazbz, JzCzhz and ICtCp ([CSS Color HDR](https://draft
 
 ### `.gamut-hdr-color`
 
-A color between a standard and a bright version, by `--gamut-headroom`, which you set to how far past white the screen goes, as `hdr-color()` does ([CSS Color HDR](https://drafts.csswg.org/css-color-hdr-1/#hdr-color-function)).
+A color between a standard and a bright version, by `--gamut-headroom`, which you set to how far past white the screen goes: `hdr-color()`'s interpolation at a headroom you give it, since CSS exposes no screen's ([CSS Color HDR](https://drafts.csswg.org/css-color-hdr-1/#hdr-color-function)).
 
 ```html
 <div class="gamut-hdr-color" style="
@@ -344,9 +346,9 @@ A color's channels as numbers, for CSS that needs them ([#6937](https://github.c
 
 ## Browsers
 
-Measured 2026-10-30, headless: Chrome 155, WebKit 26.4, Firefox 158.
+Measured 2026-10-31, headless: Chrome 155, WebKit 26.4, Firefox 159.
 
-The classes run in all three, the functions only in Chrome 155. Firefox 158 doesn't read a percentage in `--gamut-mix-pct-1` to `--gamut-mix-pct-6`: write `40`, not `40%`. Some colors follow an engine's bugs: `.gamut-color-mix` in Chrome 155; `.gamut-color-layers` and `.gamut-alpha` in WebKit 26.4; `.gamut-fit-screen`, `.gamut-color-mix` and `.gamut-color-equal` in Firefox 158. `npm run browsers` fetches all but Firefox 158, the machine's own.
+The classes run in all three, the functions only in Chrome 155. Firefox 159 doesn't read a percentage in `--gamut-mix-pct-1` to `--gamut-mix-pct-6`: write `40`, not `40%`. Some colors follow an engine's bugs: `.gamut-color-mix` in Chrome 155; `.gamut-color-layers` and `.gamut-alpha` in WebKit 26.4; `.gamut-fit-screen`, `.gamut-color-mix` and `.gamut-color-equal` in Firefox 159. `npm run browsers` fetches all but Firefox 159, the machine's own.
 
 ## Build
 

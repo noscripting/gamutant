@@ -1,10 +1,10 @@
 // Checks .gamut-fit-gradient and --gamut-fit-gradient(), mapped gradient stops: 9 stops, each the OkLCh interpolation of --gamut-gradient-from
 // and --gamut-gradient-to at t = 0, 1/8 ... 1 with --gamut-gradient-hue's method (css-color-4 §13, premultiplied as §13.4 says), mapped as
 // .gamut-fit-screen maps (css-color-4 §14.2.1) to the gamut --gamut-target names on an ancestor. Against Color.js 0.7.1 (range()
-// in oklch, then toGamut() with method css), each stop within 2/255 a channel in the target's own channels, alpha within
+// in oklch, then toGamut() with method css), each stop within 2/255 a channel in the target's own channels (in linear light for rec2020, a98-rgb and prophoto-rgb), alpha within
 // 2/255: the pairs posted in csswg-drafts #9449 and random pairs (every hue method, some translucent, some with lightness
 // 0 or 1), and 20 from an end near white or black at chroma 0.2 to 0.5, where the search's last steps decide a stop, to
-// srgb and display-p3. The class in Chrome, WebKit and Firefox; the function where @function parses, and where
+// srgb, display-p3, rec2020, a98-rgb and prophoto-rgb. The class in Chrome, WebKit and Firefox; the function where @function parses, and where
 // it doesn't, a declaration before the call keeps its value. ONLY=function checks the function alone.
 // Usage: node test/fit-gradient-check.mjs [pairs=60]   (SHEET= for another sheet)
 import { readFileSync } from 'node:fs';
@@ -28,7 +28,8 @@ const PAIRS = [
   ['oklch(0.98649 0.27673 3.098)', 'oklch(0.77355 0.49638 76.680)', 'shorter'],
   ...Array.from({ length: 20 }, () => [`oklch(${(rnd() < 0.5 ? 0.95 + 0.049 * rnd() : 0.002 + 0.05 * rnd()).toFixed(4)} ${(0.2 + 0.3 * rnd()).toFixed(4)} ${(360 * rnd()).toFixed(2)})`, oklch(), HUES[Math.floor(4 * rnd())]]),
 ];
-const SP = { srgb: 'srgb', 'display-p3': 'p3' }, TARGETS = Object.keys(SP);
+// the wider targets compared in linear light, as test/targets-check.mjs does
+const SP = { srgb: 'srgb', 'display-p3': 'p3', rec2020: 'rec2020-linear', 'a98-rgb': 'a98rgb-linear', 'prophoto-rgb': 'prophoto-linear' }, TARGETS = Object.keys(SP);
 const want = ([a, b, hue], t) => { const r = new Color(a).range(new Color(b), { space: 'oklch', hue, premultiplied: true });
   return Array.from({ length: 9 }, (_, k) => { const c = r(k / 8).toGamut({ space: SP[t], method: 'css' }).to(SP[t]); return [...c.coords, c.alpha]; }); };
 // the colors a computed gradient lists, in order
@@ -37,7 +38,8 @@ const colorsIn = (text) => { const out = [], re = /\b(rgba?|oklch|oklab|lab|lch|
     for (; j < text.length; j++) { if (text[j] === '(') d++; else if (text[j] === ')' && --d === 0) break; }
     out.push(text.slice(m.index, j + 1)); re.lastIndex = j + 1; }
   return out; };
-const off = (s, w, t) => { try { const c = new Color(s).to(SP[t]); return Math.max(...[...c.coords, c.alpha].map((v, k) => Math.abs((Number.isNaN(v) ? 0 : v) - w[k]))) * 255; } catch { return NaN; } };
+// an engine's color(rec2020 ...) is BT.2020-encoded in all three engines, not Color.js 0.7.1's gamma 2.4
+const off = (s, w, t) => { try { const c = new Color(s.replace(/^color\(rec2020 /, 'color(--rec2020-oetf ')).to(SP[t]); return Math.max(...[...c.coords, c.alpha].map((v, k) => Math.abs((Number.isNaN(v) ? 0 : v) - w[k]))) * 255; } catch { return NaN; } };
 const row = (style) => `<i style="display:block;height:2px;${style}"></i>`;
 const html = (fn) => TARGETS.map((t) => `<div style="--gamut-target: ${t}">${PAIRS.map(([a, b, h]) => (fn
   ? row(`background-image: linear-gradient(to right, --gamut-fit-gradient(${a}, ${b}, ${h}))`)

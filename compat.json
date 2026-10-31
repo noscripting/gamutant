@@ -1316,7 +1316,7 @@
       },
       "M1": {
         "__compat": {
-          "description": "`.gamut-color-mix` MUST read `--gamut-mix-count`, 1 to 6, `--gamut-mix-1` to `--gamut-mix-6`, optional shares `--gamut-mix-pct-1` to `--gamut-mix-pct-6`, numbers or percentages, and `--gamut-mix-space`, default `oklab`; a percentage share (`40%`) MUST be read as the number 40 where `calc()` divides a percentage by `1%` (in Firefox 158, which doesn't divide one there, `--gamut-out` invalid, as below); a share of a color within the count below 0, above 100, or neither a number nor a percentage (`none`, a length) MUST make `--gamut-out` invalid at computed-value time, so that it inherits its parent's (css-color-5 §3.2), in the class and in its function.",
+          "description": "`.gamut-color-mix` MUST read `--gamut-mix-count`, 1 to 6, `--gamut-mix-1` to `--gamut-mix-6`, optional shares `--gamut-mix-pct-1` to `--gamut-mix-pct-6`, numbers or percentages, and `--gamut-mix-space`, default `oklab`; a percentage share (`40%`) MUST be read as the number 40 where `calc()` divides a percentage by `1%` (in Firefox 159, which doesn't divide one there, `--gamut-out` invalid, as below); a share of a color within the count below 0, above 100, or neither a number nor a percentage (`none`, a length) MUST make `--gamut-out` invalid at computed-value time, so that it inherits its parent's (css-color-5 §3.2), in the class and in its function.",
           "support": {
             "chrome": {
               "version_added": "≤155"
@@ -2055,7 +2055,7 @@
       },
       "E2": {
         "__compat": {
-          "description": "For an input exactly in 8-bit sRGB, x, y and z MUST be css-color-4 §19's conversion of those bits within 1e-12, 1e-5 in Firefox 158; otherwise they MUST equal the engine's own xyz-d65 as a 32-bit float where its size is between 2^-63 and (2 - 2^-23) x 2^63 (the encoding's exponents; outside, 0 and that bound), an input's `none` hue converting as 0. Alpha MUST be within 1e-6, at 8 bits in Firefox 158.",
+          "description": "For an input exactly in 8-bit sRGB, x, y and z MUST be css-color-4 §19's conversion of those bits within 1e-12, 1e-5 in Firefox 159; otherwise they MUST equal the engine's own xyz-d65 as a 32-bit float where its size is between 2^-63 and (2 - 2^-23) x 2^63 (the encoding's exponents; outside, 0 and that bound), an input's `none` hue converting as 0. Alpha MUST be within 1e-6, at 8 bits in Firefox 159.",
           "support": {
             "chrome": {
               "version_added": "≤155"
@@ -2077,7 +2077,7 @@
       },
       "E3": {
         "__compat": {
-          "description": "A class `gamut-extract-<space>` on the child, for each of 13 spaces from `srgb` to `hwb`, MUST add that space's channels under its relative-color keywords, computed from the extracted x, y and z (for a color off the 8-bit sRGB grid, the engine's own conversion to XYZ), within 1e-12 of each range, 5e-5 in Firefox 158, hues where chroma is above 1e-4 of its range (1e-3 in Firefox 158, and HSL saturation where min(l, 1 − l) is).",
+          "description": "A class `gamut-extract-<space>` on the child, for each of 13 spaces from `srgb` to `hwb`, MUST add that space's channels under its relative-color keywords, computed from the extracted x, y and z (for a color off the 8-bit sRGB grid, the engine's own conversion to XYZ), within 1e-12 of each range, 5e-5 in Firefox 159, hues where chroma is above 1e-4 of its range (1e-3 in Firefox 159, and HSL saturation where min(l, 1 − l) is).",
           "support": {
             "chrome": {
               "version_added": "≤155"

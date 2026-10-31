@@ -4,7 +4,7 @@ You build one page: a vivid green fitted to the screen, text that reads on it, a
 
 ## Before you start
 
-- A browser. This page is checked in Chrome 155, WebKit 26.4 and Firefox 158.
+- A browser. This page is checked in Chrome 155, WebKit 26.4 and Firefox 159.
 - `gamutant.css` from this repository, in a new folder.
 - A new file in that folder, `page.html`.
 
