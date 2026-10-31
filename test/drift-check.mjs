@@ -1,9 +1,10 @@
 // Checks what README.md says each --gamut-method keeps of a color, in Chrome, WebKit and Firefox: random colors outside
 // each of the five targets (and chosen ones where prophoto-rgb turns the hue), through .gamut-fit-screen, each
 // --gamut-out read back as oklch. The default, css, MUST end within deltaEOK 0.02 (CSS Color 4's JND) of a color of the
-// input's own lightness and hue. To srgb, display-p3, rec2020 and a98-rgb, in results of chroma 0.05 or more,
-// edge-seeker and adaptive MUST keep the hue within 2 degrees and ray-trace within 5; edge-seeker and ray-trace MUST
-// keep the lightness within 0.02, and adaptive MUST move it toward the cusp's (the hue's most colorful color, where
+// input's own lightness and hue, and in results of chroma 0.2 or more keep the hue within 6 degrees. To srgb,
+// display-p3, rec2020 and a98-rgb, in results of chroma 0.05 or more, edge-seeker and adaptive MUST keep the hue
+// within 2 degrees and ray-trace within 5; edge-seeker and ray-trace MUST keep the lightness within 0.02, and adaptive
+// MUST move it toward the cusp's (the hue's most colorful color, where
 // gamut_clip_adaptive_L0_L_cusp aims), never past it. To prophoto-rgb, ray-trace and adaptive MUST each turn some result
 // of chroma 0.05 or more by 20 degrees or more, as README.md warns. The 2 and 5 degrees are bounds on these colors with
 // room (3,000 colors a target turned 0.93 and 3.29 at worst, 2026-10-30), not proofs: SPEC.md's G20 and G22 tie each
@@ -65,6 +66,8 @@ for (const [name, type, opts] of pick()) {
       if (C2 >= 0.05) { kept++; wH = Math.max(wH, dh); if (dh >= 20) past20++; }
       const f = [];
       if (m === 'css' && off > 0.0205) f.push(`${off.toFixed(4)} from its lightness and hue`);
+      // README.md's 6 degrees at chroma 0.2 for css, which the 0.0205 bounds (asin(0.0205 / 0.2), 5.88 degrees)
+      if (m === 'css' && C2 >= 0.2 && dh > 6) f.push(`hue turned ${dh.toFixed(2)} degrees at chroma ${C2.toFixed(3)}`);
       if (t !== 'prophoto-rgb') {
         if (C2 >= 0.05 && dh > { 'edge-seeker': 2, 'ray-trace': 5, adaptive: 2 }[m]) f.push(`hue turned ${dh.toFixed(2)} degrees`);
         if ((m === 'edge-seeker' || m === 'ray-trace') && dL > 0.0205) f.push(`lightness moved ${dL.toFixed(4)}`);

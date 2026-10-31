@@ -4,7 +4,7 @@ A CSS-only color polyfill. Gamutant is a stylesheet that fits colors into what t
 
 ## License
 
-MIT, see LICENSE. Math comes from Color.js by Lea Verou and Chris Lilley, Björn Ottosson’s Okhsl and gamut clipping code, spectral.js by Ronald van Wijnen, Google’s material-color-utilities and the CSS Color drafts’ sample code.
+MIT, see LICENSE; `.gamut-palette-step` is also under Apache-2.0, see LICENSE-THIRD-PARTY. Math comes from Color.js by Lea Verou and Chris Lilley, Björn Ottosson’s Okhsl and gamut clipping code, spectral.js by Ronald van Wijnen, Google’s material-color-utilities and the CSS Color drafts’ sample code.
 
 ## Installation
 
@@ -81,7 +81,7 @@ Brings a color the screen can't show into its gamut, as [CSS Color 4](https://dr
 ```
 
 - Set `--gamut-target` on an ancestor to fit to another gamut: `srgb`, `display-p3`, `rec2020`, `a98-rgb` or `prophoto-rgb`.
-- `--gamut-method` on an ancestor picks the method. The default, `css`, turns the hue up to 6° at chroma 0.2; `edge-seeker`, `ray-trace` and `adaptive` ([Ottosson's](https://bottosson.github.io/posts/gamutclipping/)) keep it within 2°, 5° and 2° at chroma 0.05 and up, but not to `prophoto-rgb`.
+- `--gamut-method` on an ancestor picks the method. The default, `css`, turns the hue up to 6° at chroma 0.2; `edge-seeker` ([Alexey Ardov's](https://drafts.csswg.org/css-color-4/#GMA-EdgeSeeker)), `ray-trace` ([Isaac Muse's](https://drafts.csswg.org/css-color-4/#GMA-Raytrace)) and `adaptive` ([Ottosson's](https://bottosson.github.io/posts/gamutclipping/)) keep it within 2°, 5° and 2° at chroma 0.05 and up, but not to `prophoto-rgb`.
 
 ### `.gamut-screen-edge`
 

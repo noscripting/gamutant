@@ -71,7 +71,7 @@ for (const [n, t, o] of pick()) {
     await p.hover('.button');
     // every frame's background and text as computed, 21 across the transition's own duration, every animation paused
     // there; each made 8-bit sRGB here (a canvas fill reads an oklab() a byte off at a rounding edge in WebKit 26.4:
-    // facts/webkit-canvas-oklch.mjs)
+    // facts/oklch/webkit-canvas-oklch.mjs)
     const b8 = (v) => new Color(v).to('srgb').coords.map((x) => Math.round(Math.min(1, Math.max(0, x || 0)) * 255));
     const raw = await p.evaluate(() => { const e = document.querySelector('.button'), a = document.getAnimations(), end = Math.max(0, ...a.map((x) => x.effect.getComputedTiming().endTime));
       a.forEach((x) => x.pause()); const out = [];

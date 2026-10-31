@@ -1,6 +1,6 @@
 // Which gamut mapping the sheet should run, decided in JS before any CSS. The reference is what all three CSS Color 4
 // §14.2 methods aim at: constant-lightness, constant-hue chroma reduction to the gamut boundary (bisected to 1e-18 in
-// JS, then clipped). Scored: CSS Color 4 §14.2.6 Ray Trace as written, the variants a CSS version of it would be (a
+// JS, then clipped). Scored: CSS Color 4 §14.2.5-6 Ray Trace as written, the variants a CSS version of it would be (a
 // fixed achromatic anchor, fewer or more iterations), the spec's binary search with local MINDE, and a plain chroma bisection run the way color registers would run it: each stage stores its test point as a
 // registered oklch() color, the next stage tests it in gamut and reads it back by conversion. Rounding at each
 // register: 6 significant digits (Chrome) or 6 decimals (WebKit). On the WPT canvas fixtures
@@ -56,7 +56,7 @@ function cast(start, end) {
   return start.map((a, i) => a + dir[i] * tnear);
 }
 
-// Ray Trace, §14.2.6. Options: iterations, update (move the anchor to an in-gamut corrected point), round (register).
+// Ray Trace, §14.2.5-6. Options: iterations, update (move the anchor to an in-gamut corrected point), round (register).
 function rayTrace(sp, [L, C, H], { iterations = 4, update = true, round = rounders.exact } = {}) {
   if (L >= 1) return [1, 1, 1]; if (L <= 0) return [0, 0, 0];
   const R = (v) => v.map(round);

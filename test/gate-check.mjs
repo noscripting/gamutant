@@ -11,7 +11,7 @@
 // --oracle picks the answer key: edge (default: methods.mjs boundary(), the exact constant-L,h edge), css (Color.js
 // 0.7.1 toGamut method 'css', CSS Color 4's gamut mapping: clip within deltaEOK 0.02, else the point whose clip is 0.02
 // away, clipped), chroma (Color.js toGamut method 'oklch.c', deltaEOK, jnd 0.0001: OKLCH chroma reduced to the edge) or
-// raytrace (CSS Color 4 §14.2.6 Ray Trace: Color.js 0.7.1 toGamut method 'raytrace', specs/css-color's install) or seeker (§14.2.4 EdgeSeeker as written,
+// raytrace (CSS Color 4 §14.2.5-6 Ray Trace: Color.js 0.7.1 toGamut method 'raytrace', specs/css-color's install) or seeker (§14.2.4 EdgeSeeker as written,
 // its table at 400 hues a region, edge-seeker.mjs). run.mjs runs gamutant.css itself with --oracle css --no-time --engine all.
 // --class <modifier> runs the candidate's .gamut-fit-screen.<modifier> (gamutant.css's ray-trace) in place of .gamut-fit-screen.
 // Usage: node test/gate-check.mjs <candidate.css> [--quick] [--engine chrome|webkit|firefox|all] [--no-time] [--oracle edge|css|chroma|raytrace|seeker] [--tol n] [--class modifier]

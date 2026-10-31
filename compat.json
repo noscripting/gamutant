@@ -355,7 +355,7 @@
       },
       "G20": {
         "__compat": {
-          "description": "With `--gamut-method: ray-trace` on an ancestor, to any of the five targets, `.gamut-fit-screen` MUST map an input outside the gamut as Ray Trace does (css-color-4 §14.2.6), within 1/255 a channel of Color.js 0.7.1's `raytrace` method (in linear light for rec2020, a98-rgb and prophoto-rgb); below lightness 2e-4, black within 1/255.",
+          "description": "With `--gamut-method: ray-trace` on an ancestor, to any of the five targets, `.gamut-fit-screen` MUST map an input outside the gamut as Ray Trace does (css-color-4 §14.2.5-6), within 1/255 a channel of Color.js 0.7.1's `raytrace` method (in linear light for rec2020, a98-rgb and prophoto-rgb); below lightness 2e-4, black within 1/255.",
           "support": {
             "chrome": {
               "version_added": "≤155"

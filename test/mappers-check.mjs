@@ -1,6 +1,6 @@
 // Checks CSS Color 4's other two gamut mappers on .gamut-fit-screen, and relative chroma to the wider gamuts, in Chrome, WebKit
 // and Firefox (the function forms in Chrome, where @function parses):
-// - --gamut-method: ray-trace (§14.2.6) to all five RGB targets, against Color.js 0.7.1's toGamut method 'raytrace' (an
+// - --gamut-method: ray-trace (§14.2.5-6) to all five RGB targets, against Color.js 0.7.1's toGamut method 'raytrace' (an
 //   input in the gamut, to 2e-5 in linear light, against itself), within 1/255 a channel; --gamut-method: edge-seeker
 //   (§14.2.3-4) to srgb, display-p3, rec2020 and a98-rgb against the spec's pseudocode with its table at 400 hues a
 //   region (vendor/edge-seeker.mjs), within 1/255; both with the input's alpha kept, lightness 1 or more white and
