@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>gamutant.css’s lab</title>
+<link rel="stylesheet" href="../gamutant.css">
+<style>
+body { margin: 0; padding: 24px 16px 48px; background: #fff; color: #111; font: 16px/1.5 system-ui, sans-serif; }
+main { max-width: 1100px; margin: 0 auto; }
+h1 { font-size: 26px; margin: 8px 0; }
+h2 { font-size: 20px; margin: 32px 0 8px; }
+h3 { font-size: 15px; font-weight: 600; margin: 16px 0 4px; }
+p, li { max-width: 46rem; }
+a { color: inherit; }
+code { font: 14px ui-monospace, monospace; }
+nav { font-size: 14px; }
+li { margin: 12px 0; }
+</style>
+<main>
+<h1>gamutant.css’s lab</h1>
+<p>Pages from gamutant.css’s lab: the sheet’s gamut mapping and paint mixing shown beside other ways to compute the same colors.
+They are not part of the package (npm gets <code>gamutant.css</code>, <code>parts/</code> and the docs); its checks are in
+<code>test/</code>.</p>
+<ul>
+<li><a href="mappers.html">Gamut mapping, four ways</a>: <code>.gamut-fit-screen</code> with each <code>--gamut-method</code>
+(<code>css</code>, <code>edge-seeker</code>, <code>ray-trace</code>, <code>adaptive</code>) on 6 hues × 48 lightnesses at chroma 0.4,
+in sRGB and Display P3, beside each channel clipped and beside Color.js 0.7.1. <code>css</code> and <code>ray-trace</code> are within 0.84/255 of Color.js in all 1,152 cells (Chrome 155, WebKit 26.4, 2026-10-31).
+Checked by <code>test/mappers-check.mjs</code> and <code>test/gate-check.mjs</code>.</li>
+<li><a href="paint.html">Mixed as paint</a>: <code>.gamut-mix-paint</code> beside <code>color-mix(in oklab)</code>, and three paints
+from a lab sheet that gamutant.css doesn’t ship. Within 2.4e-5 a linear channel of spectral.js’s <code>mix()</code> in all 54 two-paint and 198 three-paint cells (Chrome 155, WebKit 26.4, 2026-10-31). The two-paint mix is checked by
+<code>test/paint-check.mjs</code>.</li>
+</ul>
+</main>
