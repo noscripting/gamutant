@@ -94,3 +94,10 @@ export function registered(prefix, cls, list, outs) {
   const { rules, props } = run((e) => e, Object.fromEntries(list.map(([x]) => [x, kept.has(x) ? 'keep' : 'inline'])));
   return `${props.join('\n')}\n${rules.join('\n')}`;
 }
+
+// The style query that tells a currentColor input apart, as written (an unregistered input matches its own spelling):
+// where a part's steps would copy currentColor's unresolved text through every path (1.2 s an element in Chrome 155),
+// the input is gated to transparent instead (Chrome's if(), on the element itself; a style query on the parent would
+// also gate a nested part's own input, so none is used)
+export const CURRENT = (p) => `style(${p}: currentcolor) or style(${p}: currentColor)`;
+export const IF_SUPPORTS = '@supports (color: if(style(--a: b): red; else: blue))';

@@ -2,7 +2,7 @@
 // written as one expression), asFunction() reads a part's class rules as the sheet ships them and writes its
 // @function, so a class and its function compute the same thing.
 import { createRequire } from 'node:module';
-import { registered } from './common.mjs';
+import { registered, CURRENT } from './common.mjs';
 
 // The function's steps as a chain of functions. A function's locals substitute as text, and each search step names the
 // one before it twice, so as locals the text doubled every halving (8 halvings: 763 KB of CSS and 26 ms a call in Chrome
@@ -56,9 +56,10 @@ export function asFunction(css, { cls, args, out = '--gamut-out', locals = [], c
   const inline = new Map([...set].filter(([p, ds]) => p !== out && !reg.has(p) && ds.length === 1 && !ds[0].ctx.length && !ds[0].cont.length && !new RegExp(`var\\(${p},`).test(css)).map(([p, [d]]) => [p, d.value]));
   const refs = (t) => [...new Set([...t.matchAll(/var\((--[\w-]+)/g)].map((m) => m[1]))];
   const text = (t) => t.replace(/var\((--[\w-]+)\)/g, (m, p) => (inline.has(p) ? text(inline.get(p)) : m));
-  const params = args.map((a) => { const [, p, def = 'initial', none] = a.match(/^(--[\w-]+)(?:: (.+?))?( none)?$/); return { p, def, none, arg: `--gamut--arg-${p.slice(8)}` }; });
-  const head = params.map((x) => (x.none ? `${x.arg}: none` : `${x.p}: ${x.def}`));
-  const body = [...params.filter((x) => x.none).map((x) => `${x.p}: if(style(${x.arg}: none): initial; else: var(${x.arg}));`), ...locals];
+  const params = args.map((a) => { const [, p, def = 'initial', flag] = a.match(/^(--[\w-]+)(?:: (.+?))?( none| gate)?$/); return { p, def, none: flag === ' none', gate: flag === ' gate', arg: `--gamut--arg-${p.slice(8)}` }; });
+  const head = params.map((x) => (x.none ? `${x.arg}: none` : x.gate ? `${x.arg}: ${x.def}` : `${x.p}: ${x.def}`));
+  const body = [...params.filter((x) => x.none).map((x) => `${x.p}: if(style(${x.arg}: none): initial; else: var(${x.arg}));`),
+    ...params.filter((x) => x.gate).map((x) => `${x.p}: if(${CURRENT(x.arg)}: transparent; else: var(${x.arg}));`), ...locals];
   const given = new Set([...params.map((x) => x.p), ...locals.map((l) => l.slice(0, l.indexOf(':')))]);
   for (const p of new Set(decls.flatMap((d) => refs(d.value)))) if (!set.has(p) && !given.has(p)) body.push(`${p}: initial;`);
   const fns = [], seen = new Map();

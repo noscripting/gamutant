@@ -13,7 +13,7 @@
  {
   "cls": "palette-step",
   "args": [
-   "--gamut-in",
+   "--gamut-in gate",
    "--gamut-chroma-scale",
    "--gamut-step none",
    "--gamut-tone none"
@@ -84,7 +84,7 @@
  {
   "cls": "okhsl-from",
   "args": [
-   "--gamut-in",
+   "--gamut-in gate",
    "--gamut-okhsl-s none",
    "--gamut-okhsl-l none"
   ]

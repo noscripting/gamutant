@@ -1,7 +1,7 @@
 // .okhsl, .okhsv and .okhsl-from (ok_color.h, through oklab.mjs's constants) and .device-cmyk (CSS Color 5 §6.1).
 import { LAB_LMS } from '../okhsl-fit.mjs';
 import { allocate } from '../lib/lanes.mjs';
-import { hueRegs, noneHue, numRegs, registered } from './common.mjs';
+import { CURRENT, IF_SUPPORTS, hueRegs, noneHue, numRegs, registered } from './common.mjs';
 import { OKC, OK_AB, TOE, okCusp, okDot, okGamuts, okSafe, okSel } from './oklab.mjs';
 
 // Okhsl (#8659, #10110) from three numbers: ok_color.h's okhsl_to_srgb as registered <number>s, one
@@ -173,7 +173,7 @@ export function okhslFromPart() {
   node('olms', [['tgt', 0], ['ab', 0], ['ab', 1]], OK_LMS.map((w) => `pow(${dot(w, ['$0', '$1', '$2'])}, 3)`));
   node('xyz', [['olms', 0], ['olms', 1], ['olms', 2]], LMS_XYZ.map((w) => dot(w, ['$0', '$1', '$2'])));
   // the input through noneHue() (WebKit greys a none hue, QUIRKS.md Q3)
-  const reg = (n) => (n === 'in' ? 'var(--gamut--o-fix)' : `var(--gamut--o-${n})`), KW = ['x', 'y', 'z'], nh = noneHue('var(--gamut-in, black)', '--gamut--on-');
+  const reg = (n) => (n === 'in' ? 'var(--gamut--o-fix)' : `var(--gamut--o-${n})`), KW = ['x', 'y', 'z'], nh = noneHue('var(--gamut--o-src)', '--gamut--on-');
   // each step's numbers in the channels that let the most gathers mix the colors as they are (lib/lanes.mjs); the
   // rest are cut down to the numbers wanted. Alpha none, said: Chrome takes an omitted alpha whose origin's is none as
   // 0, and a mix of two alpha-0 colors loses their channels
@@ -196,12 +196,13 @@ ${nh.props}
 ${['fix', ...value.keys()].map((n) => `@property --gamut--o-${n} { syntax: '<color>'; inherits: false; initial-value: black; }`).join('\n')}
 ${['li', 'si'].map((n) => `@property --gamut--o-${n} { syntax: '<number>'; inherits: false; initial-value: -1e30; }`).join('\n')}
 .okhsl-from {
-  --gamut--o-li: var(--gamut-okhsl-l); --gamut--o-si: var(--gamut-okhsl-s);
+  --gamut--o-li: var(--gamut-okhsl-l); --gamut--o-si: var(--gamut-okhsl-s); --gamut--o-src: var(--gamut-in, black);
   ${nh.decls.join('\n  ')}
   --gamut--o-fix: ${nh.pick('xyz-d65', 'x y z')};
   ${decls.join('\n  ')}
-  --gamut-out: color(from color-mix(in xyz-d65, color(from var(--gamut--o-xyz) xyz-d65 x y z / none), color(from var(--gamut-in, black) xyz-d65 none none none / calc(alpha / 2 + 0.5))) xyz-d65 x y z / calc(alpha * 2 - 1));
-}`;
+  --gamut-out: color(from color-mix(in xyz-d65, color(from var(--gamut--o-xyz) xyz-d65 x y z / none), color(from var(--gamut--o-src) xyz-d65 none none none / calc(alpha / 2 + 0.5))) xyz-d65 x y z / calc(alpha * 2 - 1));
+}
+${IF_SUPPORTS} { .okhsl-from { --gamut--o-src: if(${CURRENT('--gamut-in')}: transparent; else: var(--gamut-in, black)); } }`;
 }
 
 // CSS Color 5 §6 device-cmyk(), which no engine ships: its naive conversion to sRGB (§6.1)

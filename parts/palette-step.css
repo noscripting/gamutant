@@ -165,9 +165,10 @@
 @function --gamut--palette-step-mt-mb2(--gamut--mt-st2 <color>) returns <color> { result: color(from var(--gamut--mt-st2) srgb-linear r g var(--gamut--s-k_1p)); }
 @function --gamut--palette-step-mt-db2(--gamut--mt-mb2 <color>) returns <color> { result: color(from var(--gamut--mt-mb2) srgb-linear r var(--gamut--s-k_1v) var(--gamut--s-k_1u)); }
 @function --gamut--palette-step-mt-mf(--gamut--mt-pw <color>, --gamut--mt-gf <color>, --gamut--mt-da2 <color>, --gamut--mt-ma2 <color>, --gamut--mt-db2 <color>) returns <color> { result: color(from color-mix(in srgb-linear, color-mix(in srgb-linear, color(from var(--gamut--mt-pw) srgb-linear calc(2 * alpha) none none), color(from var(--gamut--mt-gf) srgb-linear calc(4 * b) none none)), color(from color-mix(in srgb-linear, color(from var(--gamut--mt-da2) srgb-linear var(--gamut--s-k_1t) none none), color-mix(in srgb-linear, color(from var(--gamut--mt-ma2) srgb-linear none g none), color(from var(--gamut--mt-db2) srgb-linear none none var(--gamut--s-k_1t)))) srgb-linear none var(--gamut--s-k_21) none)) srgb-linear r g calc(clamp(0, 2 - r, 1) * 1 / var(--gamut--s-k_1o))); }
-@function --gamut-palette-step(--gamut-in: initial, --gamut-chroma-scale: initial, --gamut--arg-step: none, --gamut--arg-tone: none) returns <color> {
+@function --gamut-palette-step(--gamut--arg-in: initial, --gamut-chroma-scale: initial, --gamut--arg-step: none, --gamut--arg-tone: none) returns <color> {
   --gamut-step: if(style(--gamut--arg-step: none): initial; else: var(--gamut--arg-step));
   --gamut-tone: if(style(--gamut--arg-tone: none): initial; else: var(--gamut--arg-tone));
+  --gamut-in: if(style(--gamut--arg-in: currentcolor) or style(--gamut--arg-in: currentColor): transparent; else: var(--gamut--arg-in));
   --gamut--mt-yellow: if(style(--gamut--mt-yf: color(srgb-linear 1 0 0)): 1; else: 0);
   --gamut--mt-yf: --gamut--palette-step-yf(var(--gamut-in, oklch(var(--gamut-l, 0.5) var(--gamut-c, 0) var(--gamut-h, 0))));
   --gamut--i: initial;

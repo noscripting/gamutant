@@ -10,6 +10,7 @@
 //            is untyped, read as text as the class reads its input (a typed <color> holds a legacy rgb() in whole bytes:
 //            rgb(207.4 0 0) arrives as 207). ` none` makes `none` leave the input unset, so the class's own default
 //            applies (an argument can't be skipped: Chrome 155 gives the invalid value for an empty one or `initial`).
+//            ` gate` gives transparent for a `currentColor` argument (common.mjs CURRENT), where the steps would stall.
 //            `container` reads a style query on an ancestor's property from an argument instead; `locals` are inputs
 //            the arguments give another way. .fit-screen's own, --gamut-fit-screen(), is written apart (core.mjs).
 //   checks   the checks in test/ that test it, besides functions-check.mjs (every function form) and the reftests
@@ -32,7 +33,7 @@ export const REGISTRY = [
   { part: 'screen-edge', module: 'core', file: 'modules/mapping.mjs', from: [[COLORJS, "Its matrices to rec2020, a98-rgb and prophoto-rgb are Color.js 0.7.1's (MIT)"]],
     fn: { args: ['--gamut-in', '--gamut-rel', '--gamut: var(--gamut-target, screen)'], container: { '--gamut-target': '--gamut' } }, checks: ['mapper-check.mjs', 'targets-check.mjs', 'mappers-check.mjs'] },
   { part: 'palette-step', module: 'core', file: 'modules/palette.mjs', from: [['2021 Google LLC', 'Ported to CSS from material-color-utilities 0.4.0 (Apache-2.0) and changed: TonalPalette.tone(), HctSolver, Cam16', 'Apache-2.0']],
-    fn: { args: ['--gamut-in', '--gamut-chroma-scale', '--gamut-step none', '--gamut-tone none'], drop: ['--gamut--mt-yf'], local: () => materialPart().fn }, checks: ['material-check.mjs', 'mappers-check.mjs'] },
+    fn: { args: ['--gamut-in gate', '--gamut-chroma-scale', '--gamut-step none', '--gamut-tone none'], drop: ['--gamut--mt-yf'], local: () => materialPart().fn }, checks: ['material-check.mjs', 'mappers-check.mjs'] },
   { part: 'alpha', module: 'core', file: 'modules/core.mjs', checks: ['alpha-check.mjs'] },
   { part: 'light-dark', module: 'core', file: 'modules/core.mjs', checks: ['small-parts-check.mjs'] },
   { part: 'color-equal', module: 'core', file: 'modules/core.mjs', fn: { out: '--gamut-equal', args: ['--gamut-equal-a', '--gamut-equal-b'], number: true }, checks: ['small-parts-check.mjs'] },
@@ -48,7 +49,7 @@ export const REGISTRY = [
   { part: 'color-layers', module: 'mix', file: 'modules/mix.mjs', more: all(/\.gamut-(blend-[a-z-]+)/g), checks: ['layers-check.mjs'] },
   { part: 'fit-gradient', module: 'mix', file: 'modules/mix.mjs', more: ['gradient-ease'], from: [ADAPTIVE, MAPPING], checks: ['fit-gradient-check.mjs', 'gradient-ease-check.mjs', 'gradient-space-check.mjs'] },
   { part: 'okhsl', module: 'spaces', file: 'modules/spaces.mjs', from: [OKHSL], fn: { args: ['--gamut-okhsl-h', '--gamut-okhsl-s', '--gamut-okhsl-l'] }, checks: ['okhsl-check.mjs', 'okhsl-coloraide-check.mjs', 'okhsl-gamuts-check.mjs'] },
-  { part: 'okhsl-from', module: 'spaces', file: 'modules/spaces.mjs', from: [OKHSL, COLOR4], fn: { args: ['--gamut-in', '--gamut-okhsl-s none', '--gamut-okhsl-l none'] }, checks: ['okhsl-from-check.mjs', 'okhsl-gamuts-check.mjs'] },
+  { part: 'okhsl-from', module: 'spaces', file: 'modules/spaces.mjs', from: [OKHSL, COLOR4], fn: { args: ['--gamut-in gate', '--gamut-okhsl-s none', '--gamut-okhsl-l none'] }, checks: ['okhsl-from-check.mjs', 'okhsl-gamuts-check.mjs'] },
   { part: 'okhsv', module: 'spaces', file: 'modules/spaces.mjs', from: [OKHSL], fn: { args: ['--gamut-okhsv-h', '--gamut-okhsv-s', '--gamut-okhsv-v'] }, checks: ['okhsv-check.mjs', 'okhsl-coloraide-check.mjs', 'okhsl-gamuts-check.mjs'] },
   { part: 'device-cmyk', module: 'spaces', file: 'modules/spaces.mjs', fn: { args: ['c', 'm', 'y', 'k', 'alpha'].map((c) => `--gamut-cmyk-${c}`) }, checks: ['color-mix-check.mjs'] },
   rec2100('pq'), rec2100('hlg'), rec2100('linear'),
