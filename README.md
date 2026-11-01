@@ -130,7 +130,7 @@ A gradient between two colors with every stop fitted to the screen ([CSS Color 4
 
 ### `.gamut-readable-text`
 
-A text color that reads on an opaque background: the background's color mixed toward black or white to a WCAG 2 contrast ratio of 4.5, the continuous adjustment [#5153](https://github.com/w3c/csswg-drafts/issues/5153) asked for (deferred), as a tint or shade: its OkLCh chroma falls, and toward white its hue turns too (pure blue's by 21°). Beside another part on one element, `--gamut-bg: var(--gamut-out)` reads that part's color. On a gradient of light colors read its darkest end, of dark ones its lightest; colors between can contrast less. [lab/accent.html](lab/accent.html) themes a whole page from the viewer's `AccentColor` with it and four other parts.
+A text color that reads on an opaque background: the background's color mixed toward black or white to a WCAG 2 contrast ratio of 4.5, the continuous adjustment [#5153](https://github.com/w3c/csswg-drafts/issues/5153) asked for (deferred), as a tint or shade: its OkLCh chroma falls, and toward white its hue turns too (pure blue's by 20°). Beside another part on one element, `--gamut-bg: var(--gamut-out)` reads that part's color. On a gradient of light colors read its darkest end, of dark ones its lightest; colors between can contrast less. [lab/accent.html](lab/accent.html) themes a whole page from the viewer's `AccentColor` with it and four other parts.
 
 ```html
 <p class="gamut-readable-text" style="
@@ -346,7 +346,7 @@ A color's channels as numbers, for CSS that needs them ([#6937](https://github.c
 
 Measured 2026-10-31, headless: Chrome 155, WebKit 26.4, Firefox 159.
 
-The classes run in all three, the functions only in Chrome 155. Firefox 159 doesn't read a percentage in `--gamut-mix-pct-1` to `--gamut-mix-pct-6`: write `40`, not `40%`. Some colors follow an engine's bugs: `.gamut-color-mix` in Chrome 155; `.gamut-color-layers` and `.gamut-alpha` in WebKit 26.4; `.gamut-fit-screen`, `.gamut-color-mix` and `.gamut-color-equal` in Firefox 159. In Firefox 159, `.gamut-fit-screen` maps an input built from `currentColor` wrong: 12 of 33 within 2/255 of Color.js, and a page of them took 14 s to load where the same colors written out took 38 ms. `npm run browsers` fetches all but Firefox 159, the machine's own.
+The classes run in all three, the functions only in Chrome 155. Firefox 159 doesn't read a percentage in `--gamut-mix-pct-1` to `--gamut-mix-pct-6`: write `40`, not `40%`. Some colors follow an engine's bugs: `.gamut-color-mix` in Chrome 155; `.gamut-color-layers` and `.gamut-alpha` in WebKit 26.4; `.gamut-fit-screen`, `.gamut-color-mix` and `.gamut-color-equal` in Firefox 159. In Firefox 159, `.gamut-fit-screen` maps an input built from `currentColor` wrong: 12 of 33 within 2/255 of Color.js, and a page of them took 14 s to load where the same colors written out took 38 ms. `currentColor` as the input of `.gamut-okhsl-from`, `.gamut-color-extract` and `.gamut-color-equal` doesn't work in any of the three (transparent; every channel 0; 0 for two equal colors), nor of `.gamut-palette-step` in Chrome 155 and WebKit 26.4: write the color out. Given `currentColor`, `--gamut-okhsl-from()` and `--gamut-palette-step()` stall a page's load in Chrome 155.`npm run browsers` fetches all but Firefox 159, the machine's own.
 
 ## Build
 
