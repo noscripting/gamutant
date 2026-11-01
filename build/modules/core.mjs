@@ -329,7 +329,7 @@ ${['srgb', 'display-p3'].map((g) => `@container (style(--gamut-method: adaptive)
 /* #11946 (relative chroma) to CSS Color 4's other RGB destinations (§14): .screen-edge tests and takes
    the secant in the target's linear light, read from srgb-linear by its matrix (secRows(): CSS Color 4's
    <predefined-rgb> has no linear form of these three; in their encoded channels the secant was up to 18/255 off) */
-${OTHER.map((g) => `@container style(--gamut-target: ${g}) { .screen-edge { --gamut--lin: srgb-linear; --gamut--clip: ${g}; ${secRows(g)}${g === 'prophoto-rgb' ? ` --gamut--dist2: ${secVals(g).dist2}; --gamut--sw: 3; ${Array.from({ length: TESTS }, (_, k) => `--gamut--w${k}: ${3 * W(k)};`).join(' ')}` : ''} } }`).join('\n')}
+${OTHER.map((g) => `@container style(--gamut-target: ${g}) { .screen-edge { --gamut--lin: srgb-linear; --gamut--clip: ${g}; ${secRows(g)}${g === 'prophoto-rgb' ? ` --gamut--dist2: ${secVals(g).dist2}; --gamut--tol: 0.005; --gamut--sw: 3; ${Array.from({ length: TESTS + 1 }, (_, k) => `--gamut--w${k}: ${3 * W(k)};`).join(' ')}` : ''} } }`).join('\n')}
 }
 /* CSS Color 4's other RGB destinations (§14) for .fit-screen: rec2020, a98-rgb and prophoto-rgb, clipped in their encoded
    channels, which clips as the linear ones would (each transfer function is monotone and keeps 0 and 1) */

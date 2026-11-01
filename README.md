@@ -174,6 +174,7 @@ Mixes up to six colors, as `color-mix()` does with any number ([CSS Color 5](htt
 ```
 
 - `--gamut-mix-count` says how many, 2 if unset; `--gamut-mix-space` their space, `oklab` if unset, as `color-mix()` takes it.
+- A color set in a slot past the count takes no share but fills a component every counted color leaves missing (`none`), as a color at 0% does in `color-mix()`: leave unused slots unset.
 - Add `.gamut-mix-paint` to mix two colors by Kubelka-Munk as Ronald van Wijnen's [spectral.js](https://github.com/rvanwijnen/spectral.js) models pigments (as a function, space `paint`) ([#8715](https://github.com/w3c/csswg-drafts/issues/8715)); [lab/paint.html](lab/paint.html) shows it beside `color-mix()`.
 
 ### `.gamut-color-interpolate`
@@ -195,6 +196,7 @@ The color at a point along up to eight stops, like `color-interpolate()` ([CSS V
 ```
 
 - `--gamut-space` sets their space, `oklab` if unset; `--gamut-to-k` gives stop k a second position, its color held to there.
+- A component missing (`none`) in both stops of a segment takes the next stop's value (in the last segment, the one before's), where CSS Color 4 keeps it missing; so does one missing in a color before the first stop, in a stop's own stretch or after the last.
 
 ### `.gamut-color-layers`
 
@@ -348,6 +350,8 @@ Measured 2026-10-31, headless: Chrome 155, WebKit 26.4, Firefox 159.
 
 The classes run in all three, the functions only in Chrome 155. Firefox 159 doesn't read a percentage in `--gamut-mix-pct-1` to `--gamut-mix-pct-6`: write `40`, not `40%`. Some colors follow an engine's bugs: `.gamut-color-mix` in Chrome 155; `.gamut-color-layers` and `.gamut-alpha` in WebKit 26.4; `.gamut-fit-screen`, `.gamut-color-mix` and `.gamut-color-equal` in Firefox 159. In Firefox 159, `.gamut-fit-screen` maps an input built from `currentColor` wrong: 12 of 33 within 2/255 of Color.js, and slowly. `currentColor` as the input of `.gamut-okhsl-from`, `.gamut-color-extract` and `.gamut-color-equal` doesn't work in any of the three (transparent; every channel 0; 0 for two equal colors), nor of `.gamut-palette-step` in Chrome 155 and WebKit 26.4: write the color out. Given `currentColor` itself, `.gamut-okhsl-from`, `--gamut-okhsl-from()` and `--gamut-palette-step()` give transparent at once in Chrome 155; in Firefox 159, and given a color built from `currentColor`, they slow the page's load. `npm run browsers` fetches all but Firefox 159, the machine's own.
 
+Short of their references in all three: `.gamut-screen-edge`, where the line at a lightness and hue comes back into the gamut for under 0.001 of chroma, takes the exit before it, up to 10/255 short (`prophoto-rgb` at `oklch(0.56 0.3 206)`); `--gamut-method: adaptive` to `prophoto-rgb` at lightness 0.99 and hues 100° to 110°, up to 48/255 (`oklch(0.99 0.7 105)`). In WebKit 26.4 and Firefox 159, `.gamut-palette-step` at tone 99 tells a yellow seed by its parent's `--gamut-in`, so a step with a seed of its own under a parent with another can be 41/255 off: set the seed on the parent.
+
 ## Build
 
 ### Running the checks
@@ -364,7 +368,7 @@ npm test
 
 To run some checks, name them as the run prints them: `node test/run.mjs material okhsl`. `ENGINES=` with one or more engine names as the run prints them, comma-separated, runs them in those engines only.
 
-Each of the 49 browser checks reads what the builds in [Browsers](#browsers) compute from `gamutant.css` and compares it with a reference written apart from the sheet: Color.js for CSS Color 4's conversions and gamut mapping, the drafts' own pseudocode and sample code, Björn Ottosson's `ok_color.h` for Okhsl and Okhsv, material-color-utilities for palette steps and spectral.js for paint mixing. Each prints its worst error. A web-platform-tests reftest for each part runs beside them. [test/README.md](test/README.md) lists every reference and its version. One more, `test/build-check.mjs`, builds the sheet and its parts again in memory and fails on any byte that differs from the files committed.
+Each of the 48 browser checks reads what the builds in [Browsers](#browsers) compute from `gamutant.css` and compares it with a reference written apart from the sheet: Color.js for CSS Color 4's conversions and gamut mapping, the drafts' own pseudocode and sample code, Björn Ottosson's `ok_color.h` for Okhsl and Okhsv, material-color-utilities for palette steps and spectral.js for paint mixing. Each prints its worst error. A web-platform-tests reftest for each part runs beside them. [test/README.md](test/README.md) lists every reference and its version. Two more run without a browser: `test/build-check.mjs` builds the sheet and its parts again in memory and fails on any byte that differs from the files committed, and `test/constants-check.mjs` reads each matrix row in the sheet against a published matrix to its digits.
 
 ### Building the sheet
 

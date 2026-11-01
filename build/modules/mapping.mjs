@@ -52,10 +52,10 @@ export function mapper() {
   // 0.0078 h) came back with hue 0 in Safari) would put the secant's two ends at the wrong hue, and Firefox's round trips
   // through srgb-linear moved the lightness of a point far past sRGB (oklch(0.297419 0.31 238.33) to 0.295837, which put
   // its prophoto-rgb edge 1.15/255 off).
-  const halvings = (flag) => {
+  const halvings = (flag, n = TESTS) => {
     let e = `color-mix(in oklch, oklch(from var(--gamut--src) l none h / none), oklch(none ${Wv(0)} none / 1))`;
-    for (let k = 0; k < TESTS; k++) {
-      const last = k === TESTS - 1, lo = `c + (sign(alpha) - 1) * ${Wv(k)}`;
+    for (let k = 0; k < n; k++) {
+      const last = k === n - 1, lo = `c + (sign(alpha) - 1) * ${Wv(k)}`;
       e = `oklch(from ${test(e, flag)} ${last ? 'none' : 'l'} calc(${last ? lo : `c + (sign(alpha) - 0.5) * ${Wv(k)}`}) ${last ? `none / calc(c / ${SW} + (sign(alpha) - 1) * ${W(k)} + 0.5)` : 'h'})`;
     }
     return `color-mix(in oklch, ${e}, oklch(from var(--gamut--src) l none h / none))`;
@@ -93,9 +93,14 @@ export function mapper() {
 // (its cone responses positive): there the second search leaves red's floor out (--gamut--dist2). In the JS model, an
 // L x h sweep to prophoto-rgb, 35 more than 1/255 off the last real exit before, 4 after (9.9/255 at L 0.56 h 206, a
 // sliver 0.0005 wide; 1.3 at the yellow cusp), every other gamut unchanged.
-const TOL = 0.001, BACK = 0.0002, GATE = 0.005, DIST2 = `var(--gamut--dist2, ${DIST})`;
+// One halving more than the first search's, so the bracket the secant crosses is half as wide: to prophoto-rgb at L 0.99
+// h 103 (an audit, 2026-11-01: oklch(0.99 0.3 103.1) 100/255 short), green passes 1 by up to 0.0034 and the line comes
+// back in for 0.0028 of chroma at 0.26; prophoto-rgb's TOL is 0.005 (--gamut--tol), and over the 6-halving bracket the
+// secant overshot that sliver by 0.0016. In the JS model, an L x h sweep to prophoto-rgb, the worst against any last exit
+// went from 166/255 to 9.9 (the sliver below); sRGB and Display P3 none over 1/255 either way.
+const TOL = 'var(--gamut--tol, 0.001)', BACK = 0.0002, GATE = 0.005, DIST2 = `var(--gamut--dist2, ${DIST})`;
 function lastExit({ halvings, ends, tOf, Wv, SW, first, mix }) {
-  const w = Wv(TESTS - 1), q = halvings(`calc(${DIST2} + ${TOL})`);
+  const w = Wv(TESTS), q = halvings(`calc(${DIST2} + ${TOL})`, TESTS + 1);
   const [low, high] = ends('q', `oklch(from var(--gamut--se-q) l calc(c - ${w}) h)`, `oklch(from var(--gamut--se-q) l calc(c + ${w}) h)`,
     (x) => ` - 100 * clamp(0, 1 - sign(${`min(${X[x]}, 1 - ${X[x]})`}), 1)`);
   const gather = `color-mix(in oklch, oklch(from var(--gamut--se-q) l c h / none), ${tOf(`color-mix(in var(--gamut--lin), ${low}, ${high})`)})`;
@@ -118,7 +123,7 @@ function lastExit({ halvings, ends, tOf, Wv, SW, first, mix }) {
   // the 742 colors the second search changes (of 35,650 8-bit colors near blue and 4,000 random), and runs for 0.8% of
   // the random ones, 6 to 9% of an L x h sweep of sRGB and Display P3 (a review, 2026-11-01). A flag of 0.5 skips.
   // Chrome 155, 256 changing colors: 49 ms ungated, 39 gated, 26 before the second search.
-  const need = `oklch(from ${test(`oklch(from var(--gamut--p) l calc(c + ${w} + ${GATE} * ${SW}) h)`, `calc(${DIST2} + ${TOL})`)} 0 0 0 / calc(0.5 + 0.5 * sign(alpha)))`;
+  const need = `oklch(from ${test(`oklch(from var(--gamut--p) l calc(c + ${Wv(TESTS - 1)} + ${GATE} * ${SW}) h)`, `calc(${DIST2} + ${TOL})`)} 0 0 0 / calc(0.5 + 0.5 * sign(alpha)))`;
   return { q, q2: q2t, out, need, skip: 'style(--gamut--se-n: oklch(0 0 0 / 0.5))' };
 }
 

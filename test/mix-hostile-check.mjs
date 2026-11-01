@@ -60,7 +60,7 @@ const CASES = [
   ['mix 100 and 0', 'color-mix', mix2(100, 0), `color-mix(in oklab, ${A} 100%, ${B} 0%)`],
   ['mix pct-4 none past the count', 'color-mix', `${mix3()} --gamut-mix-pct-4: none; --gamut-mix-pct-5: 150;`, MIX3],
   // a slot left unset takes no part: transparent at 0% filled a component both colors leave missing (a review,
-  // 2026-10-28); the output keeps the none. Documented (SPEC.md's Not covered): a color set past the count fills it, as a
+  // 2026-10-28); the output keeps the none. Documented (README, and SPEC.md's Not covered): a color set past the count fills it, as a
   // 0% color in color-mix() does
   ['mix red past the count fills a missing red (documented)', 'color-mix', '--gamut-mix-space: srgb; --gamut-mix-1: color(srgb none .2 .3); --gamut-mix-2: color(srgb none .4 .5); --gamut-mix-3: red', 'color-mix(in srgb, color(srgb none .2 .3), color(srgb none .4 .5)) 100%, red 0%)'.replace(/^/, 'color-mix(in srgb, ')],
   // a transparent first color keeps its channels for the next color's missing ones (a review, 2026-10-28:
@@ -80,7 +80,7 @@ const CASES = [
   ['interpolate t 40% (transparent)', 'color-interpolate', '--gamut-stop-1: red; --gamut-stop-2: blue; --gamut-at-1: 0; --gamut-at-2: 1; --gamut-t: 40%', 'transparent'],
   ['interpolate at-2 100% (transparent)', 'color-interpolate', '--gamut-stop-1: red; --gamut-stop-2: blue; --gamut-at-1: 0; --gamut-at-2: 100%; --gamut-t: 0.4', 'transparent'],
   ['interpolate space foo (invalid: the parent\'s)', 'color-interpolate', '--gamut-stop-1: red; --gamut-stop-2: blue; --gamut-at-1: 0; --gamut-at-2: 1; --gamut-t: 0.4; --gamut-space: foo', 'teal', null, '--gamut-out: teal'],
-  // documented (SPEC.md's Not covered): a component both colors of the segment leave missing is filled from another stop (a clean
+  // documented (README, and SPEC.md's Not covered): a component both colors of the segment leave missing is filled from another stop (a clean
   // room's audit, 2026-10-28): from the next, else from the one before
   ['interpolate a red both stops miss, from the next (documented)', 'color-interpolate', '--gamut-stops: 3; --gamut-stop-1: color(srgb none .2 .3); --gamut-at-1: 0; --gamut-stop-2: color(srgb none .4 .5); --gamut-at-2: .5; --gamut-stop-3: red; --gamut-at-3: 1; --gamut-t: .25; --gamut-space: srgb', 'color(srgb 1 .3 .4)'],
   ['interpolate a red both stops miss, from the one before (documented)', 'color-interpolate', '--gamut-stops: 3; --gamut-stop-1: red; --gamut-at-1: 0; --gamut-stop-2: color(srgb none .4 .5); --gamut-at-2: .5; --gamut-stop-3: color(srgb none 0 0); --gamut-at-3: 1; --gamut-t: .75; --gamut-space: srgb', 'color(srgb 1 .2 .25)'],

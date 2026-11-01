@@ -29,6 +29,9 @@ const inputs = Array.from({ length: N }, (_, i) => i % 5 === 4
 // and 206deg the line comes back in for 0.0005, a limit SPEC.md states)
 const BAND = inputs.length;
 for (let L = 0.42; L <= 0.541; L += 0.02) for (let h = 196; h <= 206; h += 2) inputs.push([r6(L), 0.3, h]);
+// and at L 0.99 h 103, where green passes 1 by up to 0.0034 and the line comes back in for 0.0028 of chroma (an audit,
+// 2026-11-01: oklch(0.99 0.3 103.1) was 100/255 short)
+for (const L of [0.985, 0.99, 0.995]) for (let h = 102; h <= 104.01; h += 0.5) inputs.push([L, 0.3, r6(h)]);
 const lin = (sp) => (sp === '--rec2020-oetf' ? 'rec2020-linear' : `${sp}-linear`); // the linear space a target's gamut is tested in
 // an engine's color(rec2020 ...) is BT.2020-encoded in all three engines: read it as that, not as Color.js 0.7.1's gamma-2.4 rec2020
 const engine = (css) => css.replace(/^color\(rec2020 /, 'color(--rec2020-oetf ');
