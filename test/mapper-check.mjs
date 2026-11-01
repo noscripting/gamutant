@@ -5,8 +5,10 @@
 // of 255 of themselves; edge colors; the number front (--gamut-l/c/h). .gamut-screen-edge is #11946's relative chroma: the
 // gamut's largest chroma at the color's own lightness and hue times --gamut-rel, the color's own chroma ignored (an
 // input inside the gamut goes to the edge too): random colors in and out within 1 of 255 of that chroma found by a scan
-// in doubles (methods.mjs edgeExits(): where a line leaves the gamut and comes back, the sheet's halvings may land on an
-// earlier exit, which passes and is counted apart), and --gamut-rel: 0.5 within 1 of 255 of half of it. From computed values of --gamut-out, unclipped and unrounded (but WPT's, in bytes as WPT has
+// in doubles (methods.mjs edgeExits(): where a line leaves the gamut and comes back, the last exit, the most; an input in
+// gamut is itself at its lightness and hue, so never less than its own chroma; past the scan's last exit but in gamut,
+// a sliver its 0.0005 steps missed, passes and is counted apart), 8-bit colors near blue, where the line dips out by
+// under 0.001 and comes back (SPEC R1), and --gamut-rel: 0.5 within 1 of 255 of half of it. From computed values of --gamut-out, unclipped and unrounded (but WPT's, in bytes as WPT has
 // them), and painted pixels for sRGB. Then style time for 1,
 // 16, 64, 256 fitted colors changing at once, against the same page without the mapper, under the bench lock (skipped
 // with QUICK=1). The 1/255 bars are this sheet's own.
@@ -14,7 +16,7 @@
 // FIT_ONLY=1 checks .gamut-fit-screen alone, including its existing alpha/paint/system cases.
 import { createRequire } from 'node:module';
 import { readFileSync } from 'node:fs';
-import { toLin, toLch, gam, clip01, inGamut, edgeExits, wpt, parse } from './ref/methods.mjs';
+import { toLin, toLch, gam, ungam, clip01, inGamut, edgeExits, wpt, parse } from './ref/methods.mjs';
 import { pw, need, pick, benchLock } from './engines.mjs';
 import { gamut } from './ref/classes.mjs';
 const { PNG } = need('pngjs');
@@ -63,6 +65,10 @@ for (const sp of Object.keys(sps)) {
   while (n < N / 10) { const lch = [0.05 + rnd() * 0.9, rnd() * 0.1, rnd() * 360]; if (inGamut(toLin(sp, lch))) { n++; cases.push({ sp, kind: 'edge-in', cls: 'screen-edge', lch }); } }
   for (const lch of [[0.6, 0, 0], [0.6, 0, 120], [0.45, 0.0001, 140], [0.45, 0.0002, 140], toLch(sp, [0, 0, 1]), toLch(sp, [0, 1, 0])]) cases.push({ sp, kind: 'edge-in', cls: 'screen-edge', lch });
   for (const [hex, L] of [['#808080', 0.59987], ['#ffffff', 1], ['#333333', 0.32109]]) cases.push({ sp, kind: 'edge-in', cls: 'screen-edge', lch: [L, 1e-5, 0], style: `--gamut-in: ${hex}` });
+  // 8-bit colors near sRGB's blue: #0000ff, #0000cc and 770 more (a review, 2026-11-01: 214 of 5,824 such colors were
+  // over 1/255 short, #0000ff gave rgb(0 49 229))
+  if (sp === 'srgb') for (const [r, g, b] of [[0, 0, 255], [0, 0, 204], ...Array.from({ length: 770 }, (_, i) => [8 * (i % 7), 6 * (Math.floor(i / 7) % 11), 120 + 15 * Math.floor(i / 77)])])
+    cases.push({ sp, kind: 'edge-blue', cls: 'screen-edge', lch: toLch(sp, [r, g, b].map((v) => ungam(v / 255))), style: `--gamut-in: rgb(${r} ${g} ${b})` });
 }
 if (fitOnly) cases = cases.filter(c => c.cls !== 'screen-edge');
 const bytes = (sp, lch) => toLin(sp, lch).map((x) => Math.round(clip01(gam(x)) * 255));
@@ -113,8 +119,12 @@ for (const [name, type, opts] of pick()) {
     const fits = inGamut(toLin(c.sp, c.lch));
     const off = (w) => Math.max(...mine.map((v, j) => Math.abs(v - w[j])));
     let target = c.kind === 'wpt' ? c.want : c.target ? flt(c.sp, c.target) : fits ? flt(c.sp, c.lch) : css4(c.sp === 'p3' ? 'p3' : 'srgb', c.lch);
-    if (c.cls === 'screen-edge') { const ts = edgeTargets(c), k = ts.reduce((b, w, j) => (off(w) < off(ts[b]) ? j : b), ts.length - 1);
-      target = ts[k]; if (k < ts.length - 1 && off(ts.at(-1)) > 1) t.early = (t.early ?? 0) + 1; }
+    // (an input in gamut to 0.0002 in linear light, as the sheet takes it: an 8-bit color's lightness and chroma in
+    // doubles can land 1e-16 out, and Chrome keeps a registered hue to 3 decimals; an output to 0.05 of 255 past a face)
+    if (c.cls === 'screen-edge') { const { L, H, exits } = edgeExits(c.sp, c.lch, 0.6), rel = c.rel ?? 1;
+      const own = Math.min(...toLin(c.sp, c.lch).map((v) => Math.min(v, 1 - v))) >= -0.0002, most = Math.max(exits.at(-1), own ? c.lch[1] : 0);
+      target = flt(c.sp, [L, rel * most, H]);
+      if (off(target) > 1 && got[1] > rel * most && mine.every((v) => v > -0.05 && v < 255.05)) { t.sliver = (t.sliver ?? 0) + 1; target = mine; } }
     if (c.kind === 'edge-dark') { const most = Math.max(...edgeExits(c.sp, c.lch, 0.6).exits), dc = Math.abs(got[1] - most) / most;
       t.max = Math.max(t.max, dc * 100); if (dc > 0.01) { t.fail++; bad.push([key, fmt(c.lch), computed[i], `chroma ${got[1]} want ${most} (${(dc * 100).toFixed(1)}%)`]); } return; }
     const d = off(target);
@@ -124,7 +134,7 @@ for (const [name, type, opts] of pick()) {
       if (e > 1) { t.fail++; bad.push([key, fmt(c.lch), computed[i], `painted ${q} against computed ${paint.map((v) => +v.toFixed(1))} (${e} of 255)`]); } }
   });
   console.log(`\n${name}`);
-  for (const [k, t] of Object.entries(tally)) console.log(`  ${k.padEnd(14)} ${String(t.n).padStart(5)} colors, ${t.fail} fail, max off ${+t.max.toFixed(2)} of 255${k.startsWith('srgb') ? `, painted vs computed max ${t.pxmax}` : ''}${t.early ? `, ${t.early} at an earlier exit than the most chroma` : ''}`);
+  for (const [k, t] of Object.entries(tally)) console.log(`  ${k.padEnd(14)} ${String(t.n).padStart(5)} colors, ${t.fail} fail, max off ${+t.max.toFixed(2)} of 255${k.startsWith('srgb') ? `, painted vs computed max ${t.pxmax}` : ''}${t.sliver ? `, ${t.sliver} in gamut past the scan's last exit` : ''}`);
   for (const x of bad.slice(0, 6)) console.log('   ', x.join(' | '));
   if (bad.length) failed = true;
 

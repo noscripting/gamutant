@@ -25,7 +25,7 @@ Or link it from a CDN. This page fits an orange to the screen:
 "></div>
 ```
 
-Each part is also its own file in `parts/`, named after its class: gamutant.css is 65 KB gzipped, a part file at most 16 KB. Link the ones a page uses:
+Each part is also its own file in `parts/`, named after its class: gamutant.css is 66 KB gzipped, a part file at most 16 KB. Link the ones a page uses:
 
 ```html
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gamutant.css@0.0.1/parts/fit-screen.css">
@@ -362,7 +362,7 @@ npm test
 
 `npm run browsers` downloads the builds in [Browsers](#browsers), once. `npm test` runs every check, four at a time, in a few minutes, and ends with `50 of 50 checks pass`; a check that fails prints its last lines and the run exits 1. A line marked `FAIL (known: …)` inside a passing check is a limit [Browsers](#browsers) states.
 
-To run some checks, name them as the run prints them: `node test/run.mjs material okhsl`. `ENGINES=Chrome`, or `ENGINES=WebKit,Firefox`, runs them in those engines only.
+To run some checks, name them as the run prints them: `node test/run.mjs material okhsl`. `ENGINES=` with one or more engine names as the run prints them, comma-separated, runs them in those engines only.
 
 Each of the 49 browser checks reads what the builds in [Browsers](#browsers) compute from `gamutant.css` and compares it with a reference written apart from the sheet: Color.js for CSS Color 4's conversions and gamut mapping, the drafts' own pseudocode and sample code, Björn Ottosson's `ok_color.h` for Okhsl and Okhsv, material-color-utilities for palette steps and spectral.js for paint mixing. Each prints its worst error. A web-platform-tests reftest for each part runs beside them. [test/README.md](test/README.md) lists every reference and its version. One more, `test/build-check.mjs`, builds the sheet and its parts again in memory and fails on any byte that differs from the files committed.
 
