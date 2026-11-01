@@ -1,10 +1,14 @@
 // Builds ../gamutant.css: the mapper (.fit-screen), palette steps (.palette-step), contrast.css (.readable-text),
 // scale.css (.color-interpolate) and the other parts. Usage: node build/build.mjs (npm run build also writes parts/)
-import { readFileSync, writeFileSync } from 'node:fs';
+// --plain writes gen/gamutant.plain.css instead, to read: the folding passes skipped and every comment kept, each step
+// under the name its part gives it (fit-screen's --gamut--m1 to m11, the halvings). It computes what gamutant.css does:
+// 46 of the 48 checks pass on it, constants (52 of its 59 distinct rows matched, the floor is the folded sheet's 60) and
+// ends (a timeout in the full run; alone 22 of 22 and 12 of 12) apart (2026-11-01). Not shipped: 955 KB to 793.
+import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { pathToFileURL } from 'node:url';
 import { createRequire } from 'node:module';
 import { nest, across, share } from './lib/fold.mjs';
-import { steps as stepGraph, REGISTERED } from './lib/expr-steps.mjs';
+import { steps as stepGraph, REGISTERED } from './lib/steps.mjs';
 import { allocate } from './lib/lanes.mjs';
 import { OKHSL_GAMUTS } from './okhsl-fit.mjs';
 
@@ -13,7 +17,7 @@ import { OKHSL_GAMUTS } from './okhsl-fit.mjs';
 // gamut's edge itself (how much chroma fits at a lightness and hue): mapper() below. Separate classes, so .fit-screen
 // never pays for the edge (a dormant chain gated by an unset var() still cost Chrome 20 us a color to substitute). The two answers differ: MINDE stops
 // where the color is a just-noticeable difference (deltaEOK 0.02) from its clip and clips it, so it stays more vivid
-// (the source repository's lab/mappers/build.mjs writes compare.html, which shows both; Ray Trace and EdgeSeeker land within a few of 255 of the edge).
+// (Ray Trace and EdgeSeeker land within a few of 255 of the edge).
 
 // The edge: the gamut boundary at the color's own L and h, by 6 chroma halvings and one secant step.
 // A test converts the point to the target's linear RGB (channels unclamped); its alpha is min(r, g, b, 1 - max(r, g, b)),
@@ -56,7 +60,7 @@ export const IN0 = `oklch(from color-mix(in oklab, oklab(from oklch(from ${SEED}
 // grey's hue picks the edge). A grey's hue is 0 (CSS Color 4 §4.4.1: a hue a conversion leaves powerless is missing,
 // which behaves as 0), or the hue written where the input is an oklch() of chroma 0 (§4.4.1: a powerless component
 // manually specified acts as normal). Grey is a chroma of 1e-4 or less in IN0, not the spec's 4e-6: Chrome 155 and
-// Firefox 158 convert white to chroma 5e-5 (research/probes/grey-chroma.mjs).
+// Firefox 158 convert white to chroma 5e-5.
 // IN0 loses a written grey's hue (Chrome reads oklch(0.6 0 120) as hue 315), so that hue is read from the input as
 // given, where its own oklch() chroma is exactly 0. The two hues, each 0 where it doesn't apply, are summed as
 // lightnesses (h / 360, below 1) in a 50% oklch mix and read back times 720. Registered (--gamut--se): as --gamut--src's
@@ -111,7 +115,7 @@ export function mapper() {
   return { p: expr, out, outFirefox };
 }
 
-// .screen-edge whole, as gamutant.css writes it and the source repository's lab/mappers/edge.css copies it: the input (--gamut--in0, --gamut--se,
+// .screen-edge whole, as gamutant.css writes it: the input (--gamut--in0, --gamut--se,
 // --gamut--src, --gamut--k), the search point, and out clipped to the target and keeping the input's alpha (palette steps
 // are made colors: opaque). edge.css once took mapper() alone and painted black after --gamut--se came in (a review,
 // 2026-10-31).
@@ -158,7 +162,7 @@ export function minde(N = 12) {
   const M0 = `oklch(from var(--gamut--src) l calc(c * 0.5) h / 0.5)`;
   // A test names its point once, so that a step names the last once: an input that stays unresolved (currentColor; a
   // registered color keeps it so) carries the chain as text, which then grows by a step a step instead of doubling
-  // (research/probes/currentcolor/). The point's clip, in OKLab, scaled by u / t in lightness and 1 / t^2 in a and b,
+  //. The point's clip, in OKLab, scaled by u / t in lightness and 1 / t^2 in a and b,
   // mixed half and half with the input's own (1 - l) u, -a, -b: the mix premultiplies by alpha (t, and 1), so its
   // numerators are u (l_clip + 1 - l), a_clip / t - a and b_clip / t - b over its alpha (t + 1) / 2, and t is 2 alpha - 1:
   // E = deltaEOK(point, clip) = hypot(dl, t da, t db) (u = 2^-12, the least t, keeps the scaled lightness under 1)
@@ -228,8 +232,8 @@ const alphaLin = (x, S = 'var(--gamut--lin)') => `color(from color-mix(in ${S}, 
 // Newton steps, the slope from a second point at s + 0.001. The hues meet in one color-mix() (the point's as hue, the
 // second's / 360 as l, the color's as 0.25 + h / 720 as c, from t, which keeps the hue from being powerless). s rides in
 // a linear channel (Firefox rounds alpha through registers and color-mix(), so alpha only crosses from one space to
-// another inside nested relative colors). the source repository's lab/mappers' EdgeSeeker finds its cusp and its curve point (light 0.75 on the
-// hexagon a + (1 - a) times that) this way: probes in the source repository's lab/mappers/seeker/.
+// another inside nested relative colors). EdgeSeeker's cusp and curve point (light 0.75 on the
+// hexagon a + (1 - a) times that) are found this way.
 const n9 = (x) => +x.toPrecision(9);
 export function seekStart(K, hp, digits = 9) {
   const u0 = K[0].h, terms = [], n9 = (x) => +x.toPrecision(digits);
@@ -400,8 +404,8 @@ function cusp(R, LIN, P = null) {
 // in two color-mix()es, and the exit as the anchor A and a far point F mixed with weights in alpha (Firefox: channel by
 // channel, no alpha weights); the anchors are held as chroma; inside margin 1e-5, above the registers' 6 digits (within
 // 1/255 of the spec's 1e-6). Its input's chroma is capped at 100, not 4: the ray's direction still moves past 4 (Color.js
-// 0.7.1, 'raytrace': chroma 4 is up to 1.86/255 from chroma 1e6, 10 0.44/255, 100 0.03/255). Was colourfyi.css's
-// .fit-screen.ray-trace (2026-10-23 to 24; the source repository's lab/mappers built it as raytrace.css since). Returns its registers, the
+// 0.7.1, 'raytrace': chroma 4 is up to 1.86/255 from chroma 1e6, 10 0.44/255, 100 0.03/255).
+// Returns its registers, the
 // declarations, Firefox's, its input and the output.
 export const RAY_CAP = 100;
 export function rayTrace(LIN = 'var(--gamut--lin)') {
@@ -467,7 +471,7 @@ export function rayTrace(LIN = 'var(--gamut--lin)') {
 // (h, 100%, 75%) point; here both are found where they are. The cusp is adaptive()'s (cusp() above: its registers and
 // knots). The curve point is on the 75% hexagon in linear light (a + (1 - a) times the hexagon, a = the 50% grey's
 // linear value), the s whose OKLCH hue is the color's, two Newton steps from the cusp's s (from knots of its own, three
-// a region, and one step, as the source repository's lab/mappers built it: the same answers, 645 bytes more gzipped; one step from the cusp's
+// a region, and one step, as an earlier version did: the same answers, 645 bytes more gzipped; one step from the cusp's
 // s: 0.72/255 from the spec's, two: 0.19). Then the spec's curvature from the two points, the line from black to the cusp below it and the arc
 // to white above it (the smaller of the two at any L), chroma min(c, that), clipped; in gamut, the color. Every number
 // rides in channels (Firefox rounds alpha). To sRGB and Display P3 in linear light; to rec2020 and a98-rgb in their
@@ -475,8 +479,7 @@ export function rayTrace(LIN = 'var(--gamut--lin)') {
 // point's grey --gamut--es-a, 0.5 encoded (the spec samples HSL in the destination's own RGB); in gamut tested in
 // --gamut--fl (srgb-linear there, the target read by its matrix: WebKit 26.4 converts to rec2020 with negative
 // channels as 0). Not to prophoto-rgb: §14.2.4 builds its table "for an RGB destination color space with
-// non-imaginary primaries (not, for example, ProPhoto RGB)". Was colourfyi.css's .fit-screen.edge-seeker (2026-10-23
-// to 24); the source repository's lab/mappers/seeker/ measures the start and the steps.
+// non-imaginary primaries (not, for example, ProPhoto RGB)".
 export const A75 = ((x) => ((x + 0.055) / 1.055) ** 2.4)(0.5);
 // EdgeSeeker's hexagon power and 75% grey by target: a98-rgb's edges run in its linear light (its encoding is a pure
 // power, 563/256), so the 75% point's grey there is 0.5 ^ (563/256) in that parameter; rec2020's in its encoded channels
@@ -641,7 +644,7 @@ export function materialPart() {
   // through red to 113.85 degrees within a hair of the magenta corner: the ray's correction steps can't follow it (it
   // was up to 30/255 off at 18 of 36 hues, hsl 30: 251 255 225 for MCU's 255 251 255). There, from 255 round to 113.85
   // degrees (Z), the ray's angle psi is MCU's own point's (HctSolver.bisectToLimit, within 0.8 of a byte of the edge at
-  // the hue; research/material-tone99.mjs, tone99.json), a step function of the hue, held; elsewhere it solves.
+  // the hue; tone99.json), a step function of the hue, held; elsewhere it solves.
   const T99 = JSON.parse(readFileSync(new URL('./tone99.json', import.meta.url), 'utf8')), Z0 = 255;
   const dot = (u, w) => u[0] * w[0] + u[1] * w[1] + u[2] * w[2], uv = [[dot(U, E1), dot(V, E1)], [dot(U, E2), dot(V, E2)]];
   const psiOf = (pt) => { const dv = pt.map((x) => (x - T99.y) / 100), q = [dot(dv, E1), dot(dv, E2)]; return Math.atan2(uv[0][0] * q[1] - uv[1][0] * q[0], q[0] * uv[1][1] - uv[0][1] * q[1]); };
@@ -1248,7 +1251,7 @@ ${registered('--gamut--mx-', '.color-mix', steps, { ...Object.fromEntries(decls.
 // its reflectance at each sample their sum over seven base curves; each sample's K/S, (1 - R)^2 / 2R, averaged over the
 // colors weighted by concentration (factor squared times luminance); back to a reflectance, 1 + K/S - sqrt(K/S^2 + 2 K/S),
 // written as 1 / (1 + K/S + sqrt(…)), which keeps its digits in 32 bits; to linear sRGB by the colour matching
-// functions. paint.json holds the curves at 30 samples and the weights back (the source repository's lab/paint/tables.mjs cuts them from
+// functions. paint.json holds the curves at 30 samples and the weights back (cut from
 // spectral.js's 38, within 3e-5 of it). Three samples ride in a color's channels and the color's concentration in its
 // alpha, so one premultiplied color-mix() of the two colors is the K/S average: a mix's alpha isn't read again (Firefox
 // keeps it to 3 decimals, QUIRKS.md Q77), which is why paint mixes two colors, not up to 6 (a third would mix the
@@ -1290,10 +1293,10 @@ export function stopsPart(m = minde()) {
   const ks = [...Array(STOPS).keys()], list = (f) => ks.map(f).join(', ');
   // #1332, an easing between the two: stop k mixes at E(k/8), a paused animation of a registered number from 0 to 1 at
   // time k/8 of 1s with --gamut-gradient-ease as its timing function, so the browser evaluates any <easing-function>
-  // exactly (research/probes/ease-probe.mjs, all three engines). The shorthand holds the input in every entry: with none
+  // exactly (all three engines). The shorthand holds the input in every entry: with none
   // set it is invalid at computed-value time, no animation runs, and each stays at its initial k/8 (linear). Clamped to
   // 0..1: a color-mix() can't extrapolate an overshoot. Color hints between the stops, to bend each piece toward E,
-  // were tried and dropped: Chrome 155 and Firefox 158 then interpolate in sRGB (research/probes/gradient-hint-space.mjs)
+  // were tried and dropped: Chrome 155 and Firefox 158 then interpolate in sRGB
   const pct = (k) => `${(100 * k) / (STOPS - 1)}%`, q = (k) => `--gamut--q${k}`;
   const mix = (k, from, to, hue) => `color-mix(in oklch${hue ? ` ${hue}` : ''}, ${from}, ${to} calc(clamp(0, var(${q(k)}), 1) * 100%))`;
   const reg = (n) => `@property ${n} { syntax: '<color>'; inherits: false; initial-value: black; }`;
@@ -1643,7 +1646,7 @@ export function extractPart() {
   read.push(`--gamut--alpha-hi: calc(${digits('ah', '--gamut--cx-ah', 'x', 12)});`, `--gamut--alpha-lo: calc(${digits('al', '--gamut--cx-al', 'y', 12)});`,
     `--gamut-alpha: calc(2 * (var(--gamut--alpha-hi) * ${H} + var(--gamut--alpha-lo)) / ${P});`);
   // 8-bit sRGB: Chrome converts a hex, rgb() or named color to xyz-d65 up to 1.6e-4 off, but holds it in srgb exactly
-  // (research/probes/convert/read-space.mjs). So each sRGB channel is also read as a whole number of 255ths, with one
+  //. So each sRGB channel is also read as a whole number of 255ths, with one
   // more flag, set when the color is exactly an 8-bit sRGB color (every channel within 1e-4 of a 255th, from 0 to 1);
   // then x, y, z are that color's, by CSS Color 4's conversion
   const S8 = ['r', 'g', 'b'];
@@ -1678,7 +1681,7 @@ export function extractPart() {
   // the spec's other transfer curves, extended past 0 by sign: rec2020 (BT.1886, 2.4), a98-rgb, prophoto-rgb (linear below 1/512)
   const pw = (v, p) => `(sign(${v}) * pow(abs(${v}), ${p}))`;
   const gamPro = (v) => `(clamp(0, sign(abs(${v}) - ${1 / 512}) + 1, 1) * ${pw(v, 1 / 1.8)} + (1 - clamp(0, sign(abs(${v}) - ${1 / 512}) + 1, 1)) * 16 * ${v})`;
-  // a kept step is kept as unround.css keeps a number: a power of two e and three whole parts under 2^19, registered
+  // a kept step is kept exactly: a power of two e and three whole parts under 2^19, registered
   // (each prints exactly), and the number as unregistered text that adds them up, so it reaches var() as the double
   // calc() worked out (a registered number would reach it at 6 digits). Exact for sizes from 1e-30, so a step kept and
   // the same step written where it is read give the same double: which steps are kept is the step graph's choice (below).
@@ -1703,7 +1706,7 @@ export function extractPart() {
   // the steps from x, y, z to each space, as a graph: the step graph (lib/steps.mjs) keeps a step where its readers would
   // work it out more often than keeping it costs, writes the rest where they are read, and puts each kept step on the
   // classes whose outputs reach it
-  // a kept step's weight: its text once, and 4,000 for its five declarations and four registrations as share
+  // a kept step's weight: its text once, and 4,000 for its five declarations and four registrations as share()
   // leaves the rest (measured: 4,000 gives the smallest sheet, 212,887 bytes, against 640: 216,780; 100,000: 223,724)
   const g = stepGraph({ prefix: '--gamut--cx-', keep, sel: (c) => `.color-extract-read.extract-${c}`, weigh: (e) => e.length + 4000 });
   const S = (names, exprs) => names.map((n, i) => g.step(n, exprs[i]));
@@ -1749,7 +1752,7 @@ export function extractPart() {
    space's channels, as its relative color's keywords: extract-srgb --gamut-srgb-r/-g/-b, extract-srgb-linear,
    extract-display-p3, extract-a98-rgb, extract-prophoto-rgb, extract-rec2020, extract-xyz-d50 (-x/-y/-z), extract-oklab --gamut-oklab-l/-a/-b, extract-oklch --gamut-oklch-l/-c/-h, extract-lab, extract-lch,
    extract-hsl --gamut-hsl-h/-s/-l, extract-hwb --gamut-hwb-h/-w/-b (hue 0 where it would be none), each an exact
-   double too: kept as unround.css keeps a number, a power of two and three whole parts under 2^19. */
+   double too: kept exactly, a power of two and three whole parts under 2^19. */
 ${NH.props}
 ${['qh', 'ql', 'se', 'ah', 'al'].map((n) => reg(`--gamut--cx-${n}`, '<color>', false, 'transparent')).join('\n')}
 ${lines.join('\n')}
@@ -1874,7 +1877,7 @@ export function asFunction(css, { cls, args, out = '--gamut-out', locals = [], c
     const plain = ds.filter((d) => !d.cont.length), queried = ds.filter((d) => d.cont.length);
     // hoist: the result's queried values each a function of their own and its one plain value in the else, so the
     // branch not taken is a call, not its text (Chrome 155 works through an untaken branch's text: color-mix's 19 kB
-    // paint branch cost 272 µs a call against 177, as a call 185; research/probes/function-cost.mjs, 2026-10-27)
+    // paint branch cost 272 µs a call against 177, as a call 185, 2026-10-27)
     const lift = hoist && p === out && queried.length && plain.length === 1 && !plain[0].ctx.length;
     const base = queried.length ? `${short}base-${p.replace(/^--gamut--?/, '')}` : prop;
     if (!lift) for (const d of plain) body.push(wrap(d.ctx, `${base}: ${value(d)};`));
@@ -2017,7 +2020,7 @@ ${[...new Set([...mf.fns, ...kf.fns])].join('\n')}
 /* the adaptive method's steps, a function of their own: Chrome 155 computes a function's locals whether or not its
    result reads them (in one function with the css method's, that method took 0.63 ms a call, not 0.31); the css
    method's steps above are each an if() for the same reason (adaptive 0.68 ms a call without, 0.41 with; css 0.32
-   with). research/probes/adaptive-cost.mjs */
+   with). */
 @function --gamut--fit-adaptive(--gamut-in, --gamut--lin) returns <color> {
   --gamut--src: oklch(from ${SEED} l c h / none);
   ${ktLine}
@@ -2146,7 +2149,7 @@ ${['rec2020', 'a98-rgb'].map((g) => `@container style(--gamut-method: edge-seeke
   // it with hue 0, QUIRKS.md Q3: oklch(0.7 0.1 none) got text at 4.33:1 for 4.5); contrast.css reads --gamut--rt-bg
   const rtn = noneHue('var(--gamut-bg)', '--gamut--rtn-');
   const rtBg = `${rtn.props}\n@property --gamut--rt-bg { syntax: '<color>'; inherits: false; initial-value: transparent; }\n.readable-text { ${rtn.decls.join(' ')} --gamut--rt-bg: ${rtn.pick('srgb', 'r g b')}; }`;
-  const hand = [src('contrast.css'), src('scale.css'), rtBg], fold = (css, prefix) => share(across(nest(css, whole).css, { prefix }).css, { prefix }).css
+  const hand = [src('contrast.css'), src('scale.css'), rtBg], fold = PLAIN ? (css) => css : (css, prefix) => share(across(nest(css, whole).css, { prefix }).css, { prefix }).css
     .replaceAll('--_s-', '--gamut--s-').replaceAll('--_x-', '--gamut--x-');   // the passes' names, into gamut's stem
   const modules = {
     contrast: [head('contrast', '.readable-text and .contrast-color'), src('contrast.css'), contrastColor(), rtBg],
@@ -2181,12 +2184,13 @@ export function sheet(options) { const { core, modules } = sheets(options);
 // The shipped sheet: a usage note and the licence, then rules only (the notes stay here and in contrast.css and scale.css)
 // Every class the sheet defines ships as gamut-<name> (.gamut-fit-screen, .gamut-blend-multiply, .gamut-extract-oklch), so
 // a page's own classes (an .alpha utility) never meet the sheet's; the sources keep the bare names, and the custom
-// properties (--gamut-) and functions (--gamut-fit-screen()) already carry the stem (the user's call, 2026-10-28)
+// properties (--gamut-) and functions (--gamut-fit-screen()) already carry the stem
 export const CLASS_PREFIX = 'gamut-';
+const PLAIN = process.argv.includes('--plain');   // node build.mjs --plain (above)
 export function shipped(css = sheet()) {
   const req = createRequire(import.meta.url), postcss = req('postcss'), selectorParser = req('postcss-selector-parser');
   const root = postcss.parse(css);
-  root.walkComments((comment) => comment.remove());
+  if (!PLAIN) root.walkComments((comment) => comment.remove());
   const prefix = selectorParser((sel) => { sel.walkClasses((c) => { c.value = CLASS_PREFIX + c.value; }); });
   root.walkRules((r) => { if (r.parent?.type === 'atrule' && r.parent.name === 'keyframes') return; r.selector = prefix.processSync(r.selector); });
   // A part nested in itself: an internal property set only under a container or media query (a target's matrices, a
@@ -2223,6 +2227,7 @@ Add a part's class to an element and set its custom properties (README.md lists 
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+  if (PLAIN) { const css = shipped(), to = new URL('../gen/gamutant.plain.css', import.meta.url); mkdirSync(new URL('.', to), { recursive: true }); writeFileSync(to, css); console.log(`gen/gamutant.plain.css ${css.length}`); process.exit(0); }
   const css = shipped(); writeFileSync(new URL('../gamutant.css', import.meta.url), css); console.log(`gamutant.css ${css.length}`);
   // the function forms' arguments, for test/functions-check.mjs (data, so the check runs where this file can't)
   writeFileSync(new URL('../test/data/functions.json', import.meta.url), JSON.stringify(FUNCTIONS.map(({ cls, args, out, container, number }) => ({ cls, args, out, container, number })), null, 1) + '\n');

@@ -106,7 +106,7 @@ const sheetOf = (ids, names = [], selectors = new Map(), { keepCustom = false } 
   root.walk((n) => { orig.push(n); }); copy.walk((n) => { cl.push(n); });
   const map = new Map(orig.map((n, i) => [n, cl[i]])), kept = new Set([...keep].map((n) => map.get(n)));
   const keepTree = new Set(); for (const n of kept) { n.walk?.((d) => { keepTree.add(d); }); for (let p = n; p && p.type !== 'root'; p = p.parent) keepTree.add(p); }
-  // a custom property no CSS in the sheet reads is an output (nada's --n-v-active, read by script): it stays; one the
+  // a custom property no CSS in the sheet reads is an output (one a script reads): it stays; one the
   // sheet reads elsewhere but this cut does not is plumbing and goes
   readSomewhere ??= new Set(nodes.flatMap((x) => [...x.reads, ...vars(x.n.toString())]));
   if (!keepCustom) for (const id of globalIds) for (const d of map.get(nodes[id].n).nodes ?? []) if (d.type === 'decl' && d.prop.startsWith('--') && !need.has(d.prop) && readSomewhere.has(d.prop)) keepTree.delete(d);

@@ -1,6 +1,5 @@
-// One page trimmer for every library (2026-10-23): a sheet cut to what one page can use. Two halves, each the better of
-// the two trimmers the lab had:
-// - which rules: nada's (trimNada): a rule stays when its selector, widened, matches an element
+// A page trimmer: a sheet cut to what one page can use (parts.mjs cuts each part with it). Two halves:
+// - which rules: a rule stays when its selector, widened, matches an element
 //   of the page (css-select on the page's own tree). The page never changes, only its state does, so a state
 //   pseudo-class (or one css-select does not know) may hold and is dropped, a :not() holding one goes whole, attributes
 //   the browser or a shim write after load (open, role, tabindex, aria-*, data-store-press, data-n-js, data-list-empty)
@@ -22,7 +21,7 @@ import selectorParser from 'postcss-selector-parser';
 import { graph, namesOf } from './css-deps.mjs';
 
 const LOGICAL = new Set([':is', ':where', ':has', ':matches', ':not']);
-const STRUCTURAL = new Set([':root', ':first-child', ':last-child', ':only-child', ':first-of-type', ':last-of-type', ':only-of-type', ':empty', ':nth-child', ':nth-last-child', ':nth-of-type', ':nth-last-of-type', ':lang', ':defined']);   // trimNada's, :scope a state
+const STRUCTURAL = new Set([':root', ':first-child', ':last-child', ':only-child', ':first-of-type', ':last-of-type', ':only-of-type', ':empty', ':nth-child', ':nth-last-child', ':nth-of-type', ':nth-last-of-type', ':lang', ':defined']);   // :scope a state
 const OLD_ELEMENTS = new Set([':before', ':after', ':first-line', ':first-letter']);
 const MARK = 'data-trim-custom', LONG = 8;
 export const RUNTIME = /^(aria-.*|role|tabindex|open|data-store-press|data-n-js|data-list-empty)$/i;
@@ -53,9 +52,9 @@ export const widener = (runtime) => selectorParser((root) => {
     if (!relative && (!prev || prev.type === 'combinator')) n.parent.insertBefore(n, selectorParser.universal()); } });
 });
 
-// other: the text of the page's other stylesheets, which may read this sheet's names (layoutit's app.css draws in
-// nada-app.css's nada-letters counter style). Without it nothing about them is known, so every definition and every
-// shared custom property stays (trimNada's choice); with it ('' for none) they are cut to what is read.
+// other: the text of the page's other stylesheets, which may read this sheet's names (an app's sheet may use
+// this sheet's counter style). Without it nothing about them is known, so every definition and every
+// shared custom property stays; with it ('' for none) they are cut to what is read.
 export function trim(sheet, html, { other, runtime = RUNTIME, graph: g } = {}) {
   const unknown = other === undefined; other ??= '';
   // a page with no <body> tag has one in the browser (the parser makes it): htmlparser2 makes none, so body would match nothing
@@ -69,10 +68,10 @@ export function trim(sheet, html, { other, runtime = RUNTIME, graph: g } = {}) {
   const text = `${html}\n${other}`, words = new Set(text.match(/[\w-]+/g) ?? []);
   const defs = G.nodes.filter((x) => x.kind !== 'rule' && x.kind !== '@property').map((x) => x.defines[0].split(':').slice(1).join(':')).filter((k) => k && (unknown || words.has(k)));
   const regs = unknown ? G.nodes.filter((x) => x.kind === '@property').map((x) => x.defines[0]) : [];
-  // a rule that provides a name is taken only when it matches the page too (trimNada's rule: 639 KB to ... over nada's 77)
+  // a rule that provides a name is taken only when it matches the page too
   const s = G.slice([], { seed, names: [...namesOf(text), ...defs, ...regs], accept: (x) => matches(x.n.selector) });
-  // and each kept rule's selector list cut to the selectors that match, as beasties does for trimNada (nada's rules
-  // list many components' selectors; a nested rule's & keeps its parent's list whole)
+  // and each kept rule's selector list cut to the selectors that match, as beasties does (a nested rule's &
+  // keeps its parent's list whole)
   const selectors = new Map();
   for (const id of s.ids) { const x = G.nodes[id]; if (x.kind !== 'rule' || x.n.nodes?.some((c) => c.type === 'rule') || x.n.parent?.type === 'rule') continue;
     const list = x.n.selectors; if (list.length < 2) continue; const keep = list.filter((sel) => matches(sel));

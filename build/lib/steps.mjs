@@ -9,7 +9,7 @@
 // out(cls, names, exprs, raw) writes raw outputs as they are (a color), others in calc(). With weigh(expr), the bytes a
 // kept step's declarations and registrations take, it decides by the sheet's size; without, by time:
 // The cost of an evaluation: 0.5 µs an operation and 0.02 µs a byte (a calc() operation 0.42 / 0.57 µs, Chrome's re-parse
-// 0.035 µs a byte, as measured). KEPT, the default, is unround.css's keep(): four evaluations (its text written once), four registers
+// 0.035 µs a byte, as measured). KEPT, the default, keeps a number exactly: four evaluations (its text written once), four registers
 // (1.25 µs each) and a decode of 4 µs a read, exact, so a kept step and its text give the same double. REGISTERED is one
 // registered <number>: one evaluation and one register, read at 6 significant digits.
 export const KEPT = { evals: 4, regs: 4, read: 4, writes: 1 }, REGISTERED = { evals: 1, regs: 1, read: 0 };

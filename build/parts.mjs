@@ -3,7 +3,7 @@
 // the part's rules, the registrations and keyframes they read, its Chrome @function forms and every @function they
 // call, cut by a page trimmer (lib/css-trim.mjs) on a page with every class the part's selectors name and a
 // call of its function. A function form stays in its part's file: Chrome paints a call to a function no sheet defines
-// transparent, past a plain fallback color, where WebKit and Firefox keep the fallback (the source repository's test/parts-check.mjs).
+// transparent, past a plain fallback color, where WebKit and Firefox keep the fallback.
 //   parts(css) -> { '<part>': text }; node parts.mjs writes parts/<part>.css from gamutant.css
 import { readFileSync, writeFileSync, mkdirSync, readdirSync, rmSync } from 'node:fs';
 import { pathToFileURL } from 'node:url';
