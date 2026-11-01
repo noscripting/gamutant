@@ -1,5 +1,5 @@
 // Checks .gamut-okhsl, .gamut-okhsv and .gamut-okhsl-from under --gamut-target: display-p3 and rec2020 (#8659's P3
-// constants and a Rec. 2020 set fitted here, okhsl-fit.mjs) against Ottosson's model run numerically for that gamut (test/ref/okhsl.mjs exact(): the cusp's maximum
+// constants and a Rec. 2020 set fitted here, build/okhsl-fit.mjs) against Ottosson's model run numerically for that gamut (test/ref/okhsl.mjs exact(): the cusp's maximum
 // saturation and the gamut's edge found by bisection), in Chrome, WebKit and Firefox, and their functions under the
 // same ancestor in Chrome: the hue circle at s 1, corners, random h s l / h s v, and colors of the gamut with their s,
 // l, both or neither replaced. Distances are in the target's 8-bit encoding (display-p3; rec2020 by BT.2020's curve,

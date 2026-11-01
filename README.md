@@ -2,11 +2,9 @@
 
 A CSS-only color polyfill. Gamutant is a stylesheet that fits colors into what the screen can show (its gamut), picks readable text colors and works in Okhsl, Okhsv and the HDR color spaces. Use it as classes, or as CSS functions where `@function` runs. No JavaScript needed.
 
-Browsers today clip each channel of a color past the screen. Its gamut mapping runs CSS Color 4's three algorithms instead (§14.2: the binary search with local MINDE, EdgeSeeker and Ray Trace), and Björn Ottosson's adaptive clipping. It passes WPT's 29 gamut-mapping canvas cases in all three engines, and the default and Ray Trace come within 0.84/255 of Color.js 0.7.1; [lab/mappers.html](lab/mappers.html) shows each method beside the clip.
-
 ## License
 
-MIT, see LICENSE; `.gamut-palette-step` is also under Apache-2.0, and the parts that carry the CSS Color drafts' sample code (`.gamut-okhsl-from`, `.gamut-color-extract` and the HDR spaces) under the W3C Software and Document License, see LICENSE-THIRD-PARTY. Math comes from Color.js by Lea Verou and Chris Lilley, Björn Ottosson’s Okhsl and gamut clipping code, spectral.js by Ronald van Wijnen, Google’s material-color-utilities and the CSS Color drafts’ sample code.
+MIT, see LICENSE. Math comes from Color.js by Lea Verou and Chris Lilley, Björn Ottosson’s Okhsl and gamut clipping code, spectral.js by Ronald van Wijnen, Google’s material-color-utilities and the CSS Color drafts’ sample code.
 
 ## Installation
 
@@ -83,7 +81,7 @@ Brings a color the screen can't show into its gamut, as [CSS Color 4](https://dr
 ```
 
 - Set `--gamut-target` on an ancestor to fit to another gamut: `srgb`, `display-p3`, `rec2020`, `a98-rgb` or `prophoto-rgb`. A `rec2020` color is encoded as all three engines decode it, by BT.2020's curve, not by the 2.4 power CSS Color 4 §10.8 now gives ([#12574](https://github.com/w3c/csswg-drafts/issues/12574)).
-- `--gamut-method` on an ancestor picks the method. The default, `css`, turns the hue up to 6° at chroma 0.2; `edge-seeker` ([Alexey Ardov's](https://drafts.csswg.org/css-color-4/#GMA-EdgeSeeker)), `ray-trace` ([Isaac Muse's](https://drafts.csswg.org/css-color-4/#GMA-Raytrace)) and `adaptive` ([Ottosson's](https://bottosson.github.io/posts/gamutclipping/)) keep it within 2°, 5° and 2° at chroma 0.05 and up, but not to `prophoto-rgb`. `adaptive` gives up lightness toward the hue's most colorful color; the other three hold it.
+- `--gamut-method` on an ancestor picks the method. The default, `css`, turns the hue up to 6° at chroma 0.2; `edge-seeker` ([Alexey Ardov's](https://drafts.csswg.org/css-color-4/#GMA-EdgeSeeker), first written for Color.js, its lookup table replaced by a search of the cube's edges), `ray-trace` ([Isaac Muse's](https://drafts.csswg.org/css-color-4/#GMA-Raytrace), first written for ColorAide) and `adaptive` ([Ottosson's](https://bottosson.github.io/posts/gamutclipping/), its sRGB cusp found on each target's own cube) keep it within 2°, 5° and 2° at chroma 0.05 and up, but not to `prophoto-rgb`. `adaptive` gives up lightness toward the hue's most colorful color; the other three hold it. [lab/mappers.html](lab/mappers.html) shows each method beside the clip.
 
 ### `.gamut-screen-edge`
 
@@ -99,7 +97,7 @@ The most colorful version of a color the screen can show, or a fraction of it ([
 
 ### `.gamut-palette-step`
 
-Material 3's tones of one color, spread over a list's items ([material-color-utilities](https://github.com/material-foundation/material-color-utilities)). They hold its HCT hue; for one OkLCh hue, set only `--gamut-okhsl-l` on `.gamut-okhsl-from`.
+Material 3's tones of one color, spread evenly from tone 95 to 10 over a list's items ([material-color-utilities](https://github.com/material-foundation/material-color-utilities)). They hold its HCT hue; for one OkLCh hue, set only `--gamut-okhsl-l` on `.gamut-okhsl-from`.
 
 ```html
 <ul style="--gamut-in: #6750a4">
@@ -132,7 +130,7 @@ A gradient between two colors with every stop fitted to the screen ([CSS Color 4
 
 ### `.gamut-readable-text`
 
-A text color that reads on an opaque background: the background's color mixed toward black or white to a WCAG 2 contrast ratio of 4.5, the continuous lightness adjustment [#5153](https://github.com/w3c/csswg-drafts/issues/5153) asked for (deferred). Beside another part on one element, `--gamut-bg: var(--gamut-out)` reads that part's color. On a gradient of light colors read its darkest end, of dark ones its lightest; colors between can contrast less.
+A text color that reads on an opaque background: the background's color mixed toward black or white to a WCAG 2 contrast ratio of 4.5, the continuous adjustment [#5153](https://github.com/w3c/csswg-drafts/issues/5153) asked for (deferred), as a tint or shade: its OkLCh chroma falls, and toward white its hue turns too (pure blue's by 21°). Beside another part on one element, `--gamut-bg: var(--gamut-out)` reads that part's color. On a gradient of light colors read its darkest end, of dark ones its lightest; colors between can contrast less. [lab/accent.html](lab/accent.html) themes a whole page from the viewer's `AccentColor` with it and four other parts.
 
 ```html
 <p class="gamut-readable-text" style="
@@ -176,7 +174,7 @@ Mixes up to six colors, as `color-mix()` does with any number ([CSS Color 5](htt
 ```
 
 - `--gamut-mix-count` says how many, 2 if unset; `--gamut-mix-space` their space, `oklab` if unset, as `color-mix()` takes it.
-- Add `.gamut-mix-paint` to mix two colors as paints do (as a function, space `paint`), with Ronald van Wijnen's [spectral.js](https://github.com/rvanwijnen/spectral.js) ([#8715](https://github.com/w3c/csswg-drafts/issues/8715)).
+- Add `.gamut-mix-paint` to mix two colors by Kubelka-Munk as Ronald van Wijnen's [spectral.js](https://github.com/rvanwijnen/spectral.js) models pigments (as a function, space `paint`) ([#8715](https://github.com/w3c/csswg-drafts/issues/8715)); [lab/paint.html](lab/paint.html) shows it beside `color-mix()`.
 
 ### `.gamut-color-interpolate`
 
@@ -287,7 +285,7 @@ Colors picked in Okhsl and Okhsv ([Ottosson's color picker spaces](https://botto
 "></div>
 ```
 
-- Set `--gamut-target: display-p3` or `rec2020` on an ancestor to pick in that gamut (P3 constants: Isaac Muse's, [#8659](https://github.com/w3c/csswg-drafts/issues/8659); Rec. 2020's are this library's own fit, published nowhere else, within 35/255 of Ottosson's model near its blue primary).
+- Set `--gamut-target: display-p3` or `rec2020` on an ancestor to pick in that gamut (P3 constants: Isaac Muse's, [#8659](https://github.com/w3c/csswg-drafts/issues/8659); Rec. 2020's are this library's own fit of Ottosson's polynomials, up to 35/255 off his exact model near the blue primary).
 
 ### `.gamut-rec2100-pq`, `.gamut-rec2100-hlg`, `.gamut-rec2100-linear`
 
@@ -348,7 +346,7 @@ A color's channels as numbers, for CSS that needs them ([#6937](https://github.c
 
 Measured 2026-10-31, headless: Chrome 155, WebKit 26.4, Firefox 159.
 
-The classes run in all three, the functions only in Chrome 155. Firefox 159 doesn't read a percentage in `--gamut-mix-pct-1` to `--gamut-mix-pct-6`: write `40`, not `40%`. Some colors follow an engine's bugs: `.gamut-color-mix` in Chrome 155; `.gamut-color-layers` and `.gamut-alpha` in WebKit 26.4; `.gamut-fit-screen`, `.gamut-color-mix` and `.gamut-color-equal` in Firefox 159. `npm run browsers` fetches all but Firefox 159, the machine's own.
+The classes run in all three, the functions only in Chrome 155. Firefox 159 doesn't read a percentage in `--gamut-mix-pct-1` to `--gamut-mix-pct-6`: write `40`, not `40%`. Some colors follow an engine's bugs: `.gamut-color-mix` in Chrome 155; `.gamut-color-layers` and `.gamut-alpha` in WebKit 26.4; `.gamut-fit-screen`, `.gamut-color-mix` and `.gamut-color-equal` in Firefox 159. In Firefox 159, `.gamut-fit-screen` maps an input built from `currentColor` wrong: 12 of 33 within 2/255 of Color.js, and a page of them took 14 s to load where the same colors written out took 38 ms. `npm run browsers` fetches all but Firefox 159, the machine's own.
 
 ## Build
 
@@ -359,3 +357,5 @@ npm install
 npm run browsers
 npm test
 ```
+
+`npm run build` writes `gamutant.css` and `parts/` again from `build/`, the same bytes as published: `build/build.mjs` writes the sheet (two parts, `contrast.css` and `scale.css`, are written by hand beside it), `build/parts.mjs` cuts it into parts. `build/build.mjs`'s comments say how each part computes in CSS: a gamut test held in a color's alpha, a distance as a mix with a color's negation, the searches' steps written out one after another.

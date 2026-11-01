@@ -18,7 +18,8 @@ li { margin: 12px 0; }
 </style>
 <main>
 <h1>gamutant.css’s lab</h1>
-<p>Pages from gamutant.css’s lab: the sheet’s gamut mapping and paint mixing shown beside other ways to compute the same colors.
+<p>Pages from gamutant.css’s lab: the sheet’s gamut mapping and paint mixing shown beside other ways to compute the same colors, a
+theme built from the viewer’s accent color, and a photo relit by its reflectances.
 They are not part of the package (npm gets <code>gamutant.css</code>, <code>parts/</code> and the docs); its checks are in
 <code>test/</code>.</p>
 <ul>
@@ -30,5 +31,10 @@ and <code>test/adaptive-check.mjs</code> (<code>adaptive</code>).</li>
 <li><a href="paint.html">Mixed as paint</a>: <code>.gamut-mix-paint</code> beside <code>color-mix(in oklab)</code>, and three paints
 from a lab sheet that gamutant.css doesn’t ship. Within 2.4e-5 a linear channel of spectral.js’s <code>mix()</code> in all 54 two-paint and 198 three-paint cells (Chrome 155, WebKit 26.4, Firefox 159, 2026-10-31). The two-paint mix is checked by
 <code>test/paint-check.mjs</code>.</li>
+<li><a href="accent.html">Your accent</a>: a page themed from your system’s <code>AccentColor</code> by gamutant.css’s parts nested
+(<code>.gamut-screen-edge</code>, <code>.gamut-readable-text</code>, <code>.gamut-fit-screen</code>, <code>.gamut-contrast-color</code>,
+<code>.gamut-palette-step</code>), and the same theme on macOS’s seven accents. All eight themes keep their ratios on 8-bit sRGB: ink at least 7.01:1, muted text 4.51:1, the button’s label 4.88:1 (Chrome 155, WebKit 26.4, Firefox 159, 2026-10-31).</li>
+<li><a href="relight.html">Relit</a>: a photo lit again under seven lights and seven black-body temperatures, every pixel a
+reflectance curve seen under the light, from a lab sheet that gamutant.css doesn’t ship. Every pixel within 1.6e-5 a channel of spectral.js’s model under all 7 lights and 7 temperatures, as camera and as eye (Chrome 155, WebKit 26.4, Firefox 159, 2026-10-31).</li>
 </ul>
 </main>

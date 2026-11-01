@@ -7,7 +7,7 @@
 // over its branch's hues, every 0.05 degrees. get_ST_mid stays ok_color.h's own, as ColorAide's Okhsl P3 keeps it:
 // it is a smooth curve under the cusp, and a wider gamut's cusp lies further out.
 // build.mjs reads OKHSL_GAMUTS (rounded, below); test/ref/okhsl.mjs runs them.
-// Usage: node okhsl-fit.mjs   prints each gamut's constants, and the method run on ok_color.h's own sRGB matrix
+// Usage: node build/okhsl-fit.mjs   prints each gamut's constants, and the method run on ok_color.h's own sRGB matrix
 // beside ok_color.h's published constants.
 import { pathToFileURL } from 'node:url';
 
@@ -59,6 +59,7 @@ export function fitGamut(W) {
 }
 // rounded to fewer digits than ok_color.h's 10 and 8, to keep the sheet small: the matrix to 8 decimals, the branch
 // lines to 7, the polynomials to 6 (a Halley step refines them); away from blue within 0.03/255 of the numerical model
+// (research/probes/okhsl-gamuts-distance.mjs)
 const round = ({ rgb, rt, k }) => ({ rgb: rgb.map((r) => r.map((x) => +x.toFixed(8))), rt: rt.map((r) => r.map((x) => +x.toFixed(7))), k: k.map((r) => r.map((x) => +x.toFixed(6))) });
 // Display P3's branch lines and polynomials as Isaac Muse (facelessuser, ColorAide's author) published them for Okhsl P3,
 // csswg-drafts #8659 (https://github.com/w3c/csswg-drafts/issues/8659#issuecomment-1500699972, the gist it links:

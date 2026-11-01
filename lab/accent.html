@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Your accent</title>
+<link rel="stylesheet" href="../gamutant.css">
+<style>.accent {
+  --accent: var(--accent-in, AccentColor);
+  --gamut-target: srgb;
+  --accent-l-paper: 0.97; --accent-rel-paper: 0.3;
+  --accent-l-panel: 0.92; --accent-rel-panel: 0.4;
+  color-scheme: light dark;
+}
+@media (prefers-color-scheme: dark) {
+  .accent { --accent-l-paper: 0.21; --accent-rel-paper: 0.25; --accent-l-panel: 0.28; --accent-rel-panel: 0.35; --accent-l-button: 0.72; }
+}
+.accent-paper { --gamut-in: oklch(from var(--accent) var(--accent-l-paper) c h / 1); --gamut-rel: var(--accent-rel-paper); background: var(--gamut-out); }
+.accent-panel { --gamut-in: oklch(from var(--accent) var(--accent-l-panel) c h / 1); --gamut-rel: var(--accent-rel-panel); background: var(--gamut-out); }
+.accent-ink { --gamut-bg: var(--gamut-out); --gamut-ratio: 7; color: var(--gamut-text); }
+.accent-muted { --gamut-bg: var(--gamut-out); --gamut-ratio: 4.5; color: var(--gamut-text); }
+.accent-button { --gamut-in: oklch(from var(--accent) var(--accent-l-button, l) c h / 1); background: var(--gamut-out); }
+.accent-label { --gamut-bg: var(--gamut-out); --gamut-try-1: AccentColorText; --gamut-contrast-ratio: 4.5; color: var(--gamut-text); }
+.accent-palette { --gamut-in: var(--accent); --gamut-chroma-scale: 1; }
+.accent-palette > .gamut-palette-step { background: var(--gamut-out); }
+
+body { margin: 0; font: 16px/1.5 system-ui, sans-serif; }
+a { color: inherit; }
+nav { font-size: 14px; margin-bottom: 1rem; }
+.accent-paper { padding: 24px 16px 48px; }
+.accent-paper > .accent-ink { max-width: 48rem; margin: 0 auto; }
+h1 { margin: 0 0 .5rem; font-size: 26px; } h2 { font-size: 20px; margin: 2rem 0 .5rem; }
+.accent-panel { border-radius: 10px; padding: 1rem 1.2rem; margin: 1rem 0; }
+.accent-button { display: inline-block; border-radius: 8px; padding: .5rem 1rem; font-weight: 600; margin: .5rem 0; }
+.accent-palette { list-style: none; padding: 0; margin: 1rem 0; display: grid; grid-template-columns: repeat(11, 1fr); gap: 2px; }
+.accent-palette > li { block-size: 2.5rem; border-radius: 3px; }
+.controls { display: flex; gap: 1.2rem; align-items: center; flex-wrap: wrap; margin: .5rem 0; }
+.swatch { display: inline-block; inline-size: 1em; block-size: 1em; vertical-align: -.15em; border-radius: 3px; background: AccentColor; }
+.pinned { display: grid; grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr)); gap: .6rem; }
+.pinned .accent-paper { padding: .8rem; border-radius: 10px; font-size: 14px; }
+.pinned .accent-panel { padding: .4rem .6rem; margin: .4rem 0; }
+.pinned .accent-palette > li { block-size: 1rem; }
+.pinned h3 { margin: 0; font-size: 14px; }
+</style>
+<div class="accent">
+<div class="accent-paper gamut-screen-edge"><div class="accent-ink gamut-readable-text"><nav><a href="./">gamutant.css’s lab</a></nav>
+<h1>Your accent, your page</h1>
+<p>This page asks nothing and runs no script. Its colors come from your system’s accent color <span class="swatch"></span>, as the
+browser reports it to CSS as <code>AccentColor</code>, and gamutant.css’s parts build the rest from it, each reading the color the
+part around it wrote.</p>
+<p class="accent-muted gamut-readable-text">Secondary text: <code>.gamut-readable-text</code> at 4.5:1 on the paper. The text above is at 7:1, in the paper’s own shade. The paper is the accent’s hue at lightness 0.97 and 30% of the screen’s edge chroma (<code>.gamut-screen-edge</code>); in a dark scheme, 0.21 and 25%.</p>
+<div class="accent-panel gamut-screen-edge"><div class="accent-ink gamut-readable-text"><strong>A panel.</strong> The accent’s hue at lightness 0.92 and 40% of the edge chroma, with its own ink at 7:1.</div></div>
+<div class="accent-button gamut-fit-screen"><span class="accent-label gamut-contrast-color">A button in your accent</span></div>
+<ol class="accent-palette"><li class="gamut-palette-step"></li><li class="gamut-palette-step"></li><li class="gamut-palette-step"></li><li class="gamut-palette-step"></li><li class="gamut-palette-step"></li><li class="gamut-palette-step"></li><li class="gamut-palette-step"></li><li class="gamut-palette-step"></li><li class="gamut-palette-step"></li><li class="gamut-palette-step"></li><li class="gamut-palette-step"></li></ol><p class="accent-muted gamut-readable-text">The fill is the accent itself (<code>.gamut-fit-screen</code> keeps it on screen when the dark scheme lifts
+it); its label is the system’s own <code>AccentColorText</code> when that reaches 4.5:1, else white, else black (<code>.gamut-contrast-color</code>). The strip is
+<code>.gamut-palette-step</code>’s Material tones 95 to 10.</p>
+<div class="controls"><label><input type="checkbox" checked> checkbox</label><label><input type="radio" checked> radio</label>
+<input type="range" value="60" aria-label="range"><progress value="0.6"></progress></div>
+<p class="accent-muted gamut-readable-text">The controls keep <code>accent-color: auto</code>: the browser paints them in the same accent.
+Chrome reports a fixed #0075ff whatever the system’s accent; Safari and Firefox report the system’s.</p>
+<h2>The same theme on macOS’s seven accents</h2>
+<div class="pinned"><div class="accent" style="--accent-in: rgb(255 82 87)">
+<div class="accent-paper gamut-screen-edge"><div class="accent-ink gamut-readable-text"><h3>red</h3>
+<p class="accent-muted gamut-readable-text">muted text</p>
+<div class="accent-panel gamut-screen-edge"><div class="accent-ink gamut-readable-text">panel</div></div>
+<div class="accent-button gamut-fit-screen"><span class="accent-label gamut-contrast-color">button</span></div>
+<ol class="accent-palette"><li class="gamut-palette-step"></li><li class="gamut-palette-step"></li><li class="gamut-palette-step"></li><li class="gamut-palette-step"></li><li class="gamut-palette-step"></li><li class="gamut-palette-step"></li><li class="gamut-palette-step"></li><li class="gamut-palette-step"></li><li class="gamut-palette-step"></li><li class="gamut-palette-step"></li><li class="gamut-palette-step"></li></ol>
+</div></div></div><div class="accent" style="--accent-in: rgb(247 130 27)">
+<div class="accent-paper gamut-screen-edge"><div class="accent-ink gamut-readable-text"><h3>orange</h3>
+<p class="accent-muted gamut-readable-text">muted text</p>
+<div class="accent-panel gamut-screen-edge"><div class="accent-ink gamut-readable-text">panel</div></div>
+<div class="accent-button gamut-fit-screen"><span class="accent-label gamut-contrast-color">button</span></div>
+<ol class="accent-palette"><li class="gamut-palette-step"></li><li class="gamut-palette-step"></li><li class="gamut-palette-step"></li><li class="gamut-palette-step"></li><li class="gamut-palette-step"></li><li class="gamut-palette-step"></li><li class="gamut-palette-step"></li><li class="gamut-palette-step"></li><li class="gamut-palette-step"></li><li class="gamut-palette-step"></li><li class="gamut-palette-step"></li></ol>
+</div></div></div><div class="accent" style="--accent-in: rgb(255 198 0)">
+<div class="accent-paper gamut-screen-edge"><div class="accent-ink gamut-readable-text"><h3>yellow</h3>
+<p class="accent-muted gamut-readable-text">muted text</p>
+<div class="accent-panel gamut-screen-edge"><div class="accent-ink gamut-readable-text">panel</div></div>
+<div class="accent-button gamut-fit-screen"><span class="accent-label gamut-contrast-color">button</span></div>
+<ol class="accent-palette"><li class="gamut-palette-step"></li><li class="gamut-palette-step"></li><li class="gamut-palette-step"></li><li class="gamut-palette-step"></li><li class="gamut-palette-step"></li><li class="gamut-palette-step"></li><li class="gamut-palette-step"></li><li class="gamut-palette-step"></li><li class="gamut-palette-step"></li><li class="gamut-palette-step"></li><li class="gamut-palette-step"></li></ol>
+</div></div></div><div class="accent" style="--accent-in: rgb(98 186 70)">
+<div class="accent-paper gamut-screen-edge"><div class="accent-ink gamut-readable-text"><h3>green</h3>
+<p class="accent-muted gamut-readable-text">muted text</p>
+<div class="accent-panel gamut-screen-edge"><div class="accent-ink gamut-readable-text">panel</div></div>
+<div class="accent-button gamut-fit-screen"><span class="accent-label gamut-contrast-color">button</span></div>
+<ol class="accent-palette"><li class="gamut-palette-step"></li><li class="gamut-palette-step"></li><li class="gamut-palette-step"></li><li class="gamut-palette-step"></li><li class="gamut-palette-step"></li><li class="gamut-palette-step"></li><li class="gamut-palette-step"></li><li class="gamut-palette-step"></li><li class="gamut-palette-step"></li><li class="gamut-palette-step"></li><li class="gamut-palette-step"></li></ol>
+</div></div></div><div class="accent" style="--accent-in: rgb(0 122 255)">
+<div class="accent-paper gamut-screen-edge"><div class="accent-ink gamut-readable-text"><h3>blue</h3>
+<p class="accent-muted gamut-readable-text">muted text</p>
+<div class="accent-panel gamut-screen-edge"><div class="accent-ink gamut-readable-text">panel</div></div>
+<div class="accent-button gamut-fit-screen"><span class="accent-label gamut-contrast-color">button</span></div>
+<ol class="accent-palette"><li class="gamut-palette-step"></li><li class="gamut-palette-step"></li><li class="gamut-palette-step"></li><li class="gamut-palette-step"></li><li class="gamut-palette-step"></li><li class="gamut-palette-step"></li><li class="gamut-palette-step"></li><li class="gamut-palette-step"></li><li class="gamut-palette-step"></li><li class="gamut-palette-step"></li><li class="gamut-palette-step"></li></ol>
+</div></div></div><div class="accent" style="--accent-in: rgb(165 80 167)">
+<div class="accent-paper gamut-screen-edge"><div class="accent-ink gamut-readable-text"><h3>purple</h3>
+<p class="accent-muted gamut-readable-text">muted text</p>
+<div class="accent-panel gamut-screen-edge"><div class="accent-ink gamut-readable-text">panel</div></div>
+<div class="accent-button gamut-fit-screen"><span class="accent-label gamut-contrast-color">button</span></div>
+<ol class="accent-palette"><li class="gamut-palette-step"></li><li class="gamut-palette-step"></li><li class="gamut-palette-step"></li><li class="gamut-palette-step"></li><li class="gamut-palette-step"></li><li class="gamut-palette-step"></li><li class="gamut-palette-step"></li><li class="gamut-palette-step"></li><li class="gamut-palette-step"></li><li class="gamut-palette-step"></li><li class="gamut-palette-step"></li></ol>
+</div></div></div><div class="accent" style="--accent-in: rgb(247 79 158)">
+<div class="accent-paper gamut-screen-edge"><div class="accent-ink gamut-readable-text"><h3>pink</h3>
+<p class="accent-muted gamut-readable-text">muted text</p>
+<div class="accent-panel gamut-screen-edge"><div class="accent-ink gamut-readable-text">panel</div></div>
+<div class="accent-button gamut-fit-screen"><span class="accent-label gamut-contrast-color">button</span></div>
+<ol class="accent-palette"><li class="gamut-palette-step"></li><li class="gamut-palette-step"></li><li class="gamut-palette-step"></li><li class="gamut-palette-step"></li><li class="gamut-palette-step"></li><li class="gamut-palette-step"></li><li class="gamut-palette-step"></li><li class="gamut-palette-step"></li><li class="gamut-palette-step"></li><li class="gamut-palette-step"></li><li class="gamut-palette-step"></li></ol>
+</div></div></div></div>
+</div></div></div>

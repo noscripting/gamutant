@@ -2,7 +2,7 @@
 // only hsl(), hwb() and the polar forms are written here, from CSS Color 4 §7, §8 and §9), powerless and missing components (§4.4), interpolation (§13: analogous components and sets carried
 // forward, hue fixups, premultiplied alpha), color-mix() (CSS Color 5 §3, CSS Values 5 §6.1's percentages), relative
 // colors (CSS Color 5 §4) and the computed value's form (CSS Color 4 §15 and §16, CSS Color 5 §11). Read against the
-// drafts in ../css-color-4.txt (20 October 2026) and ../css-color-5.txt (8 October 2026).
+// drafts at https://drafts.csswg.org/css-color-4/ (20 October 2026) and https://drafts.csswg.org/css-color-5/ (8 October 2026).
 // resolve(css, opts) gives { space, c: [3 numbers or null for missing], alpha (number or null), form } or null when the
 // spec makes the value invalid. opts.reading picks between two texts that disagree (README, "Where the text leaves
 // it open"); opts.rules turns on an engine's own rules, to explain its answers (oracle.mjs).

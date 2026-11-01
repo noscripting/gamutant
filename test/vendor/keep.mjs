@@ -1,4 +1,4 @@
-// A number kept as unround.css keeps it (../../unround/unround.css): a power of two e and three whole parts under 2^19,
+// A number kept exactly through registered custom properties: a power of two e and three whole parts under 2^19,
 // each registered (each prints exactly in every engine), and the number itself as unregistered text that adds them up,
 // so it reaches var() as the double calc() worked out instead of the engine's 6-digit print. The modules' every carried
 // number goes through keep(); a check reads it back with kept() from its four parts.

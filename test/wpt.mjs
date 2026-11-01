@@ -6,7 +6,7 @@
 // is the green's alpha. Writes test/wpt/<name>.html, one reftest per test, each matching
 // ref-filled-green-100px-square.html (WPT's own /css/reference/ref-filled-green-100px-square.xht, copied); the tests link
 // the sheet as ../../gamutant.css, so another output folder sits two levels under a copy of it.
-// Usage: node build.mjs && node test/wpt.mjs [folder=test/wpt] && node test/wpt-check.mjs [folder]
+// Usage: npm run build && node test/wpt.mjs [folder=test/wpt] && node test/wpt-check.mjs [folder]
 import { readFileSync, writeFileSync, mkdirSync, rmSync } from 'node:fs';
 import { createRequire } from 'node:module';
 import { fileURLToPath } from 'node:url';

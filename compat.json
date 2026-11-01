@@ -273,7 +273,7 @@
             },
             "firefox": {
               "version_added": false,
-              "notes": "FAIL: 12 of 33 right, and the page takes 6,953 ms to load against 27 ms written out (14,142 against 37 on a machine at load 16 on 14 cores, 2026-10-30). Firefox drops the expression a `currentColor` input builds, which doubles at each step"
+              "notes": "FAIL: 12 of 33 right, and the page takes 14,396 ms to load against 38 ms written out (Firefox 159, 2026-10-31, beside other runs; 6,953 against 27 in Firefox 158, 2026-10-30). Firefox drops the expression a `currentColor` input builds, which doubles at each step"
             }
           },
           "status": {

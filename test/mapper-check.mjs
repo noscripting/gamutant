@@ -10,7 +10,7 @@
 // them), and painted pixels for sRGB. Then style time for 1,
 // 16, 64, 256 fitted colors changing at once, against the same page without the mapper, under the bench lock (skipped
 // with QUICK=1). The 1/255 bars are this sheet's own.
-// Usage: node build.mjs && node test/mapper-check.mjs [count=1000]  (random colors a gamut)
+// Usage: npm run build && node test/mapper-check.mjs [count=1000]  (random colors a gamut)
 // FIT_ONLY=1 checks .gamut-fit-screen alone, including its existing alpha/paint/system cases.
 import { createRequire } from 'node:module';
 import { readFileSync } from 'node:fs';

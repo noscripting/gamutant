@@ -1,9 +1,9 @@
-// Checks .gamut-color-interpolate (src/scale.css, as gamutant.css holds it) in Chrome, WebKit and Firefox against Color.js 0.7.1's
+// Checks .gamut-color-interpolate (build/scale.css, as gamutant.css holds it) in Chrome, WebKit and Firefox against Color.js 0.7.1's
 // mix() (premultiplied, shorter hue): the computed --gamut-out of 1,384 cases (1 to 8 stops in oklab, oklch, srgb-linear,
 // srgb and lab; interior points, the stops themselves, coincident positions and a step either side of them, t past both
 // ends, absent counts and colors) within 1/255 a channel in sRGB, unclipped (this sheet's own bar); a stop within the
 // count with no position, which css-values-5 §7.5's grammar (`<input-position>{1,2} : <color>`, every stop) makes
-// invalid: --gamut-out invalid at computed-value time, so the parent's; the contract (the 34 registers src/scale.css
+// invalid: --gamut-out invalid at computed-value time, so the parent's; the contract (the 34 registers build/scale.css
 // declares and one rule, --gamut-out inherited, the stages transparent and the
 // numbers 0 on a child, no paint or animation of its own); painted pixels; the pixel of a scale whose --gamut-t changes
 // at the next rAF; and the style time of 256 distinct five-stop scales changing at once, under the bench lock (its
@@ -32,13 +32,13 @@ const expectedRegisters = [
   ...numericNames.map((name) => [`--gamut--scale-${name}`, '<number>', false]),
   ['--gamut--scale-g', '<percentage>', false],
 ];
-const css = prefixSheet(readFileSync(new URL('./vendor/scale.css', import.meta.url), 'utf8'));   // its classes as the sheet ships them
-// the part as the built sheet holds it (comments and blank lines aside): a sheet not rebuilt since src/scale.css changed fails here
+const css = prefixSheet(readFileSync(new URL('../build/scale.css', import.meta.url), 'utf8'));   // its classes as the sheet ships them
+// the part as the built sheet holds it (comments and blank lines aside): a sheet not rebuilt since build/scale.css changed fails here
 const bare = (t) => t.replace(/\/\*[^]*?\*\//g, '').replace(/\s+/g, ' ').trim();
 // and the pages run on the sheet itself (SHEET= another), so a rule elsewhere in it that reaches the part shows
 const sheetText = readFileSync(process.env.SHEET ?? new URL('../gamutant.css', import.meta.url), 'utf8');
 if (!bare(sheetText).includes(bare(css))) {
-  console.log('FAIL gamutant.css does not hold src/scale.css as it is: rebuild (node build.mjs)'); process.exit(1); }
+  console.log('FAIL gamutant.css does not hold build/scale.css as it is: rebuild (npm run build)'); process.exit(1); }
 const limit = 1; // this sheet's own bar: 8-bit sRGB steps, without gamut mapping or clipping
 const ink = '#d653b6';
 const colors = ['#ee3344', '#f28c28', '#d2c62b', '#30b969', '#29a6cf', '#4163dc', '#9c46dc', '#e14b99'];
@@ -252,7 +252,7 @@ async function checkEngine(name, type, options, origin) {
         nested: get('.scale-nested').getPropertyValue('--gamut-out').trim(),
         background: bare.backgroundColor, image: bare.backgroundImage,
         animations: document.getAnimations().length,
-        // the part's own rules, from src/scale.css as the sheet holds it (the page links the whole sheet)
+        // the part's own rules, from build/scale.css as the sheet holds it (the page links the whole sheet)
         rules: (() => { const own = new CSSStyleSheet(); own.replaceSync(src); return [...own.cssRules].map((rule) => ({ name: rule.name, syntax: rule.syntax, inherits: rule.inherits, selector: rule.selectorText })); })(),
       };
     }, [numericNames, css]);

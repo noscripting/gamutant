@@ -20,7 +20,7 @@ for (const [seed, rel] of [['#ffff00', 1], ['#ffff00', 0.5], ['#f0e68c', 1], ['#
   singles.push({ seed, rel, tone: 99, want: tone(h.hue, h.chroma * rel, 99) });
 }
 // tone 99 of every hue: sRGB holds most reds to purples there only beside its magenta corner, #fffbff
-// (src/tone99.json); seeds at HSL hues 0 to 350, saturations 100% and 40%, chroma times 1, 0.5 and 0.05 (whose
+// (build/tone99.json); seeds at HSL hues 0 to 350, saturations 100% and 40%, chroma times 1, 0.5 and 0.05 (whose
 // Newton holds); the sheet was up to 30/255 off at 18 of 36 hues (2026-10-28)
 const hsl = (hh, sat) => { const f = (n) => { const k = (n + hh / 30) % 12; return 0.5 - sat * 0.5 * Math.max(-1, Math.min(k - 3, 9 - k, 1)); }; return [f(0), f(8), f(4)]; };
 const hex = (c) => `#${c.map((v) => Math.round(v * 255).toString(16).padStart(2, '0')).join('')}`;

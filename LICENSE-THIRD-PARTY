@@ -3,7 +3,7 @@ gamutant.css's Okhsl and Okhsv parts (.gamut-okhsl, .gamut-okhsl-from, .gamut-ok
 from csswg-drafts #8659: ok_color.h adapted to Python and adjusted to Display P3, under Ottosson's notice). The adaptive
 method of .gamut-fit-screen and .gamut-fit-gradient (--gamut-method: adaptive) is gamut_clip_adaptive_L0_L_cusp from
 Ottosson's gamut clipping code (https://bottosson.github.io/posts/gamutclipping/, alpha 0.05), ported to CSS. The checks'
-references test/ref/okhsl.mjs, test/ref/ottosson.mjs and test/vendor/okhsl-fit.mjs port the same code to JavaScript, and
+references test/ref/okhsl.mjs, test/ref/ottosson.mjs and build/okhsl-fit.mjs port the same code to JavaScript, and
 test/data/okhsl-p3-coloraide.json holds ColorAide's outputs with Isaac Muse's constants (https://github.com/facelessuser/coloraide,
 MIT; ColorAide itself is not redistributed). All
 under this notice:
@@ -23,9 +23,11 @@ WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEM
 COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
 OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-.gamut-color-mix's paint (.gamut-mix-paint) follows spectral.js 3.0.0's Kubelka-Munk mix and carries its base
-reflectances, and its colour matching functions times its XYZ to linear sRGB matrix, cut to 30 samples, which color-mix.css and gamutant.css carry, as does
-lab/paint.html's three-paint sheet in the published repository (https://github.com/rvanwijnen/spectral.js); test/vendor/spectral.mjs loads it for the checks. Under this notice:
+.gamut-color-mix's paint (.gamut-mix-paint) follows spectral.js 3.0.0's Kubelka-Munk mix
+(https://github.com/rvanwijnen/spectral.js) and carries its base reflectances, and its colour matching functions times
+its XYZ to linear sRGB matrix, cut to 30 samples: build/paint.json holds them, and color-mix.css and gamutant.css carry
+them. lab/paint.html's three-paint sheet carries them too, and lab/relight.html's sheet its base reflectances and colour
+matching functions at 38 samples; test/vendor/spectral.mjs loads spectral.js for the checks. Under this notice:
 
 MIT License
 
@@ -43,6 +45,13 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
 COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
 OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+------------------------------------------------------------------------------
+
+lab/relight.html's photo is four Poly Haven photographs (https://polyhaven.com), each under CC0 1.0
+(https://creativecommons.org/publicdomain/zero/1.0/): Forest Leaves 02 (Rob Tuytel), Clay Roof Tiles (Amal Kumar),
+Yellow Flower Mulch (Dimitrios Savva) and Brick Wall 001 (Rob Tuytel and Dimitrios Savva), box-averaged to 64 x 64.
+CC0 asks for no notice; the credits are kept here.
 
 ------------------------------------------------------------------------------
 
@@ -278,6 +287,8 @@ SOFTWARE.
 
 Sample code from two W3C drafts, under the W3C Software and Document License (2023), below:
 - .gamut-color-extract and .gamut-okhsl-from carry CSS Color 4's conversion matrices (https://drafts.csswg.org/css-color-4/).
+- test/extract-check.mjs carries CSS Color 4's conversions.js matrices (XYZ to rec2020, a98-rgb, prophoto-rgb and D50,
+  linear sRGB to XYZ) as the reference where Color.js 0.7.1 differs.
 - .gamut-rec2100-pq, .gamut-rec2100-hlg, .gamut-rec2100-linear, .gamut-jzazbz, .gamut-jzczhz and .gamut-ictcp follow CSS
   Color HDR's decoding (https://drafts.csswg.org/css-color-hdr-1/), changed: its Jzazbz decode's matrix products put in
   order, ninv defined, the division by 203 restored, and its ICtCp decode returning relative XYZ.

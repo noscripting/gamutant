@@ -1,13 +1,14 @@
 // Okhsl as ok_color.h has it (https://bottosson.github.io/posts/colorpicker/, MIT: see LICENSE-THIRD-PARTY), ported line
 // for line in doubles: the reference for .gamut-okhsl (#8659). Hue in degrees (the same hue as oklch()), s and l from 0 to 1.
 // okhsvToOklab: its okhsv_to_srgb, the reference for .gamut-okhsv, on the same cusp (FORCE included). Color.js 0.7.1's Okhsv
-// is ok_color.h refitted (its green k4 is -0.14503204, ok_color.h's +0.14503204), up to 1.1/255 from it.
+// has ok_color.h's constants but for its green row's k3 (0.12541073, ok_color.h's 0.12541070) and k4 (-0.14503204,
+// ok_color.h's +0.14503204), up to 1.1/255 from it.
 // Each function takes a gamut last (#8659's P3 constants and a Rec. 2020 set fitted here): a constant set, SRGB (ok_color.h's own, the
 // default) or one of OKHSL_GAMUTS (okhsl-fit.mjs), run line for line the same; or exact(space), Ottosson's model with
 // the cusp's maximum saturation and the gamut's edge at L found by bisection on Color.js 0.7.1's conversions, and its
 // get_ST_mid as ok_color.h has it (a smooth curve chosen under the cusp, not an approximation of a number).
 import { createRequire } from 'node:module';
-import { OKHSL_GAMUTS } from '../vendor/okhsl-fit.mjs';
+import { OKHSL_GAMUTS } from '../../build/okhsl-fit.mjs';
 const toeK1 = 0.206, toeK2 = 0.03, toeK3 = (1 + toeK1) / (1 + toeK2);
 const toe = (x) => 0.5 * (toeK3 * x - toeK1 + Math.sqrt((toeK3 * x - toeK1) ** 2 + 4 * toeK2 * toeK3 * x));
 const toeInv = (x) => (x * x + toeK1 * x) / (toeK3 * (x + toeK2));

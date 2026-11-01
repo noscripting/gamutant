@@ -4,6 +4,10 @@ All notable changes to gamutant.css are written here. The format follows [Keep a
 
 ## [Unreleased]
 
+### Added
+
+- The build: `npm run build` writes `gamutant.css` and `parts/` again, byte for byte, from `build/`.
+
 ### Fixed
 
 - Each part file's first line names its version, 0.0.1; in 0.0.1 they said 1.0.0.
