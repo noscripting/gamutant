@@ -358,4 +358,6 @@ npm run browsers
 npm test
 ```
 
+Each of the 48 checks reads what Chrome, WebKit and Firefox compute from `gamutant.css` and compares it with a reference written apart from the sheet: Color.js for CSS Color 4's conversions and gamut mapping, the drafts' own pseudocode and sample code, Björn Ottosson's `ok_color.h` for Okhsl and Okhsv, material-color-utilities for palette steps and spectral.js for paint mixing. Each prints its worst error. A web-platform-tests reftest for each part runs beside them. [test/README.md](test/README.md) lists every reference and its version.
+
 `npm run build` writes `gamutant.css` and `parts/` again from `build/`, the same bytes as published: `build/build.mjs` writes the sheet (two parts, `contrast.css` and `scale.css`, are written by hand beside it), `build/parts.mjs` cuts it into parts. `build/build.mjs`'s comments say how each part computes in CSS: a gamut test held in a color's alpha, a distance as a mix with a color's negation, the searches' steps written out one after another.
