@@ -332,7 +332,7 @@ A color between a standard and a bright version, by `--gamut-headroom`, which yo
 
 ### `.gamut-color-extract`
 
-A color's channels as numbers, for CSS that needs them ([#6937](https://github.com/w3c/csswg-drafts/issues/6937)).
+A color's channels as numbers, for CSS that needs them ([#6937](https://github.com/w3c/csswg-drafts/issues/6937)), on a child `.gamut-color-extract-read` and everything inside it.
 
 ```html
 <div class="gamut-color-extract" style="--gamut-in: #ff3366">

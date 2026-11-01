@@ -285,7 +285,7 @@
       },
       "G17": {
         "__compat": {
-          "description": "With `--gamut-method: adaptive` on an ancestor, `.gamut-fit-screen` MUST map an input outside any target gamut G2 to G4 and G10 give, its lightness between 0 and 1 (G18 sets the ends), as `gamut_clip_adaptive_L0_L_cusp` with alpha 0.05 (How software gamut maps, 2021) for that gamut, its cusp the hue's most chroma: within 2/255 a channel of that method written in JS on Color.js 0.7.1's conversions with the cusp found numerically, except at hues where that cusp leaves the cube's edges. (Ottosson's own code keeps chroma at lightness 1, `oklch(1 0.4 150)` to sRGB (0.77, 1, 0.81); G18 takes CSS Color 4's white there.)",
+          "description": "With `--gamut-method: adaptive` on an ancestor, `.gamut-fit-screen` MUST map an input outside any target gamut G2 to G4 and G10 give, its lightness between 0 and 1 (G18 sets the ends), as `gamut_clip_adaptive_L0_L_cusp` with alpha 0.05 (How software gamut maps, 2021) for that gamut, its cusp the hue's most chroma: within 2/255 a channel of that method written in JS on Color.js 0.7.1's conversions with the cusp found numerically, except at hues where that cusp leaves the cube's edges, and in prophoto-rgb near its yellow cusp, at lightness 0.9 and above and hues 80° to 110°, where two Newton steps on the segment fall short: up to 48/255 in Chrome and Firefox, 243/255 in WebKit (`oklch(0.95 4 100)`). (Ottosson's own code keeps chroma at lightness 1, `oklch(1 0.4 150)` to sRGB (0.77, 1, 0.81); G18 takes CSS Color 4's white there.)",
           "support": {
             "chrome": {
               "version_added": "≤155"
@@ -491,7 +491,7 @@
       },
       "R1": {
         "__compat": {
-          "description": "`.gamut-screen-edge` MUST read `--gamut-in` and `--gamut-rel`, a number, default 1 (any other value acting as 1, a percentage too; above 1, rel × edge lies outside the gamut and is clipped to it channel by channel), and MUST write `--gamut-out`: the input's OkLCh lightness and hue, with chroma `rel × edge`, the edge being the target gamut's largest chroma there, whatever the input's own (#11946); an input of chroma 1e-4 or less MUST take hue 0, or its own in an `oklch()` of chroma 0 (css-color-4 §4.4.1).",
+          "description": "`.gamut-screen-edge` MUST read `--gamut-in` and `--gamut-rel`, a number, default 1 (any other value acting as 1, a percentage too; above 1, rel × edge lies outside the gamut and is clipped to it channel by channel), and MUST write `--gamut-out`: the input's OkLCh lightness and hue, with chroma `rel × edge`, the edge being the target gamut's largest chroma there, whatever the input's own (#11946); an input of chroma 1e-4 or less MUST take hue 0, or its own in an `oklch()` of chroma 0 (css-color-4 §4.4.1). Where the line at the input's lightness and hue leaves the gamut and comes back, the edge is the exit the search lands on, at times the first: in prophoto-rgb from about 192° to 225°, up to 200/255 short; in sRGB within 0.1° of the blue primary's hue at lightness 0.40 to 0.47, where the line runs outside by under 0.001 in linear light, up to 46/255 short, and `#0000ff` gives `rgb(0 49 229)`.",
           "support": {
             "chrome": {
               "version_added": "≤155"
@@ -1226,7 +1226,7 @@
       },
       "I2": {
         "__compat": {
-          "description": "`--gamut-out` MUST be the two stops around `--gamut-t` mixed as `color-mix()` mixes them in that space, within 1/255 a channel of Color.js 0.7.1's `mix()`.",
+          "description": "`--gamut-out` MUST be the two stops around `--gamut-t` mixed as `color-mix()` mixes them in that space, within 1/255 a channel of Color.js 0.7.1's `mix()`, for stops at least 1e-5 apart: positions are kept to 6 digits (stops at 0.1234564 and 0.1234566 mix 85/255 off).",
           "support": {
             "chrome": {
               "version_added": "≤155"
@@ -2046,7 +2046,7 @@
       },
       "E2": {
         "__compat": {
-          "description": "For an input exactly in 8-bit sRGB, x, y and z MUST be css-color-4 §19's conversion of those bits within 1e-12, 1e-5 in Firefox 159; otherwise they MUST equal the engine's own xyz-d65 as a 32-bit float where its size is between 2^-63 and (2 - 2^-23) x 2^63 (the encoding's exponents; outside, 0 and that bound), an input's `none` hue converting as 0. Alpha MUST be within 1e-6, at 8 bits in Firefox 159.",
+          "description": "For an input within 0.0001 of a byte of 8-bit sRGB in every channel (so `color(xyz-d65 1e-12 1e-12 1e-12)` counts as black), x, y and z MUST be css-color-4 §19's conversion of those bits within 1e-12, 1e-5 in Firefox 159; otherwise they MUST equal the engine's own xyz-d65 as a 32-bit float where its size is between 2^-63 and (2 - 2^-23) x 2^63 (the encoding's exponents; outside, 0 and that bound), an input's `none` hue converting as 0. Alpha MUST be within 1e-6, at 8 bits in Firefox 159.",
           "support": {
             "chrome": {
               "version_added": "≤155"
