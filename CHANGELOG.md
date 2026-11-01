@@ -10,6 +10,8 @@ All notable changes to gamutant.css are written here. The format follows [Keep a
 
 ### Fixed
 
+- `test/current-color-check.mjs` fails when a page never loads; a timeout on both pages passed.
+- The build stops on an `EXTRACT_BITS` that isn't a whole number from 1 to 8; `1.5` wrote invalid property names.
 - Each part file's first line names its version, 0.0.1; in 0.0.1 they said 1.0.0.
 - `--gamut-method: ray-trace` maps a color below lightness 0.015 to its grey; in WebKit, a ray from near black ran parallel to a face and came out at a primary (`oklch(0.008 0.1 260)` painted full blue).
 - `.gamut-color-equal`'s README line says it compares in OkLab, as the sheet does.

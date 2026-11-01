@@ -32,6 +32,7 @@ export function extractPart() {
   // (x y z alpha: Chrome 1,141 -> 1,028 µs, WebKit 1,097 -> 813, Firefox 159 -> 128;
   // 3 bits is faster in WebKit, slower in Chrome); EXTRACT_BITS builds another width
   const B = +(process.env.EXTRACT_BITS ?? 2);
+  if (!Number.isInteger(B) || B < 1 || B > 8) throw new Error(`EXTRACT_BITS: a whole number of bits, 1 to 8, not ${process.env.EXTRACT_BITS}`);
   const digit = (name, src, kw, j, w, space) => {
     lines.push(reg(`--gamut--cx-${name}`, '<color>', false, 'transparent'), reg(`--gamut--cx-b${name}`, '<integer>', false, 0));
     flags.push(`--gamut--cx-${name}: color(from var(${src}) ${space} calc(mod(round(down, ${kw} / ${2 ** j}, 1), ${2 ** w})) 0 0 / 1);`);

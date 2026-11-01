@@ -78,14 +78,14 @@ if (pick(['Chrome', 'WebKit', 'Firefox']).some((e) => e[0] === 'Chrome')) {
   const { browser } = await open(pick(['Chrome']).find((e) => e[0] === 'Chrome'));
   const gated = { 'class okhsl-from': (x) => `<i class="gamut-okhsl-from" style="display:block;--gamut-in:${x};--gamut-okhsl-l:0.9;background:var(--gamut-out)"></i>`,
     'class palette-step': (x) => `<i class="gamut-palette-step" style="display:block;--gamut-in:${x};--gamut-tone:99;background:var(--gamut-out)"></i>`,
-    'fn okhsl-from': (x) => `<i style="display:block;background:--gamut-okhsl-from(${x}, initial, 0.9)"></i>`,
+    'fn okhsl-from': (x) => `<i style="display:block;background:--gamut-okhsl-from(${x}, none, 0.9)"></i>`,
     'fn palette-step': (x) => `<i style="display:block;background:--gamut-palette-step(${x}, 1, 0, 40)"></i>` };
   const load = async (html) => { const p = await browser.newPage(), t0 = Date.now();
     const ok = await p.setContent(`<style>${css}</style><div style="color:#ff3366">${html}</div>`, { timeout: 10000 }).then(() => p.evaluate(() => getComputedStyle(document.querySelector('i')).backgroundColor)).then(() => true, () => false);
     const ms = Date.now() - t0; await p.close().catch(() => {}); return ok ? ms : Infinity; };
-  for (const [k, f] of Object.entries(gated)) { const w = await load(f('#ff3366')), c = await load(f('currentColor')), ok = c <= 3 * w + 400;
+  for (const [k, f] of Object.entries(gated)) { const w = await load(f('#ff3366')), c = await load(f('currentColor')), ok = Number.isFinite(w) && Number.isFinite(c) && c <= 3 * w + 400;   // a page that never loaded is a fail
     if (!ok) failed = true;
-    console.log(`Chrome ${k} given currentColor: ${ok ? 'PASS' : 'FAIL'} ${Number.isFinite(c) ? `${c} ms` : 'no load in 10 s'}, written out ${w} ms`); }
+    console.log(`Chrome ${k} given currentColor: ${ok ? 'PASS' : 'FAIL'} ${Number.isFinite(c) ? `${c} ms` : 'no load in 10 s'}, written out ${Number.isFinite(w) ? `${w} ms` : 'no load in 10 s'}`); }
   await browser.close();
 }
 console.log(failed ? 'FAIL' : 'PASS');

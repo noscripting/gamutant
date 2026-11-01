@@ -9,7 +9,7 @@
 //            asFunction()). An argument names the input it sets, in order, and any may be left off from the end. Each
 //            is untyped, read as text as the class reads its input (a typed <color> holds a legacy rgb() in whole bytes:
 //            rgb(207.4 0 0) arrives as 207). ` none` makes `none` leave the input unset, so the class's own default
-//            applies (an argument can't be skipped: Chrome 155 gives the invalid value for an empty one or `initial`).
+//            applies (an argument can't be skipped: Chrome 155 gives the invalid value for an empty one; `initial` acts as `none`).
 //            ` gate` gives transparent for a `currentColor` argument (common.mjs CURRENT), where the steps would stall.
 //            `container` reads a style query on an ancestor's property from an argument instead; `locals` are inputs
 //            the arguments give another way. .fit-screen's own, --gamut-fit-screen(), is written apart (core.mjs).
