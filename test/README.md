@@ -35,7 +35,7 @@ the three engines, compared with each other. Two results come from the source re
 part files' check (each part file alone, in any order, twice, beside the sheet) and the tally of requirements in
 compat.json.
 
-The checks' comments and `build/build.mjs`'s name files of the library's source repository that are not here: its requirements (`SPEC.md`, as G16 or H3, the ids `compat.json` carries), its notes on engine bugs (`QUIRKS.md`, as Q3), and the probes and tools a comment cites as where a number was measured.
+A check's comment that names `QUIRKS.md` and an entry (Q3) means that engine bug, with its repro in `quirks/wpt/`. Some name files of the library's source repository that are not here: its requirements (`SPEC.md`, as G16 or H3, the ids `compat.json` carries), and the probes and tools a comment cites as where a number was measured.
 
 `npm test` runs every check, four at a time. `node test/mapper-check.mjs` runs one; `ENGINES=WebKit` (or
 `ENGINES=Chrome,Firefox`) narrows the engines, and `SHEET=` names another sheet to check (the reftests in `wpt/`

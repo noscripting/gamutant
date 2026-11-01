@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<title>CSS Color 4, prophoto-rgb: prophoto-rgb has no linear part near black</title>
+<link rel="help" href="https://drafts.csswg.org/css-color-4/#predefined-prophoto-rgb">
+<meta name="assert" content="The transfer curve is a gamma function with a value of 1/1.8, and a small linear portion near black.">
+<script src="/resources/testharness.js"></script>
+<script src="/resources/testharnessreport.js"></script>
+<div id="log"></div>
+<script src="/css/support/color-testcommon.js"></script>
+<style>
+  #target { color: color(from color(from color(prophoto-rgb 0.01 0.01 0.01) srgb-linear r g b) srgb-linear calc(r * 1000) calc(g * 1000) calc(b * 1000)); }
+</style>
+<div id="target"></div>
+<script>
+test(() => {
+  const actual = getComputedStyle(document.getElementById('target')).getPropertyValue("color").trim();
+  set_up_fuzzy_color_test()(actual, "color(srgb-linear 0.625 0.625 0.625)");
+}, "color is color(srgb-linear 0.625 0.625 0.625)");
+</script>

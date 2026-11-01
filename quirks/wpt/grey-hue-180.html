@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<title>CSS Color 4, powerless components: A grey converted between hsl and hwb gets hue 180 instead of a missing hue</title>
+<link rel="help" href="https://drafts.csswg.org/css-color-4/#powerless">
+<meta name="assert" content="However, if a color is automatically produced by color space conversion, then any powerless components in the result must instead be set to missing, instead of whatever value was produced by the conversion process.">
+<script src="/resources/testharness.js"></script>
+<script src="/resources/testharnessreport.js"></script>
+<div id="log"></div>
+<script src="/css/support/color-testcommon.js"></script>
+<style>
+  #target { color: color-mix(in hwb, hsl(30 70% 50%), hsl(200 0% 60%)); }
+</style>
+<div id="target"></div>
+<script>
+test(() => {
+  const actual = getComputedStyle(document.getElementById('target')).getPropertyValue("color").trim();
+  set_up_fuzzy_color_test()(actual, "color(srgb 0.725 0.55 0.375)");
+}, "color is color(srgb 0.725 0.55 0.375)");
+</script>

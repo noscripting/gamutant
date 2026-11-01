@@ -1229,8 +1229,7 @@
           "description": "`--gamut-out` MUST be the two stops around `--gamut-t` mixed as `color-mix()` mixes them in that space, within 1/255 a channel of Color.js 0.7.1's `mix()`.",
           "support": {
             "chrome": {
-              "version_added": "≤155",
-              "impl_url": "https://issues.chromium.org/issues/565837690 (new)"
+              "version_added": "≤155"
             },
             "safari": {
               "version_added": null,
@@ -1274,8 +1273,7 @@
           "description": "A stop with `--gamut-to-k` MUST be two stops of its color, at `--gamut-at-k` and `--gamut-to-k` (css-values-5 §7.1.2), and a position less than the one before it MUST be set to that one (§7.2.4), within 1/255 a channel of the browser's own two-color `color-mix()` of the segment.",
           "support": {
             "chrome": {
-              "version_added": "≤155",
-              "impl_url": "https://issues.chromium.org/issues/565837690 (new)"
+              "version_added": "≤155"
             },
             "safari": {
               "version_added": null,
@@ -1342,21 +1340,15 @@
           "support": {
             "chrome": {
               "version_added": false,
-              "notes": "FAIL: 595 of 600; 4 follow Chrome's own color-mix() dropping a grey's hue, 1 keeps a lightness below 0 as it does",
-              "impl_url": [
-                "https://issues.chromium.org/issues/565837690 (new)",
-                "https://issues.chromium.org/issues/564362185 (fixed)"
-              ]
+              "notes": "FAIL: 595 of 600; 4 follow Chrome's own color-mix() dropping a grey's hue, 1 keeps a lightness below 0 as it does"
             },
             "safari": {
               "version_added": null,
-              "notes": "Not measured in Safari. Playwright's WebKit 26.4, headless: PASS.",
-              "impl_url": "https://bugs.webkit.org/show_bug.cgi?id=316215 (fixed 2026-06-04)"
+              "notes": "Not measured in Safari. Playwright's WebKit 26.4, headless: PASS."
             },
             "firefox": {
               "version_added": false,
-              "notes": "FAIL: 595 of 600; 4 follow Firefox's own hsl skipping the 180° turn, 1 takes a step through sRGB",
-              "impl_url": "https://bugzilla.mozilla.org/show_bug.cgi?id=2084587 (new)"
+              "notes": "FAIL: 595 of 600; 4 follow Firefox's own hsl skipping the 180° turn, 1 takes a step through sRGB"
             }
           },
           "status": {
@@ -1637,8 +1629,7 @@
           "description": "`.gamut-okhsl-from` MUST write the input's own Okhsl (ok_color.h's `srgb_to_okhsl`) with any given `--gamut-okhsl-l` and `--gamut-okhsl-s` replacing its own (`none`, or anything not a number, keeping its own), within 1.5/255 a channel for inputs inside sRGB, alpha unchanged and the channels kept at alpha 0; an input's `none` hue MUST convert as 0.",
           "support": {
             "chrome": {
-              "version_added": "≤155",
-              "impl_url": "https://issues.chromium.org/issues/569954059 (fixed)"
+              "version_added": "≤155"
             },
             "safari": {
               "version_added": null,

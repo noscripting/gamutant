@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<title>CSS Color 4, serializing alpha: A relative color from var() of a registered color computes off the spec</title>
+<link rel="help" href="https://drafts.csswg.org/css-color-4/#serializing-modern-alpha-values">
+<meta name="assert" content="For modern color syntax, the precision with which &lt;alpha-value>s are retained, and thus the number of decimal places in the serialized value, is required to be sufficient to round-trip 16-bit decimal values.">
+<script src="/resources/testharness.js"></script>
+<script src="/resources/testharnessreport.js"></script>
+<div id="log"></div>
+<script src="/css/support/color-testcommon.js"></script>
+<style>
+  @property --c { syntax: '<color>'; inherits: false; initial-value: transparent; }
+  @property --d { syntax: '<color>'; inherits: false; initial-value: transparent; }
+  @property --e { syntax: '<color>'; inherits: false; initial-value: transparent; }
+  #target { --d: color(srgb 0 0 0 / 0.632812);
+--c: color(from var(--d) srgb calc((alpha - 0.63) * 300) 0 0 / 1); }
+  #control { --e: color(from color(srgb 0 0 0 / 0.632812) srgb calc((alpha - 0.63) * 300) 0 0 / 1); }
+</style>
+<div id="target"></div>
+<div id="control"></div>
+<script>
+test(() => {
+  const actual = getComputedStyle(document.getElementById('target')).getPropertyValue("--c").trim();
+  set_up_fuzzy_color_test()(actual, "color(srgb 0.8436 0 0)");
+}, "--c is color(srgb 0.8436 0 0)");
+// the control: the same color with nothing registered between
+test(() => {
+  set_up_fuzzy_color_test()(getComputedStyle(document.getElementById('control')).getPropertyValue("--e").trim(), "color(srgb 0.8436 0 0)");
+}, "control: --e is color(srgb 0.8436 0 0)");
+</script>

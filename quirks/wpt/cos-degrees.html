@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<title>CSS Values 4, trigonometric functions: cos() of an angle built from a channel reads its value in degrees as radians</title>
+<link rel="help" href="https://drafts.csswg.org/css-values-4/#trig-funcs">
+<meta name="assert" content="The sin(A), cos(A), and tan(A) functions all contain a single calculation which must resolve to either a &lt;number> or an &lt;angle>, and compute their corresponding function by interpreting the result of their argument as radians. (That is, sin(45deg), sin(.125turn), and sin(3.14159 / 4) all represent the same value, approximately .707.)">
+<script src="/resources/testharness.js"></script>
+<script src="/resources/testharnessreport.js"></script>
+<div id="log"></div>
+<script src="/css/support/color-testcommon.js"></script>
+<style>
+  @property --c { syntax: '<color>'; inherits: false; initial-value: transparent; }
+  #target { --c: color(from color(srgb 60 0 0) srgb calc(cos(r * 1deg)) 0 0); }
+</style>
+<div id="target"></div>
+<script>
+test(() => {
+  const actual = getComputedStyle(document.getElementById('target')).getPropertyValue("--c").trim();
+  set_up_fuzzy_color_test()(actual, "color(srgb 0.5 0 0)");
+}, "--c is color(srgb 0.5 0 0)");
+</script>

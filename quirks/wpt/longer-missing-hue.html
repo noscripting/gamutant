@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<title>CSS Color 4, hue interpolation: color-mix() with longer hue and a missing hue doesn't go round</title>
+<link rel="help" href="https://drafts.csswg.org/css-color-4/#hue-longer">
+<meta name="assert" content="- fill in missing components with the other color’s component values - (if required) fixing up the hues, depending on the selected &lt;hue-interpolation-method>">
+<script src="/resources/testharness.js"></script>
+<script src="/resources/testharnessreport.js"></script>
+<div id="log"></div>
+<script src="/css/support/color-testcommon.js"></script>
+<style>
+  @property --c { syntax: '<color>'; inherits: false; initial-value: transparent; }
+  #target { --c: color-mix(in oklch longer hue, oklch(0.6 0.1 90), oklch(0.6 0.1 none)); }
+</style>
+<div id="target"></div>
+<script>
+test(() => {
+  const actual = getComputedStyle(document.getElementById('target')).getPropertyValue("--c").trim();
+  set_up_fuzzy_color_test()(actual, "oklch(0.6 0.1 270)");
+}, "--c is oklch(0.6 0.1 270)");
+</script>

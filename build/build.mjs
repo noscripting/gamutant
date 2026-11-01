@@ -72,7 +72,7 @@ const EDGE_SRC = `oklch(from color-mix(in oklch, oklch(from var(--gamut--in0) l 
 // fell inside the halvings' last bracket, 0.0078 wide: at L 0.001 h 0 in sRGB 0.0000886 for 0.000405 (an
 // audit, 2026-10-28)
 const EDGE_L = 0.15;
-const STEPS = 24; // palette steps the fallback numbers without sibling-index() (README.md, SPEC.md: 24)
+const STEPS = 24; // palette steps the fallback numbers without sibling-index() (README.md: 24)
 export function mapper() {
   // The first point is chroma W0 at the input's own l and h, by a mix, not back through the linear test color: for a
   // vivid input (oklch(0.52 1.2 220)) that round trip moved the hue, and the whole search ran at it, up to 4.9/255 off (a
@@ -1778,7 +1778,7 @@ ${spaces.join('\n')}`;
 function chained(mf, text = [], out = '--gamut--step-out', pre = '--gamut--step-') {
   const names = ['--gamut-in', '--gamut--src', '--gamut--lin', ...text, ...mf.decls.map((d) => d.split(':')[0])];
   const uses = (t) => names.filter((n) => new RegExp(`var\\(${n}[,)]`).test(t));
-  // the input stays text, as the class reads it: a typed <color> holds a legacy rgb() in bytes (ENGINES.md); so do
+  // the input stays text, as the class reads it: a typed <color> holds a legacy rgb() in bytes; so do
   // constants written as text (`text`)
   const param = (n) => (['--gamut--lin', '--gamut-in', ...text].includes(n) ? n : `${n} <color>`);
   const call = (fn, t) => `${fn}(${uses(t).map((n) => `var(${n})`).join(', ')})`;
@@ -1966,7 +1966,7 @@ ${mt.nums.map((n) => `@property ${n} { syntax: '<number>'; initial-value: 0; inh
    everywhere). --gamut-rel does nothing on .fit-screen. An input built from currentColor stays unresolved, so
    .fit-screen and --gamut-fit-screen() map it at use, the element's own color, in Chrome and WebKit, at 13 to 22 times
    a written color's time; its --gamut-out inherits as that expression, so a child reads it at its own color; Firefox
-   and the other parts don't map it (SPEC.md G16): pass the color itself there. A distinct color costs time each time it changes (test/gate-check.mjs measures it); elements that get the same input by inheritance or a class rule
+   and the other parts don't map it: pass the color itself there. A distinct color costs time each time it changes (test/gate-check.mjs measures it); elements that get the same input by inheritance or a class rule
    share it, but an input set in each element's own style attribute is paid again on every
    element. .fit-screen is within 2/255 of Color.js's css method, CSS Color 4's reference: where its E stays within
    0.0001 of the JND over a wide range, Color.js stops at whichever midpoint lands there first (4 in 400,000 colors,

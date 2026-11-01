@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<title>CSS Color 5, relative colors: A relative color with its alpha omitted turns an origin's none alpha into 0</title>
+<link rel="help" href="https://drafts.csswg.org/css-color-5/#relative-colors">
+<meta name="assert" content="If the alpha value of the relative color is omitted, it defaults to that of the origin color (rather than defaulting to 100%, as it does in the absolute syntax).">
+<script src="/resources/testharness.js"></script>
+<script src="/resources/testharnessreport.js"></script>
+<div id="log"></div>
+<script src="/css/support/color-testcommon.js"></script>
+<style>
+  #target { color: rgb(from rgb(20% 40% 60% / none) r g b); }
+  #control { color: color(srgb 0.2 0.4 0.6 / none); }
+</style>
+<div id="target"></div>
+<div id="control"></div>
+<script>
+test(() => {
+  const actual = getComputedStyle(document.getElementById('target')).getPropertyValue("color").trim();
+  set_up_fuzzy_color_test()(actual, "color(srgb 0.2 0.4 0.6 / none)");
+}, "color is color(srgb 0.2 0.4 0.6 / none)");
+// the control: the same color with nothing registered between
+test(() => {
+  set_up_fuzzy_color_test()(getComputedStyle(document.getElementById('control')).getPropertyValue("color").trim(), "color(srgb 0.2 0.4 0.6 / none)");
+}, "control: color is color(srgb 0.2 0.4 0.6 / none)");
+</script>
