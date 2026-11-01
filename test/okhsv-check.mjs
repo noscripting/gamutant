@@ -1,4 +1,4 @@
-// Checks .gamut-okhsv (build.mjs okhsvPart()) against okhsl.mjs's okhsvToOklab, ok_color.h's okhsv_to_srgb ported in doubles,
+// Checks .gamut-okhsv (build/modules/spaces.mjs okhsvPart()) against okhsl.mjs's okhsvToOklab, ok_color.h's okhsv_to_srgb ported in doubles,
 // in Chrome, WebKit and Firefox: the hue circle at every degree, the corners, random h, s, v. A case passes when its sRGB
 // bytes are at most 1 apart (1.5/255), as .gamut-okhsl's. At the blue corner a browser's hue lands on either side of
 // ok_color.h's branch tests: any branch's answer passes there, counted apart, as in okhsl-check.mjs.

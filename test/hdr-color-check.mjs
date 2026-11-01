@@ -1,4 +1,4 @@
-// Checks .gamut-hdr-color (build.mjs hdrColorPart()) against CSS Color HDR §5.1, in Chrome, WebKit and Firefox: the draft's
+// Checks .gamut-hdr-color (build/modules/hdr.mjs hdrColorPart()) against CSS Color HDR §5.1, in Chrome, WebKit and Firefox: the draft's
 // three worked examples within their printed digits (its absolute XYZ, given as xyz-d65 over 203 where a color is in a
 // space no engine parses), then random pairs (sRGB, Display P3, HDR xyz-d65, translucent, some headrooms left to their
 // defaults) against §5.1 in doubles (its +0.001 offset and 203 cd/m² scale) over the engine's own xyz-d65 of each

@@ -1,4 +1,4 @@
-// Checks .gamut-jzazbz, .gamut-jzczhz and .gamut-ictcp (build.mjs hdrSpacesPart()) by round trip through CSS Color HDR's own encoders
+// Checks .gamut-jzazbz, .gamut-jzczhz and .gamut-ictcp (build/modules/hdr.mjs hdrSpacesPart()) by round trip through CSS Color HDR's own encoders
 // (css-color-hdr-1/jzazbz.js XYZ_to_Jzazbz, ICtCp.js XYZ_to_ICtCp with Yw 203, which run as written; its decoders
 // don't): 200 random sRGB colors and HDR colors up to 52 times media white are encoded in JS, decoded by the sheet
 // in Chrome, WebKit and Firefox, and must come back to their XYZ within 2e-4 (relative above 1; the PQ inverse

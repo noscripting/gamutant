@@ -1,4 +1,4 @@
-// Checks gamutant.css's mappers (build.mjs mapper() and minde()) in Chrome, WebKit and Firefox.
+// Checks gamutant.css's mappers (build/modules/mapping.mjs mapper() and minde()) in Chrome, WebKit and Firefox.
 // .gamut-fit-screen is CSS Color 4's gamut mapping (binary search with local MINDE): every color within 2 of 255 of Color.js
 // 0.7.1's css method (its own search stops 0.0001 short, so two answers each within 1 of the spec point can be 2 apart);
 // the WPT canvas cases (13 sRGB, 16 P3) within their tolerance; in-gamut inputs within 1

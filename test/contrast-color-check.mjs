@@ -1,4 +1,4 @@
-// Checks .gamut-contrast-color (build.mjs contrastColor()) against CSS Color 6 §2 as written, in JS: the spec's own examples,
+// Checks .gamut-contrast-color (build/modules/contrast.mjs contrastColor()) against CSS Color 6 §2 as written, in JS: the spec's own examples,
 // then random bases, candidate lists and targets (translucent and Display P3 colors included), in Chrome, WebKit and
 // Firefox, each on a light page and a dark one (color-scheme), the reference laying a translucent background over that
 // engine's own Canvas, read from the page. A case passes when the output is the winning candidate (within 1/255 a

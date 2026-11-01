@@ -1,4 +1,4 @@
-// Checks .gamut-okhsl (build.mjs okhslPart()) against okhsl.mjs, ok_color.h's okhsl_to_srgb ported in doubles, in
+// Checks .gamut-okhsl (build/modules/spaces.mjs okhslPart()) against okhsl.mjs, ok_color.h's okhsl_to_srgb ported in doubles, in
 // Chrome, WebKit and Firefox: the hue circle at every degree, the corners, random h, s, l. A case passes when its sRGB
 // bytes are at most 1 apart (1.5/255).
 // Usage: node test/okhsl-check.mjs [cases]

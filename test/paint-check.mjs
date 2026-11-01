@@ -1,4 +1,4 @@
-// Checks .gamut-color-mix.gamut-mix-paint (build.mjs paintPart()), csswg-drafts #8715's pigment mixing, against
+// Checks .gamut-color-mix.gamut-mix-paint (build/modules/mix.mjs paintPart()), csswg-drafts #8715's pigment mixing, against
 // spectral.js 3.0.0's mix() (Kubelka-Munk over 38 reflectance samples, its own tables): pairs of sRGB colors in hex,
 // rgb(), named and color(srgb) syntax, spectral.js's own examples and the primaries against each other at 0 to 100%,
 // random pairs and percentages (given, omitted, summing under and over 100), one color alone; each color's factor is its

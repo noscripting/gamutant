@@ -1,4 +1,4 @@
-// Checks .gamut-color-extract (build.mjs extractPart()) in Chrome, WebKit and Firefox, in two parts:
+// Checks .gamut-color-extract (build/modules/extract.mjs extractPart()) in Chrome, WebKit and Firefox, in two parts:
 // - the numbers: for a color exactly in 8-bit sRGB (hex, rgb(), named), --gamut-x, -y, -z (on a read with a space's class
 //   and on one without) against CSS Color 4's
 //   conversion of those 8 bits within 1e-12 (1e-5 in Firefox); for any other, against what the engine itself gives as color(from <in> xyz-d65

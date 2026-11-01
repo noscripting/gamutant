@@ -20,6 +20,15 @@
   ]
  },
  {
+  "cls": "color-equal",
+  "args": [
+   "--gamut-equal-a",
+   "--gamut-equal-b"
+  ],
+  "out": "--gamut-equal",
+  "number": true
+ },
+ {
   "cls": "readable-text",
   "args": [
    "--gamut-bg",
@@ -151,15 +160,6 @@
    "--gamut-ictcp-cp",
    "--gamut-ictcp-alpha"
   ]
- },
- {
-  "cls": "color-equal",
-  "args": [
-   "--gamut-equal-a",
-   "--gamut-equal-b"
-  ],
-  "out": "--gamut-equal",
-  "number": true
  },
  {
   "cls": "hdr-color",

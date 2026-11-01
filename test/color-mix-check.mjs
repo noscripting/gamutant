@@ -1,4 +1,4 @@
-// Checks .gamut-color-mix (build.mjs mixPart()) against CSS Color 5 §3.3 in Chrome, WebKit and Firefox: the spec's algorithm
+// Checks .gamut-color-mix (build/modules/mix.mjs mixPart()) against CSS Color 5 §3.3 in Chrome, WebKit and Firefox: the spec's algorithm
 // run in JS (normalized percentages, the stack of two-color mixes, the alpha multiplier) written out as literal nested
 // two-color color-mix()es for the same engine to compute; the same steps in doubles in JS (CSS Color 4 §13's
 // interpolation written out, Color.js only converting), which no engine computes; and in Firefox, which ships it, its own color-mix()

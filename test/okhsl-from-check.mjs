@@ -1,4 +1,4 @@
-// Checks .gamut-okhsl-from (build.mjs okhslFromPart()) against okhsl.mjs (ok_color.h in doubles), both ways, in Chrome,
+// Checks .gamut-okhsl-from (build/modules/spaces.mjs okhslFromPart()) against okhsl.mjs (ok_color.h in doubles), both ways, in Chrome,
 // WebKit and Firefox: random colors (sRGB and some Display P3, some translucent), with l, s, both or neither replaced.
 // A case passes when its sRGB bytes are at most 1 apart (1.5/255) and its alpha is kept; colors past sRGB or given s
 // above 1 (Okhsl extrapolates there, and past its pole the reference's own s turns negative) are reported apart.
