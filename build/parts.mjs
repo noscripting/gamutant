@@ -1,5 +1,5 @@
 // The part files: gamutant.css cut to one part each, so a page's build step (or a <link>) carries only the parts it
-// imports. Each file is the shipped sheet's own text, never generated apart from it (the passes fold the sheet as a whole):
+// imports. Each file is the shipped sheet's own text, never generated apart from it (the passes fold each part, counting a property's readers over the whole sheet):
 // the part's rules, the registrations and keyframes they read, its Chrome @function forms and every @function they
 // call, cut by a page trimmer (lib/css-trim.mjs) on a page with every class the part's selectors name and a
 // call of its function. A function form stays in its part's file: Chrome paints a call to a function no sheet defines

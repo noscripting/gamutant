@@ -52,6 +52,7 @@ const CHECKS = [
   ['share', 'share-check.mjs', [], 'two parts on one element: each part\'s outputs as alone, under every target and method; a text part reading --gamut-out on its own element'],
   ['small-parts', 'small-parts-check.mjs', [], '.gamut-light-dark: the element\'s own light-dark(); .gamut-color-equal: CSS Color 4 §12 (#13157) on Color.js; #11533\'s recipe on .gamut-color-extract'],
   ['extract', 'extract-check.mjs', [], '.gamut-color-extract: the engine\'s own x y z, and CSS Color 4\'s conversions'],
+  ['build', 'build-check.mjs', [], 'the build: gamutant.css, parts/ and functions.json written again in memory, byte for byte as committed'],
   ['constants', 'constants-check.mjs', [], 'the sheet\'s matrices: each row of three products a row of a published matrix (Color.js 0.7.1\'s conversions, OkLab, Jzazbz, ICtCp, Compositing 1) to its digits'],
   ['spaces-hostile', 'spaces-hostile-check.mjs', [], 'the spaces parts on hostile inputs: none hues, alpha 0, angle hues, none and percentages, negative HDR channels'],
   ['tutorial', 'tutorial-check.mjs', [], 'TUTORIAL.md: every color and ratio it states, measured on its final page'],
