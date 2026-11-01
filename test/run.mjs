@@ -57,6 +57,7 @@ const CHECKS = [
   ['spaces-hostile', 'spaces-hostile-check.mjs', [], 'the spaces parts on hostile inputs: none hues, alpha 0, angle hues, none and percentages, negative HDR channels'],
   ['tutorial', 'tutorial-check.mjs', [], 'TUTORIAL.md: every color and ratio it states, measured on its final page'],
   ['reftests', 'wpt-check.mjs', [], 'wpt/: every part as a WPT reftest'],
+  ['parts', 'parts-check.mjs', [], 'parts/: each part file the whole sheet\'s own text, and any order beside the others'],
 ];
 const only = process.argv.slice(2), todo = CHECKS.filter(([n]) => !only.length || only.includes(n));
 const unknown = only.filter((n) => !CHECKS.some(([c]) => c === n));

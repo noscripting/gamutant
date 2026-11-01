@@ -33,52 +33,52 @@
 @property --gamut--ov-L { syntax: '<number>'; inherits: false; initial-value: 0; }
 @property --gamut--ov-sc { syntax: '<number>'; inherits: false; initial-value: 0; }
 .gamut-okhsv {
-  --gamut--s-s30: (clamp(0, sign(0.0001 - abs((var(--gamut--oc9) * var(--gamut--ov-a) + var(--gamut--oc10) * var(--gamut--ov-b)) - 1)), 1) * clamp(0, sign(0.0001 - abs((var(--gamut--oc11) * var(--gamut--ov-a) + var(--gamut--oc12) * var(--gamut--ov-b)) - 1)), 1));
-  --gamut--s-s31: pow(var(--gamut--ov-Lvt) + var(--gamut--ov-Cvt) * var(--gamut--ov-kl), 3);
-  --gamut--s-s32: pow(var(--gamut--ov-Lvt) + var(--gamut--ov-Cvt) * var(--gamut--ov-km), 3);
-  --gamut--s-s33: pow(var(--gamut--ov-Lvt) + var(--gamut--ov-Cvt) * var(--gamut--ov-ks), 3);
-  --gamut--s-s34: (1 + var(--gamut--ov-S0) * var(--gamut--ov-kl));
-  --gamut--s-s35: (1 + var(--gamut--ov-S0) * var(--gamut--ov-km));
-  --gamut--s-s36: (1 + var(--gamut--ov-S0) * var(--gamut--ov-ks));
-  --gamut--s-s37: (1 - var(--gamut--ov-R) - var(--gamut--ov-G));
-  --gamut--s-s38: sign(var(--gamut--ov-f1) * var(--gamut--ov-f1) - 0.5 * var(--gamut--ov-f) * var(--gamut--ov-f2));
-  --gamut--s-s39: pow(1 + var(--gamut--ov-S) * var(--gamut--ov-kl), 3);
-  --gamut--s-s3a: pow(1 + var(--gamut--ov-S) * var(--gamut--ov-km), 3);
-  --gamut--s-s3b: pow(1 + var(--gamut--ov-S) * var(--gamut--ov-ks), 3);
-  --gamut--s-s3c: ((var(--gamut--ov-Lc) * var(--gamut--ov-S)) / (1 - var(--gamut--ov-Lc)));
-  --gamut--s-s3d: (var(--gamut--ov-hn) * 1deg + var(--gamut--ov-ha));
-  --gamut--ov-a: calc(cos(var(--gamut--s-s3d)));
-  --gamut--ov-b: calc(sin(var(--gamut--s-s3d)));
-  --gamut--ov-R: calc((1 - var(--gamut--s-s30)) * clamp(0, sign((var(--gamut--oc9) * var(--gamut--ov-a) + var(--gamut--oc10) * var(--gamut--ov-b)) - 1), 1));
-  --gamut--ov-G: calc((1 - var(--gamut--ov-R)) * max(var(--gamut--s-s30), clamp(0, sign((var(--gamut--oc11) * var(--gamut--ov-a) + var(--gamut--oc12) * var(--gamut--ov-b)) - 1), 1)));
-  --gamut--ov-S0: calc((var(--gamut--ov-R) * (var(--gamut--oc13) + var(--gamut--oc14) * var(--gamut--ov-a) + var(--gamut--oc15) * var(--gamut--ov-b) + var(--gamut--oc16) * var(--gamut--ov-a) * var(--gamut--ov-a) + var(--gamut--oc17) * var(--gamut--ov-a) * var(--gamut--ov-b)) + var(--gamut--ov-G) * (var(--gamut--oc18) + var(--gamut--oc19) * var(--gamut--ov-a) + var(--gamut--oc20) * var(--gamut--ov-b) + var(--gamut--oc21) * var(--gamut--ov-a) * var(--gamut--ov-a) + var(--gamut--oc22) * var(--gamut--ov-a) * var(--gamut--ov-b)) + var(--gamut--s-s37) * (var(--gamut--oc23) + var(--gamut--oc24) * var(--gamut--ov-a) + var(--gamut--oc25) * var(--gamut--ov-b) + var(--gamut--oc26) * var(--gamut--ov-a) * var(--gamut--ov-a) + var(--gamut--oc27) * var(--gamut--ov-a) * var(--gamut--ov-b))));
-  --gamut--ov-wl: calc((var(--gamut--ov-R) * var(--gamut--oc0) + var(--gamut--ov-G) * var(--gamut--oc3) + var(--gamut--s-s37) * var(--gamut--oc6)));
-  --gamut--ov-wm: calc((var(--gamut--ov-R) * var(--gamut--oc1) + var(--gamut--ov-G) * var(--gamut--oc4) + var(--gamut--s-s37) * var(--gamut--oc7)));
-  --gamut--ov-ws: calc((var(--gamut--ov-R) * var(--gamut--oc2) + var(--gamut--ov-G) * var(--gamut--oc5) + var(--gamut--s-s37) * var(--gamut--oc8)));
+  --gamut--s-ov_0: (clamp(0, sign(0.0001 - abs((var(--gamut--oc9) * var(--gamut--ov-a) + var(--gamut--oc10) * var(--gamut--ov-b)) - 1)), 1) * clamp(0, sign(0.0001 - abs((var(--gamut--oc11) * var(--gamut--ov-a) + var(--gamut--oc12) * var(--gamut--ov-b)) - 1)), 1));
+  --gamut--s-ov_1: pow(var(--gamut--ov-Lvt) + var(--gamut--ov-Cvt) * var(--gamut--ov-kl), 3);
+  --gamut--s-ov_2: pow(var(--gamut--ov-Lvt) + var(--gamut--ov-Cvt) * var(--gamut--ov-km), 3);
+  --gamut--s-ov_3: pow(var(--gamut--ov-Lvt) + var(--gamut--ov-Cvt) * var(--gamut--ov-ks), 3);
+  --gamut--s-ov_4: (1 + var(--gamut--ov-S0) * var(--gamut--ov-kl));
+  --gamut--s-ov_5: (1 + var(--gamut--ov-S0) * var(--gamut--ov-km));
+  --gamut--s-ov_6: (1 + var(--gamut--ov-S0) * var(--gamut--ov-ks));
+  --gamut--s-ov_7: (1 - var(--gamut--ov-R) - var(--gamut--ov-G));
+  --gamut--s-ov_8: sign(var(--gamut--ov-f1) * var(--gamut--ov-f1) - 0.5 * var(--gamut--ov-f) * var(--gamut--ov-f2));
+  --gamut--s-ov_9: pow(1 + var(--gamut--ov-S) * var(--gamut--ov-kl), 3);
+  --gamut--s-ov_a: pow(1 + var(--gamut--ov-S) * var(--gamut--ov-km), 3);
+  --gamut--s-ov_b: pow(1 + var(--gamut--ov-S) * var(--gamut--ov-ks), 3);
+  --gamut--s-ov_c: ((var(--gamut--ov-Lc) * var(--gamut--ov-S)) / (1 - var(--gamut--ov-Lc)));
+  --gamut--s-ov_d: (var(--gamut--ov-hn) * 1deg + var(--gamut--ov-ha));
+  --gamut--ov-a: calc(cos(var(--gamut--s-ov_d)));
+  --gamut--ov-b: calc(sin(var(--gamut--s-ov_d)));
+  --gamut--ov-R: calc((1 - var(--gamut--s-ov_0)) * clamp(0, sign((var(--gamut--oc9) * var(--gamut--ov-a) + var(--gamut--oc10) * var(--gamut--ov-b)) - 1), 1));
+  --gamut--ov-G: calc((1 - var(--gamut--ov-R)) * max(var(--gamut--s-ov_0), clamp(0, sign((var(--gamut--oc11) * var(--gamut--ov-a) + var(--gamut--oc12) * var(--gamut--ov-b)) - 1), 1)));
+  --gamut--ov-S0: calc((var(--gamut--ov-R) * (var(--gamut--oc13) + var(--gamut--oc14) * var(--gamut--ov-a) + var(--gamut--oc15) * var(--gamut--ov-b) + var(--gamut--oc16) * var(--gamut--ov-a) * var(--gamut--ov-a) + var(--gamut--oc17) * var(--gamut--ov-a) * var(--gamut--ov-b)) + var(--gamut--ov-G) * (var(--gamut--oc18) + var(--gamut--oc19) * var(--gamut--ov-a) + var(--gamut--oc20) * var(--gamut--ov-b) + var(--gamut--oc21) * var(--gamut--ov-a) * var(--gamut--ov-a) + var(--gamut--oc22) * var(--gamut--ov-a) * var(--gamut--ov-b)) + var(--gamut--s-ov_7) * (var(--gamut--oc23) + var(--gamut--oc24) * var(--gamut--ov-a) + var(--gamut--oc25) * var(--gamut--ov-b) + var(--gamut--oc26) * var(--gamut--ov-a) * var(--gamut--ov-a) + var(--gamut--oc27) * var(--gamut--ov-a) * var(--gamut--ov-b))));
+  --gamut--ov-wl: calc((var(--gamut--ov-R) * var(--gamut--oc0) + var(--gamut--ov-G) * var(--gamut--oc3) + var(--gamut--s-ov_7) * var(--gamut--oc6)));
+  --gamut--ov-wm: calc((var(--gamut--ov-R) * var(--gamut--oc1) + var(--gamut--ov-G) * var(--gamut--oc4) + var(--gamut--s-ov_7) * var(--gamut--oc7)));
+  --gamut--ov-ws: calc((var(--gamut--ov-R) * var(--gamut--oc2) + var(--gamut--ov-G) * var(--gamut--oc5) + var(--gamut--s-ov_7) * var(--gamut--oc8)));
   --gamut--ov-kl: calc(0.3963377774 * var(--gamut--ov-a) + 0.2158037573 * var(--gamut--ov-b));
   --gamut--ov-km: calc(-0.1055613458 * var(--gamut--ov-a) - 0.0638541728 * var(--gamut--ov-b));
   --gamut--ov-ks: calc(-0.0894841775 * var(--gamut--ov-a) - 1.2914855480 * var(--gamut--ov-b));
-  --gamut--ov-f: calc(var(--gamut--ov-wl) * pow(var(--gamut--s-s34), 3) + var(--gamut--ov-wm) * pow(var(--gamut--s-s35), 3) + var(--gamut--ov-ws) * pow(var(--gamut--s-s36), 3));
-  --gamut--ov-f1: calc(3 * (var(--gamut--ov-wl) * var(--gamut--ov-kl) * var(--gamut--s-s34) * var(--gamut--s-s34) + var(--gamut--ov-wm) * var(--gamut--ov-km) * var(--gamut--s-s35) * var(--gamut--s-s35) + var(--gamut--ov-ws) * var(--gamut--ov-ks) * var(--gamut--s-s36) * var(--gamut--s-s36)));
-  --gamut--ov-f2: calc(6 * (var(--gamut--ov-wl) * var(--gamut--ov-kl) * var(--gamut--ov-kl) * var(--gamut--s-s34) + var(--gamut--ov-wm) * var(--gamut--ov-km) * var(--gamut--ov-km) * var(--gamut--s-s35) + var(--gamut--ov-ws) * var(--gamut--ov-ks) * var(--gamut--ov-ks) * var(--gamut--s-s36)));
-  --gamut--ov-S: calc(var(--gamut--ov-S0) - var(--gamut--ov-f) * var(--gamut--ov-f1) / (max(abs(var(--gamut--ov-f1) * var(--gamut--ov-f1) - 0.5 * var(--gamut--ov-f) * var(--gamut--ov-f2)), 1e-30) * (var(--gamut--s-s38) + 1 - abs(var(--gamut--s-s38)))));
-  --gamut--ov-Lc: calc(pow(1 / max(var(--gamut--oc0) * var(--gamut--s-s39) + var(--gamut--oc1) * var(--gamut--s-s3a) + var(--gamut--oc2) * var(--gamut--s-s3b), var(--gamut--oc3) * var(--gamut--s-s39) + var(--gamut--oc4) * var(--gamut--s-s3a) + var(--gamut--oc5) * var(--gamut--s-s3b), var(--gamut--oc6) * var(--gamut--s-s39) + var(--gamut--oc7) * var(--gamut--s-s3a) + var(--gamut--oc8) * var(--gamut--s-s3b)), 1 / 3));
-  --gamut--ov-d: calc(0.5 + var(--gamut--s-s3c) - var(--gamut--s-s3c) * (1 - 0.5 * var(--gamut--ov-Lc) / (var(--gamut--ov-Lc) * var(--gamut--ov-S))) * clamp(0, var(--gamut--ov-sn), 1));
+  --gamut--ov-f: calc(var(--gamut--ov-wl) * pow(var(--gamut--s-ov_4), 3) + var(--gamut--ov-wm) * pow(var(--gamut--s-ov_5), 3) + var(--gamut--ov-ws) * pow(var(--gamut--s-ov_6), 3));
+  --gamut--ov-f1: calc(3 * (var(--gamut--ov-wl) * var(--gamut--ov-kl) * var(--gamut--s-ov_4) * var(--gamut--s-ov_4) + var(--gamut--ov-wm) * var(--gamut--ov-km) * var(--gamut--s-ov_5) * var(--gamut--s-ov_5) + var(--gamut--ov-ws) * var(--gamut--ov-ks) * var(--gamut--s-ov_6) * var(--gamut--s-ov_6)));
+  --gamut--ov-f2: calc(6 * (var(--gamut--ov-wl) * var(--gamut--ov-kl) * var(--gamut--ov-kl) * var(--gamut--s-ov_4) + var(--gamut--ov-wm) * var(--gamut--ov-km) * var(--gamut--ov-km) * var(--gamut--s-ov_5) + var(--gamut--ov-ws) * var(--gamut--ov-ks) * var(--gamut--ov-ks) * var(--gamut--s-ov_6)));
+  --gamut--ov-S: calc(var(--gamut--ov-S0) - var(--gamut--ov-f) * var(--gamut--ov-f1) / (max(abs(var(--gamut--ov-f1) * var(--gamut--ov-f1) - 0.5 * var(--gamut--ov-f) * var(--gamut--ov-f2)), 1e-30) * (var(--gamut--s-ov_8) + 1 - abs(var(--gamut--s-ov_8)))));
+  --gamut--ov-Lc: calc(pow(1 / max(var(--gamut--oc0) * var(--gamut--s-ov_9) + var(--gamut--oc1) * var(--gamut--s-ov_a) + var(--gamut--oc2) * var(--gamut--s-ov_b), var(--gamut--oc3) * var(--gamut--s-ov_9) + var(--gamut--oc4) * var(--gamut--s-ov_a) + var(--gamut--oc5) * var(--gamut--s-ov_b), var(--gamut--oc6) * var(--gamut--s-ov_9) + var(--gamut--oc7) * var(--gamut--s-ov_a) + var(--gamut--oc8) * var(--gamut--s-ov_b)), 1 / 3));
+  --gamut--ov-d: calc(0.5 + var(--gamut--s-ov_c) - var(--gamut--s-ov_c) * (1 - 0.5 * var(--gamut--ov-Lc) / (var(--gamut--ov-Lc) * var(--gamut--ov-S))) * clamp(0, var(--gamut--ov-sn), 1));
   --gamut--ov-Lv: calc(1 - clamp(0, var(--gamut--ov-sn), 1) * 0.5 / var(--gamut--ov-d));
   --gamut--ov-Lvt: calc((pow(var(--gamut--ov-Lv), 2) + 0.206 * var(--gamut--ov-Lv)) / (1.1708737864077670 * (var(--gamut--ov-Lv) + 0.03)));
-  --gamut--ov-Cvt: calc(var(--gamut--x-s30) * var(--gamut--ov-Lvt) / var(--gamut--ov-Lv));
+  --gamut--ov-Cvt: calc(var(--gamut--x-ov_0) * var(--gamut--ov-Lvt) / var(--gamut--ov-Lv));
   --gamut--ov-L: calc((pow(clamp(0, var(--gamut--ov-vn), 1) * var(--gamut--ov-Lv), 2) + 0.206 * clamp(0, var(--gamut--ov-vn), 1) * var(--gamut--ov-Lv)) / (1.1708737864077670 * (clamp(0, var(--gamut--ov-vn), 1) * var(--gamut--ov-Lv) + 0.03)));
-  --gamut--ov-sc: calc(pow(1 / max(var(--gamut--oc0) * var(--gamut--s-s31) + var(--gamut--oc1) * var(--gamut--s-s32) + var(--gamut--oc2) * var(--gamut--s-s33), var(--gamut--oc3) * var(--gamut--s-s31) + var(--gamut--oc4) * var(--gamut--s-s32) + var(--gamut--oc5) * var(--gamut--s-s33), var(--gamut--oc6) * var(--gamut--s-s31) + var(--gamut--oc7) * var(--gamut--s-s32) + var(--gamut--oc8) * var(--gamut--s-s33), 0), 1 / 3));
+  --gamut--ov-sc: calc(pow(1 / max(var(--gamut--oc0) * var(--gamut--s-ov_1) + var(--gamut--oc1) * var(--gamut--s-ov_2) + var(--gamut--oc2) * var(--gamut--s-ov_3), var(--gamut--oc3) * var(--gamut--s-ov_1) + var(--gamut--oc4) * var(--gamut--s-ov_2) + var(--gamut--oc5) * var(--gamut--s-ov_3), var(--gamut--oc6) * var(--gamut--s-ov_1) + var(--gamut--oc7) * var(--gamut--s-ov_2) + var(--gamut--oc8) * var(--gamut--s-ov_3), 0), 1 / 3));
 }
 .gamut-okhsv {
-  --gamut--s-s3e: (var(--gamut--x-s30) * var(--gamut--ov-L) / var(--gamut--ov-Lv));
-  --gamut-out: oklab(calc(var(--gamut--ov-L) * var(--gamut--ov-sc)) calc(var(--gamut--s-s3e) * var(--gamut--ov-sc) * var(--gamut--ov-a)) calc(var(--gamut--s-s3e) * var(--gamut--ov-sc) * var(--gamut--ov-b)));
+  --gamut--s-ov_e: (var(--gamut--x-ov_0) * var(--gamut--ov-L) / var(--gamut--ov-Lv));
+  --gamut-out: oklab(calc(var(--gamut--ov-L) * var(--gamut--ov-sc)) calc(var(--gamut--s-ov_e) * var(--gamut--ov-sc) * var(--gamut--ov-a)) calc(var(--gamut--s-ov_e) * var(--gamut--ov-sc) * var(--gamut--ov-b)));
 }
 .gamut-okhsv { --gamut--oc0: 4.0767416621; --gamut--oc1: -3.3077115913; --gamut--oc2: 0.2309699292; --gamut--oc3: -1.2684380046; --gamut--oc4: 2.6097574011; --gamut--oc5: -0.3413193965; --gamut--oc6: -0.0041960863; --gamut--oc7: -0.7034186147; --gamut--oc8: 1.707614701; --gamut--oc9: -1.88170328; --gamut--oc10: -0.80936493; --gamut--oc11: 1.81444104; --gamut--oc12: -1.19445276; --gamut--oc13: 1.19086277; --gamut--oc14: 1.76576728; --gamut--oc15: 0.59662641; --gamut--oc16: 0.75515197; --gamut--oc17: 0.56771245; --gamut--oc18: 0.73956515; --gamut--oc19: -0.45954404; --gamut--oc20: 0.08285427; --gamut--oc21: 0.1254107; --gamut--oc22: 0.14503204; --gamut--oc23: 1.35733652; --gamut--oc24: -0.00915799; --gamut--oc25: -1.1513021; --gamut--oc26: -0.50559606; --gamut--oc27: 0.00692167; }
 @container style(--gamut-target: display-p3) { .gamut-okhsv { --gamut--oc0: 3.12776897; --gamut--oc1: -2.25713576; --gamut--oc2: 0.12936679; --gamut--oc3: -1.09100902; --gamut--oc4: 2.41333171; --gamut--oc5: -0.32232269; --gamut--oc6: -0.0260108; --gamut--oc7: -0.50804133; --gamut--oc8: 1.53405213; --gamut--oc9: -1.77234393; --gamut--oc10: -0.82075874; --gamut--oc11: 1.8031987; --gamut--oc12: -1.1932814; --gamut--oc13: 1.19413664; --gamut--oc14: 1.76298424; --gamut--oc15: 0.59586087; --gamut--oc16: 0.75759729; --gamut--oc17: 0.56816791; --gamut--oc18: 2.65372708; --gamut--oc19: -3.76337813; --gamut--oc20: 2.01565193; --gamut--oc21: 1.56037817; --gamut--oc22: -2.62199151; --gamut--oc23: 1.3650924; --gamut--oc24: -0.01396104; --gamut--oc25: -1.14523207; --gamut--oc26: -0.50259958; --gamut--oc27: 0.00317569; } }
 @container style(--gamut-target: rec2020) { .gamut-okhsv { --gamut--oc0: 2.13990673; --gamut--oc1: -1.24638949; --gamut--oc2: 0.10648276; --gamut--oc3: -0.88473584; --gamut--oc4: 2.16323094; --gamut--oc5: -0.2784951; --gamut--oc6: -0.04857375; --gamut--oc7: -0.45450315; --gamut--oc8: 1.5030769; --gamut--oc9: -1.368349; --gamut--oc10: -0.4666477; --gamut--oc11: 2.011508; --gamut--oc12: -2.0379096; --gamut--oc13: 2.655643; --gamut--oc14: 3.989209; --gamut--oc15: 1.026378; --gamut--oc16: 1.726261; --gamut--oc17: 0.918022; --gamut--oc18: 0.911484; --gamut--oc19: -0.572491; --gamut--oc20: 0.209484; --gamut--oc21: 0.195831; --gamut--oc22: -0.276326; --gamut--oc23: 1.704123; --gamut--oc24: -0.067513; --gamut--oc25: -1.459807; --gamut--oc26: -0.659427; --gamut--oc27: 0.063022; } }
 .gamut-okhsv {
-  --gamut--x-s30: (clamp(0, var(--gamut--ov-sn), 1) * ((var(--gamut--ov-Lc) * var(--gamut--ov-S)) / (1 - var(--gamut--ov-Lc))) * 0.5 / var(--gamut--ov-d));
+  --gamut--x-ov_0: (clamp(0, var(--gamut--ov-sn), 1) * ((var(--gamut--ov-Lc) * var(--gamut--ov-S)) / (1 - var(--gamut--ov-Lc))) * 0.5 / var(--gamut--ov-d));
 }
 @function --gamut--okhsv-ov-hn() returns <number> { result: var(--gamut-okhsv-h, 0); }
 @function --gamut--okhsv-ov-ha() returns <angle> { result: var(--gamut-okhsv-h, 0deg); }

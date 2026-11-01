@@ -22,7 +22,6 @@ import { asFunction } from './modules/functions.mjs';
 import { hdrColorPart, hdrSpacesPart, rec2100Part } from './modules/hdr.mjs';
 import { minde } from './modules/mapping.mjs';
 import { layersPart, mixPart, paintPart, stopsPart } from './modules/mix.mjs';
-import { materialPart } from './modules/palette.mjs';
 import { cmykPart, okhslFromPart, okhslPart, okhsvPart } from './modules/spaces.mjs';
 export * from './registry.mjs';
 export * from './modules/mapping.mjs';
@@ -53,15 +52,18 @@ export function sheets({ mapping = minde } = {}) {
   const rtBg = `${rtn.props}\n@property --gamut--rt-bg { syntax: '<color>'; inherits: false; initial-value: transparent; }\n.readable-text { ${rtn.decls.join(' ')} --gamut--rt-bg: ${rtn.pick('srgb', 'r g b')}; }`;
   const hand = [src('contrast.css'), src('scale.css'), rtBg], fold = PLAIN ? (css) => css : (css, prefix) => share(across(nest(css, whole).css, { prefix }).css, { prefix }).css
     .replaceAll('--_s-', '--gamut--s-').replaceAll('--_x-', '--gamut--x-');   // the passes' names, into gamut's stem
+  // each folded chunk named, so its shared names (--gamut--s-<name>_N, --gamut--x-<name>_N) are its own: a chunk added
+  // or moved renames no other's; the hand-written ones and the heads go as written
   const modules = {
-    contrast: [head('contrast', '.readable-text and .contrast-color'), src('contrast.css'), contrastColor(), rtBg],
-    mix: [head('mix', '.color-mix, .color-interpolate, .color-layers and .fit-gradient'), mixPart(), src('scale.css'), layersPart(), stopsPart(m)],
-    spaces: [head('spaces', '.okhsl, .okhsl-from, .okhsv and .device-cmyk'), okhslPart(), okhslFromPart(), okhsvPart(), cmykPart()],
-    hdr: [head('hdr', '.rec2100-pq, .rec2100-hlg, .rec2100-linear, .jzazbz, .jzczhz, .ictcp and .hdr-color'), rec2100Part(), hdrSpacesPart(), hdrColorPart()],
-    extract: [head('extract', '.color-extract'), extractPart()],
+    contrast: [head('contrast', '.readable-text and .contrast-color'), src('contrast.css'), ['cc', contrastColor()], rtBg],
+    mix: [head('mix', '.color-mix, .color-interpolate, .color-layers and .fit-gradient'), ['mx', mixPart()], src('scale.css'), ['ly', layersPart()], ['fg', stopsPart(m)]],
+    spaces: [head('spaces', '.okhsl, .okhsl-from, .okhsv and .device-cmyk'), ['ol', okhslPart()], ['of', okhslFromPart()], ['ov', okhsvPart()], ['cm', cmykPart()]],
+    hdr: [head('hdr', '.rec2100-pq, .rec2100-hlg, .rec2100-linear, .jzazbz, .jzczhz, .ictcp and .hdr-color'), ['rc', rec2100Part()], ['hs', hdrSpacesPart()], ['hc', hdrColorPart()]],
+    extract: [head('extract', '.color-extract'), ['ex', extractPart()]],
   };
-  const whole = [parts.join('\n'), ...Object.values(modules).flat()].join('\n');
-  const built = { core: [fold(parts.join('\n'), 'k')], ...Object.fromEntries(Object.entries(modules).map(([k, m]) => [k, m.map((t, j) => (hand.includes(t) ? t : fold(t, `${k[0]}${j}`)))])) };
+  const text = (t) => (Array.isArray(t) ? t[1] : t);
+  const whole = [parts.join('\n'), ...Object.values(modules).flat(1).map(text)].join('\n');
+  const built = { core: [fold(parts.join('\n'), 'k_')], ...Object.fromEntries(Object.entries(modules).map(([k, m]) => [k, m.map((t) => (Array.isArray(t) ? fold(t[1], `${t[0]}_`) : t))])) };
   // each function after the part that holds its class, generated from the whole sheet as it ships
   const paint = paintPart(), postcss = createRequire(import.meta.url)('postcss'), all = [...Object.values(built).flat(), paintPart('function')].join('\n');
   const at = (cls, t) => { let has = false; postcss.parse(t).walkRules((r) => { has ||= r.selectors.some((s) => s.trim() === `.${cls}`); }); return has; };

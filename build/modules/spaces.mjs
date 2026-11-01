@@ -1,7 +1,8 @@
 // .okhsl, .okhsv and .okhsl-from (ok_color.h, through oklab.mjs's constants) and .device-cmyk (CSS Color 5 §6.1).
+import { LAB_LMS } from '../okhsl-fit.mjs';
 import { allocate } from '../lib/lanes.mjs';
 import { hueRegs, noneHue, numRegs, registered } from './common.mjs';
-import { OKC, okCusp, okDot, okGamuts, okSafe, okSel } from './oklab.mjs';
+import { OKC, OK_AB, TOE, okCusp, okDot, okGamuts, okSafe, okSel } from './oklab.mjs';
 
 // Okhsl (#8659, #10110) from three numbers: ok_color.h's okhsl_to_srgb as registered <number>s, one
 // step a property (each computed once; a step's NaN or infinity is censored before the next selects with it), out as
@@ -13,7 +14,7 @@ export function okhslPart() {
   const steps = [
     ['a', `cos(${H.angle})`], ['b', `sin(${H.angle})`],
     ['s', n('sn')],
-    ['L', `calc((pow(clamp(0, ${n('ln')}, 1), 2) + 0.206 * clamp(0, ${n('ln')}, 1)) / (1.1708737864077670 * (clamp(0, ${n('ln')}, 1) + 0.03)))`],
+    ['L', `calc((pow(clamp(0, ${n('ln')}, 1), 2) + ${TOE.k1} * clamp(0, ${n('ln')}, 1)) / (${TOE.k3} * (clamp(0, ${n('ln')}, 1) + ${TOE.k2})))`],
     ['Lg', `clamp(0.000001, ${n('L')}, 0.999999)`],
     ...okCusp(n),
     // find_gamut_intersection along constant L: below the cusp the triangle; above it the triangle and one Halley step
@@ -59,7 +60,7 @@ ${registered('--gamut--ok-', '.okhsl', steps, { '--gamut-out': `oklab(${n('L')} 
 export function okhsvPart() {
   const n = (x) => `var(--gamut--ov-${x})`;
   const RGB = OKC.rgb, dot = okDot;
-  const toeInv = (x) => `(pow(${x}, 2) + 0.206 * ${x}) / (1.1708737864077670 * (${x} + 0.03))`;
+  const toeInv = (x) => `(pow(${x}, 2) + ${TOE.k1} * ${x}) / (${TOE.k3} * (${x} + ${TOE.k2}))`;
   const H = hueRegs('--gamut--ov-', '--gamut-okhsv-h'), I = numRegs('--gamut--ov-', [['sn', '--gamut-okhsv-s', 0], ['vn', '--gamut-okhsv-v', 1]]);
   const steps = [
     ['a', `cos(${H.angle})`], ['b', `sin(${H.angle})`],
@@ -97,15 +98,15 @@ export function okhslFromPart() {
   const RGB = OKC.rgb, T = OKC.rt;
   const XYZ_LMS = [[0.8190224379967030, 0.3619062600528904, -0.1288737815209879], [0.0329836539323885, 0.9292868615863434, 0.0361446663506424], [0.0481771893596242, 0.2642395317527308, 0.6335478284694309]];
   const LMS_OK = [[0.2104542683093140, 0.7936177747023054, -0.0040720430116193], [1.9779985324311684, -2.4285922420485799, 0.4505937096174110], [0.0259040424655478, 0.7827717124575296, -0.8086757549230774]];
-  const OK_LMS = [[1, 0.3963377773761749, 0.2158037573099136], [1, -0.1055613458156586, -0.0638541728258133], [1, -0.0894841775298119, -1.2914855480194092]];
+  const OK_LMS = LAB_LMS;
   const LMS_XYZ = [[1.2268798758459243, -0.5578149944602171, 0.2813910456659647], [-0.0405757452148008, 1.1122868032803170, -0.0717110580655164], [-0.0763729366746601, -0.4214933324022432, 1.5869240198367816]];
-  const KA = [[0.3963377774, 0.2158037573], [-0.1055613458, -0.0638541728], [-0.0894841775, -1.2914855480]];
+  const KA = OK_AB.map((r) => r.map(Number));
   const dot = (w, v) => `(${w[0]} * ${v[0]} + ${w[1]} * ${v[1]} + ${w[2]} * ${v[2]})`.replace(/\+ -/g, '- ');
   const sel = (x) => `clamp(0, sign(${x}), 1)`, ge0 = (x) => `clamp(0, sign(${x}) + 1, 1)`;
   const safe = (d) => `(${d} + 1e-30)`; // never 0 but where it is within 1e-30 of it
   const poly = (c) => `(${c[0]} + ${c[1]} * $0 + ${c[2]} * $1 + ${c[3]} * $0 * $0 + ${c[4]} * $0 * $1)`.replace(/\+ -/g, '- ');
   const lg = (L) => `clamp(0.000001, ${L}, 0.999999)`;
-  const toe = (x) => `0.5 * (1.1708737864077670 * ${x} - 0.206 + sqrt(pow(1.1708737864077670 * ${x} - 0.206, 2) + 0.1405048543689320 * ${x}))`;
+  const toe = (x) => `0.5 * (${TOE.k3} * ${x} - ${TOE.k1} + sqrt(pow(${TOE.k3} * ${x} - ${TOE.k1}, 2) + ${TOE.k4} * ${x}))`;
   const P = [], node = (n, ins, outs) => P.push([n, ins, outs]);
   // components (v^3, k v^2, k^2 v) of v = base + chroma k_i for each LMS i, their sums per channel (A, B, C), one Halley
   // step per channel
@@ -161,7 +162,7 @@ export function okhslFromPart() {
   node('l', [['lab', 0]], [`clamp(0, ${or('li', toe('$0'))}, 1)`]);
   // (s 0 within 1e-4 of l 0 and 1, where the most chroma is under 1e-4: okhsl_to_srgb's black and white; Chrome 155
   // reads white's l 1e-5 under 1, and white at s 1 kept chroma 2.8e-6, an audit, 2026-10-28)
-  node('tgt', [['l', 0], ['s', 0]], ['($0 * $0 + 0.206 * $0) / (1.1708737864077670 * ($0 + 0.03))', `(${or('si', '$1')}) * clamp(0, sign(min($0, 1 - $0) - 0.0001), 1)`]);
+  node('tgt', [['l', 0], ['s', 0]], [`($0 * $0 + ${TOE.k1} * $0) / (${TOE.k3} * ($0 + ${TOE.k2}))`, `(${or('si', '$1')}) * clamp(0, sign(min($0, 1 - $0) - 0.0001), 1)`]);
   block('q', ['tgt', 0]);
   // okhsl_to_srgb's chroma: below s = 0.8 toward C_mid; above it 1 / (C - C_mid) = (1 - T) / (T k1) + 1 / (C_max - C_mid)
   node('c1', [['tgt', 1], ['qm', 0], ['qb', 1]], ['1.25 * $0 * 0.8 * $2 / (1 - (1 - 0.8 * $2 / $1) * 1.25 * $0)', `(1 - 5 * ($0 - 0.8)) / ${safe('5 * ($0 - 0.8) * 0.3125 * $1 * $1 / $2')}`]);

@@ -22,6 +22,12 @@ export const okDot = (w, x, y, z) => `${w[0]} * ${x} + ${w[1]} * ${y} + ${w[2]} 
 export const okSafe = (d) => `(max(abs(${d}), 1e-30) * (sign(${d}) + 1 - abs(sign(${d}))))`; // never 0
 // ok_color.h's find_cusp for the hue's unit vector (steps a and b), as steps of registered <number>s: Okhsl and Okhsv
 // share it. Gives kl, km, ks (the hue's LMS directions), Lc and Cc (the cusp)
+// ok_color.h's Lab to LMS rows (M2's inverse), the a and b columns, as compute_max_saturation() writes them (10 digits;
+// okhsl-fit.mjs LAB_LMS has them to 16), and its toe: k1, k2, k3 = (1 + k1) / (1 + k2), and 4 k2 k3 (toe(), toe_inv()),
+// as text, the digits the sheet writes
+export const OK_AB = [['0.3963377774', '0.2158037573'], ['-0.1055613458', '-0.0638541728'], ['-0.0894841775', '-1.2914855480']];
+export const TOE = { k1: '0.206', k2: '0.03', k3: '1.1708737864077670', k4: '0.1405048543689320' };
+const abDot = (r, a, b) => `${r[0]} * ${a} ${r[1].startsWith('-') ? `- ${r[1].slice(1)}` : `+ ${r[1]}`} * ${b}`;
 export function okCusp(n) {
   const RGB = OKC.rgb, sel = okSel, dot = okDot, safe = okSafe, [KR, KG, KB] = OKC.k, T = OKC.rt;
   const poly = (k) => `(${k[0]} + ${k[1]} * ${n('a')} + ${k[2]} * ${n('b')} + ${k[3]} * ${n('a')} * ${n('a')} + ${k[4]} * ${n('a')} * ${n('b')})`;
@@ -35,8 +41,8 @@ export function okCusp(n) {
     ['G', `(1 - ${n('R')}) * max(${n('corner')}, ${sel(`${n('Gt')} - 1`)})`],
     ['S0', pick(poly(KR), poly(KG), poly(KB))],
     ['wl', pick(RGB[0][0], RGB[1][0], RGB[2][0])], ['wm', pick(RGB[0][1], RGB[1][1], RGB[2][1])], ['ws', pick(RGB[0][2], RGB[1][2], RGB[2][2])],
-    ['kl', `0.3963377774 * ${n('a')} + 0.2158037573 * ${n('b')}`], ['km', `-0.1055613458 * ${n('a')} - 0.0638541728 * ${n('b')}`],
-    ['ks', `-0.0894841775 * ${n('a')} - 1.2914855480 * ${n('b')}`],
+    ['kl', abDot(OK_AB[0], n('a'), n('b'))], ['km', abDot(OK_AB[1], n('a'), n('b'))],
+    ['ks', abDot(OK_AB[2], n('a'), n('b'))],
     ['l1', `1 + ${n('S0')} * ${n('kl')}`], ['m1', `1 + ${n('S0')} * ${n('km')}`], ['s1', `1 + ${n('S0')} * ${n('ks')}`],
     ['f', `${n('wl')} * pow(${n('l1')}, 3) + ${n('wm')} * pow(${n('m1')}, 3) + ${n('ws')} * pow(${n('s1')}, 3)`],
     ['f1', `3 * (${n('wl')} * ${n('kl')} * ${n('l1')} * ${n('l1')} + ${n('wm')} * ${n('km')} * ${n('m1')} * ${n('m1')} + ${n('ws')} * ${n('ks')} * ${n('s1')} * ${n('s1')})`],

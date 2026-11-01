@@ -220,25 +220,24 @@
 @property --gamut--cx-dy-b { syntax: '<number>'; inherits: false; initial-value: 0; }
 @property --gamut--cx-dy-c { syntax: '<number>'; inherits: false; initial-value: 0; }
 .gamut-color-extract {
-  --gamut--s-e10: color-mix(in xyz-d65, color-mix(in xyz-d65, color(from var(--gamut-in) xyz-d65 x y z / none) 100%, var(--gamut--cxn-x) 0%), color-mix(in xyz-d65, color(from var(--gamut--cxn-h) xyz-d65 x y z / none) 100%, var(--gamut--cxn-o) 0%));
-  --gamut--s-e11: clamp(-63, round(down, log(max(abs(x), 1e-30), 2)) + clamp(0, sign((abs(x) / pow(2, round(down, log(max(abs(x), 1e-30), 2)))) - 2) + 1, 1) - clamp(0, sign(1 - (abs(x) / pow(2, round(down, log(max(abs(x), 1e-30), 2))))), 1), 63);
-  --gamut--s-e12: clamp(-63, round(down, log(max(abs(y), 1e-30), 2)) + clamp(0, sign((abs(y) / pow(2, round(down, log(max(abs(y), 1e-30), 2)))) - 2) + 1, 1) - clamp(0, sign(1 - (abs(y) / pow(2, round(down, log(max(abs(y), 1e-30), 2))))), 1), 63);
-  --gamut--s-e13: clamp(-63, round(down, log(max(abs(z), 1e-30), 2)) + clamp(0, sign((abs(z) / pow(2, round(down, log(max(abs(z), 1e-30), 2)))) - 2) + 1, 1) - clamp(0, sign(1 - (abs(z) / pow(2, round(down, log(max(abs(z), 1e-30), 2))))), 1), 63);
-  --gamut--s-e14: color-mix(in srgb, color-mix(in srgb, color(from var(--gamut-in) srgb r g b / none) 100%, var(--gamut--cxn-x) 0%), color-mix(in srgb, color(from var(--gamut--cxn-h) srgb r g b / none) 100%, var(--gamut--cxn-o) 0%));
-  --gamut--s-e15: clamp(0, round(down, (abs(x) / pow(2, var(--gamut--s-e11)) - 1) * 8388608, 1), 8388607);
-  --gamut--s-e16: clamp(0, round(down, (abs(y) / pow(2, var(--gamut--s-e12)) - 1) * 8388608, 1), 8388607);
-  --gamut--s-e17: clamp(0, round(down, (abs(z) / pow(2, var(--gamut--s-e13)) - 1) * 8388608, 1), 8388607);
-  --gamut--s-e18: clamp(0, round(down, alpha / 2 * 16777216, 1), 16777215);
-  --gamut--s-e19: clamp(0, sign(max(c, h) - l - 0.001), 1);
+  --gamut--s-ex_0: color-mix(in xyz-d65, color-mix(in xyz-d65, color(from var(--gamut-in) xyz-d65 x y z / none) 100%, var(--gamut--cxn-x) 0%), color-mix(in xyz-d65, color(from var(--gamut--cxn-h) xyz-d65 x y z / none) 100%, var(--gamut--cxn-o) 0%));
+  --gamut--s-ex_1: clamp(-63, round(down, log(max(abs(x), 1e-30), 2)) + clamp(0, sign((abs(x) / pow(2, round(down, log(max(abs(x), 1e-30), 2)))) - 2) + 1, 1) - clamp(0, sign(1 - (abs(x) / pow(2, round(down, log(max(abs(x), 1e-30), 2))))), 1), 63);
+  --gamut--s-ex_2: clamp(-63, round(down, log(max(abs(y), 1e-30), 2)) + clamp(0, sign((abs(y) / pow(2, round(down, log(max(abs(y), 1e-30), 2)))) - 2) + 1, 1) - clamp(0, sign(1 - (abs(y) / pow(2, round(down, log(max(abs(y), 1e-30), 2))))), 1), 63);
+  --gamut--s-ex_3: clamp(-63, round(down, log(max(abs(z), 1e-30), 2)) + clamp(0, sign((abs(z) / pow(2, round(down, log(max(abs(z), 1e-30), 2)))) - 2) + 1, 1) - clamp(0, sign(1 - (abs(z) / pow(2, round(down, log(max(abs(z), 1e-30), 2))))), 1), 63);
+  --gamut--s-ex_4: color-mix(in srgb, color-mix(in srgb, color(from var(--gamut-in) srgb r g b / none) 100%, var(--gamut--cxn-x) 0%), color-mix(in srgb, color(from var(--gamut--cxn-h) srgb r g b / none) 100%, var(--gamut--cxn-o) 0%));
+  --gamut--s-ex_5: clamp(0, round(down, (abs(x) / pow(2, var(--gamut--s-ex_1)) - 1) * 8388608, 1), 8388607);
+  --gamut--s-ex_6: clamp(0, round(down, (abs(y) / pow(2, var(--gamut--s-ex_2)) - 1) * 8388608, 1), 8388607);
+  --gamut--s-ex_7: clamp(0, round(down, (abs(z) / pow(2, var(--gamut--s-ex_3)) - 1) * 8388608, 1), 8388607);
+  --gamut--s-ex_8: clamp(0, round(down, alpha / 2 * 16777216, 1), 16777215);
   --gamut--cxn-g: color-mix(in oklch, color-mix(in oklch, oklch(from color(from var(--gamut-in) xyz-d65 x y z) c none none / none), oklch(from oklch(from var(--gamut-in) l c h / 1) none c none / none)), oklch(from lch(from var(--gamut-in) l c h) none none c / none));
   --gamut--cxn-h: color-mix(in xyz-d65, color-mix(in xyz-d65, color(from oklch(from var(--gamut-in) l c h / 1) xyz-d65 x y z / none) 100%, oklch(from var(--gamut--cxn-g) none none none / calc(clamp(0, sign(c - h) + 1, 1))) 0%), color-mix(in xyz-d65, color(from lch(from var(--gamut-in) l c h) xyz-d65 x y z / none) 100%, oklch(from var(--gamut--cxn-g) none none none / calc(1 - clamp(0, sign(c - h) + 1, 1))) 0%));
-  --gamut--cxn-x: oklch(from var(--gamut--cxn-g) none none none / calc(1 - clamp(0, sign(0.001 - l), 1) * var(--gamut--s-e19)));
-  --gamut--cxn-o: oklch(from var(--gamut--cxn-g) none none none / calc(clamp(0, sign(0.001 - l), 1) * var(--gamut--s-e19)));
-  --gamut--cx-qh: color(from var(--gamut--s-e10) xyz-d65 calc(round(down, var(--gamut--s-e15) / 2048, 1)) calc(round(down, var(--gamut--s-e16) / 2048, 1)) calc(round(down, var(--gamut--s-e17) / 2048, 1)) / 1);
-  --gamut--cx-ql: color(from var(--gamut--s-e10) xyz-d65 calc(mod(var(--gamut--s-e15), 2048)) calc(mod(var(--gamut--s-e16), 2048)) calc(mod(var(--gamut--s-e17), 2048)) / 1);
-  --gamut--cx-se: color(from var(--gamut--s-e10) xyz-d65 calc(clamp(0, sign(-1 * x), 1) * 128 + (var(--gamut--s-e11) + 64) * clamp(0, sign(abs(x) - 1.0842021724855044e-19) + 1, 1)) calc(clamp(0, sign(-1 * y), 1) * 128 + (var(--gamut--s-e12) + 64) * clamp(0, sign(abs(y) - 1.0842021724855044e-19) + 1, 1)) calc(clamp(0, sign(-1 * z), 1) * 128 + (var(--gamut--s-e13) + 64) * clamp(0, sign(abs(z) - 1.0842021724855044e-19) + 1, 1)) / 1);
-  --gamut--cx-ah: color(from var(--gamut-in) xyz-d65 calc(round(down, var(--gamut--s-e18) / 4096, 1)) 0 0 / 1);
-  --gamut--cx-al: color(from var(--gamut-in) xyz-d65 0 calc(mod(var(--gamut--s-e18), 4096)) 0 / 1);
+  --gamut--cxn-x: oklch(from var(--gamut--cxn-g) none none none / calc(1 - clamp(0, sign(0.001 - l), 1) * clamp(0, sign(max(c, h) - l - 0.001), 1)));
+  --gamut--cxn-o: oklch(from var(--gamut--cxn-g) none none none / calc(clamp(0, sign(0.001 - l), 1) * clamp(0, sign(max(c, h) - l - 0.001), 1)));
+  --gamut--cx-qh: color(from var(--gamut--s-ex_0) xyz-d65 calc(round(down, var(--gamut--s-ex_5) / 2048, 1)) calc(round(down, var(--gamut--s-ex_6) / 2048, 1)) calc(round(down, var(--gamut--s-ex_7) / 2048, 1)) / 1);
+  --gamut--cx-ql: color(from var(--gamut--s-ex_0) xyz-d65 calc(mod(var(--gamut--s-ex_5), 2048)) calc(mod(var(--gamut--s-ex_6), 2048)) calc(mod(var(--gamut--s-ex_7), 2048)) / 1);
+  --gamut--cx-se: color(from var(--gamut--s-ex_0) xyz-d65 calc(clamp(0, sign(-1 * x), 1) * 128 + (var(--gamut--s-ex_1) + 64) * clamp(0, sign(abs(x) - 1.0842021724855044e-19) + 1, 1)) calc(clamp(0, sign(-1 * y), 1) * 128 + (var(--gamut--s-ex_2) + 64) * clamp(0, sign(abs(y) - 1.0842021724855044e-19) + 1, 1)) calc(clamp(0, sign(-1 * z), 1) * 128 + (var(--gamut--s-ex_3) + 64) * clamp(0, sign(abs(z) - 1.0842021724855044e-19) + 1, 1)) / 1);
+  --gamut--cx-ah: color(from var(--gamut-in) xyz-d65 calc(round(down, var(--gamut--s-ex_8) / 4096, 1)) 0 0 / 1);
+  --gamut--cx-al: color(from var(--gamut-in) xyz-d65 0 calc(mod(var(--gamut--s-ex_8), 4096)) 0 / 1);
   --gamut--cx-xl0: color(from var(--gamut--cx-ql) xyz-d65 calc(mod(round(down, x / 1, 1), 4)) 0 0 / 1);
   --gamut--cx-xl2: color(from var(--gamut--cx-ql) xyz-d65 calc(mod(round(down, x / 4, 1), 4)) 0 0 / 1);
   --gamut--cx-xl4: color(from var(--gamut--cx-ql) xyz-d65 calc(mod(round(down, x / 16, 1), 4)) 0 0 / 1);
@@ -311,8 +310,8 @@
   --gamut--cx-sb2: color(from var(--gamut--cx-s) srgb calc(mod(round(down, b / 4, 1), 4)) 0 0 / 1);
   --gamut--cx-sb4: color(from var(--gamut--cx-s) srgb calc(mod(round(down, b / 16, 1), 4)) 0 0 / 1);
   --gamut--cx-sb6: color(from var(--gamut--cx-s) srgb calc(mod(round(down, b / 64, 1), 4)) 0 0 / 1);
-  --gamut--cx-s: color(from var(--gamut--s-e14) srgb clamp(0, round(r * 255), 255) clamp(0, round(g * 255), 255) clamp(0, round(b * 255), 255) / 1);
-  --gamut--cx-s8: color(from var(--gamut--s-e14) srgb calc(1 - sign(max(0, max(abs(r * 255 - round(r * 255)), -1 * r, r - 1, abs(g * 255 - round(g * 255)), -1 * g, g - 1, abs(b * 255 - round(b * 255)), -1 * b, b - 1) - 0.0001))) 0 0 / 1);
+  --gamut--cx-s: color(from var(--gamut--s-ex_4) srgb clamp(0, round(r * 255), 255) clamp(0, round(g * 255), 255) clamp(0, round(b * 255), 255) / 1);
+  --gamut--cx-s8: color(from var(--gamut--s-ex_4) srgb calc(1 - sign(max(0, max(abs(r * 255 - round(r * 255)), -1 * r, r - 1, abs(g * 255 - round(g * 255)), -1 * g, g - 1, abs(b * 255 - round(b * 255)), -1 * b, b - 1) - 0.0001))) 0 0 / 1);
 }
 @container style(--gamut--cx-xl0: color(xyz-d65 1 0 0)) { .gamut-color-extract-read { --gamut--cx-bxl0: 1; } }
 @container style(--gamut--cx-xl0: color(xyz-d65 2 0 0)) { .gamut-color-extract-read { --gamut--cx-bxl0: 2; } }
@@ -559,12 +558,12 @@
   --gamut-z: var(--gamut--cx-vz);
 }
 .gamut-color-extract-read.gamut-extract-srgb, .gamut-color-extract-read.gamut-extract-hsl, .gamut-color-extract-read.gamut-extract-hwb {
-  --gamut--s-e1a: clamp(0, sign(abs(var(--gamut--x-e1d)) - 0.0031308), 1);
-  --gamut--s-e1b: clamp(0, sign(abs(var(--gamut--x-e1a)) - 0.0031308), 1);
-  --gamut--s-e1c: clamp(0, sign(abs(var(--gamut--x-e1c)) - 0.0031308), 1);
-  --gamut--cx-r-v: calc((sign(var(--gamut--x-e1d)) * (var(--gamut--s-e1a) * (1.055 * pow(abs(var(--gamut--x-e1d)), 1 / 2.4) - 0.055) + (1 - var(--gamut--s-e1a)) * 12.92 * abs(var(--gamut--x-e1d))))); --gamut--cx-r-e: round(down, log(max(abs(var(--gamut--cx-r-v)), 1e-30), 2)); --gamut--cx-r-m: calc(var(--gamut--cx-r-v) * pow(2, 17 - var(--gamut--cx-r-e))); --gamut--cx-r-a: round(to-zero, var(--gamut--cx-r-m)); --gamut--cx-r-b: round(to-zero, rem(var(--gamut--cx-r-m), 1) * 524288); --gamut--cx-r-c: calc(rem(var(--gamut--cx-r-m) * 524288, 1) * 524288); --gamut--cx-r: calc((var(--gamut--cx-r-a) + var(--gamut--cx-r-b) / 524288 + var(--gamut--cx-r-c) / 274877906944) * pow(2, var(--gamut--cx-r-e) - 17));
-  --gamut--cx-g-v: calc((sign(var(--gamut--x-e1a)) * (var(--gamut--s-e1b) * (1.055 * pow(abs(var(--gamut--x-e1a)), 1 / 2.4) - 0.055) + (1 - var(--gamut--s-e1b)) * 12.92 * abs(var(--gamut--x-e1a))))); --gamut--cx-g-e: round(down, log(max(abs(var(--gamut--cx-g-v)), 1e-30), 2)); --gamut--cx-g-m: calc(var(--gamut--cx-g-v) * pow(2, 17 - var(--gamut--cx-g-e))); --gamut--cx-g-a: round(to-zero, var(--gamut--cx-g-m)); --gamut--cx-g-b: round(to-zero, rem(var(--gamut--cx-g-m), 1) * 524288); --gamut--cx-g-c: calc(rem(var(--gamut--cx-g-m) * 524288, 1) * 524288); --gamut--cx-g: calc((var(--gamut--cx-g-a) + var(--gamut--cx-g-b) / 524288 + var(--gamut--cx-g-c) / 274877906944) * pow(2, var(--gamut--cx-g-e) - 17));
-  --gamut--cx-bl-v: calc((sign(var(--gamut--x-e1c)) * (var(--gamut--s-e1c) * (1.055 * pow(abs(var(--gamut--x-e1c)), 1 / 2.4) - 0.055) + (1 - var(--gamut--s-e1c)) * 12.92 * abs(var(--gamut--x-e1c))))); --gamut--cx-bl-e: round(down, log(max(abs(var(--gamut--cx-bl-v)), 1e-30), 2)); --gamut--cx-bl-m: calc(var(--gamut--cx-bl-v) * pow(2, 17 - var(--gamut--cx-bl-e))); --gamut--cx-bl-a: round(to-zero, var(--gamut--cx-bl-m)); --gamut--cx-bl-b: round(to-zero, rem(var(--gamut--cx-bl-m), 1) * 524288); --gamut--cx-bl-c: calc(rem(var(--gamut--cx-bl-m) * 524288, 1) * 524288); --gamut--cx-bl: calc((var(--gamut--cx-bl-a) + var(--gamut--cx-bl-b) / 524288 + var(--gamut--cx-bl-c) / 274877906944) * pow(2, var(--gamut--cx-bl-e) - 17));
+  --gamut--s-ex_9: clamp(0, sign(abs(var(--gamut--x-ex_d)) - 0.0031308), 1);
+  --gamut--s-ex_a: clamp(0, sign(abs(var(--gamut--x-ex_a)) - 0.0031308), 1);
+  --gamut--s-ex_b: clamp(0, sign(abs(var(--gamut--x-ex_c)) - 0.0031308), 1);
+  --gamut--cx-r-v: calc((sign(var(--gamut--x-ex_d)) * (var(--gamut--s-ex_9) * (1.055 * pow(abs(var(--gamut--x-ex_d)), 1 / 2.4) - 0.055) + (1 - var(--gamut--s-ex_9)) * 12.92 * abs(var(--gamut--x-ex_d))))); --gamut--cx-r-e: round(down, log(max(abs(var(--gamut--cx-r-v)), 1e-30), 2)); --gamut--cx-r-m: calc(var(--gamut--cx-r-v) * pow(2, 17 - var(--gamut--cx-r-e))); --gamut--cx-r-a: round(to-zero, var(--gamut--cx-r-m)); --gamut--cx-r-b: round(to-zero, rem(var(--gamut--cx-r-m), 1) * 524288); --gamut--cx-r-c: calc(rem(var(--gamut--cx-r-m) * 524288, 1) * 524288); --gamut--cx-r: calc((var(--gamut--cx-r-a) + var(--gamut--cx-r-b) / 524288 + var(--gamut--cx-r-c) / 274877906944) * pow(2, var(--gamut--cx-r-e) - 17));
+  --gamut--cx-g-v: calc((sign(var(--gamut--x-ex_a)) * (var(--gamut--s-ex_a) * (1.055 * pow(abs(var(--gamut--x-ex_a)), 1 / 2.4) - 0.055) + (1 - var(--gamut--s-ex_a)) * 12.92 * abs(var(--gamut--x-ex_a))))); --gamut--cx-g-e: round(down, log(max(abs(var(--gamut--cx-g-v)), 1e-30), 2)); --gamut--cx-g-m: calc(var(--gamut--cx-g-v) * pow(2, 17 - var(--gamut--cx-g-e))); --gamut--cx-g-a: round(to-zero, var(--gamut--cx-g-m)); --gamut--cx-g-b: round(to-zero, rem(var(--gamut--cx-g-m), 1) * 524288); --gamut--cx-g-c: calc(rem(var(--gamut--cx-g-m) * 524288, 1) * 524288); --gamut--cx-g: calc((var(--gamut--cx-g-a) + var(--gamut--cx-g-b) / 524288 + var(--gamut--cx-g-c) / 274877906944) * pow(2, var(--gamut--cx-g-e) - 17));
+  --gamut--cx-bl-v: calc((sign(var(--gamut--x-ex_c)) * (var(--gamut--s-ex_b) * (1.055 * pow(abs(var(--gamut--x-ex_c)), 1 / 2.4) - 0.055) + (1 - var(--gamut--s-ex_b)) * 12.92 * abs(var(--gamut--x-ex_c))))); --gamut--cx-bl-e: round(down, log(max(abs(var(--gamut--cx-bl-v)), 1e-30), 2)); --gamut--cx-bl-m: calc(var(--gamut--cx-bl-v) * pow(2, 17 - var(--gamut--cx-bl-e))); --gamut--cx-bl-a: round(to-zero, var(--gamut--cx-bl-m)); --gamut--cx-bl-b: round(to-zero, rem(var(--gamut--cx-bl-m), 1) * 524288); --gamut--cx-bl-c: calc(rem(var(--gamut--cx-bl-m) * 524288, 1) * 524288); --gamut--cx-bl: calc((var(--gamut--cx-bl-a) + var(--gamut--cx-bl-b) / 524288 + var(--gamut--cx-bl-c) / 274877906944) * pow(2, var(--gamut--cx-bl-e) - 17));
 }
 .gamut-color-extract-read.gamut-extract-prophoto-rgb, .gamut-color-extract-read.gamut-extract-xyz-d50, .gamut-color-extract-read.gamut-extract-lab, .gamut-color-extract-read.gamut-extract-lch {
   --gamut--cx-dy-v: calc((0.02962780877005599 * var(--gamut--cx-vx) + 0.9904344267538799 * var(--gamut--cx-vy) - 0.017073799063418826 * var(--gamut--cx-vz))); --gamut--cx-dy-e: round(down, log(max(abs(var(--gamut--cx-dy-v)), 1e-30), 2)); --gamut--cx-dy-m: calc(var(--gamut--cx-dy-v) * pow(2, 17 - var(--gamut--cx-dy-e))); --gamut--cx-dy-a: round(to-zero, var(--gamut--cx-dy-m)); --gamut--cx-dy-b: round(to-zero, rem(var(--gamut--cx-dy-m), 1) * 524288); --gamut--cx-dy-c: calc(rem(var(--gamut--cx-dy-m) * 524288, 1) * 524288); --gamut--cx-dy: calc((var(--gamut--cx-dy-a) + var(--gamut--cx-dy-b) / 524288 + var(--gamut--cx-dy-c) / 274877906944) * pow(2, var(--gamut--cx-dy-e) - 17));
@@ -575,141 +574,141 @@
   --gamut-srgb-b: var(--gamut--cx-bl);
 }
 .gamut-color-extract-read.gamut-extract-srgb-linear {
-  --gamut-srgb-linear-r: calc(var(--gamut--x-e1d));
-  --gamut-srgb-linear-g: calc(var(--gamut--x-e1a));
-  --gamut-srgb-linear-b: calc(var(--gamut--x-e1c));
+  --gamut-srgb-linear-r: calc(var(--gamut--x-ex_d));
+  --gamut-srgb-linear-g: calc(var(--gamut--x-ex_a));
+  --gamut-srgb-linear-b: calc(var(--gamut--x-ex_c));
 }
 .gamut-color-extract-read.gamut-extract-display-p3 {
-  --gamut--s-e1d: (0.035845830243784335 * var(--gamut--cx-vx) - 0.07617238926804171 * var(--gamut--cx-vy) + 0.9568845240076873 * var(--gamut--cx-vz));
-  --gamut--s-e1e: (2.4934969119414245 * var(--gamut--cx-vx) - 0.9313836179191236 * var(--gamut--cx-vy) - 0.40271078445071684 * var(--gamut--cx-vz));
-  --gamut--s-e1f: (-0.829488969561575 * var(--gamut--cx-vx) + 1.7626640603183468 * var(--gamut--cx-vy) + 0.02362468584194359 * var(--gamut--cx-vz));
-  --gamut--s-e1g: clamp(0, sign(abs(var(--gamut--s-e1e)) - 0.0031308), 1);
-  --gamut--s-e1h: clamp(0, sign(abs(var(--gamut--s-e1f)) - 0.0031308), 1);
-  --gamut--s-e1i: clamp(0, sign(abs(var(--gamut--s-e1d)) - 0.0031308), 1);
-  --gamut-display-p3-r: calc((sign(var(--gamut--s-e1e)) * (var(--gamut--s-e1g) * (1.055 * pow(abs(var(--gamut--s-e1e)), 1 / 2.4) - 0.055) + (1 - var(--gamut--s-e1g)) * 12.92 * abs(var(--gamut--s-e1e)))));
-  --gamut-display-p3-g: calc((sign(var(--gamut--s-e1f)) * (var(--gamut--s-e1h) * (1.055 * pow(abs(var(--gamut--s-e1f)), 1 / 2.4) - 0.055) + (1 - var(--gamut--s-e1h)) * 12.92 * abs(var(--gamut--s-e1f)))));
-  --gamut-display-p3-b: calc((sign(var(--gamut--s-e1d)) * (var(--gamut--s-e1i) * (1.055 * pow(abs(var(--gamut--s-e1d)), 1 / 2.4) - 0.055) + (1 - var(--gamut--s-e1i)) * 12.92 * abs(var(--gamut--s-e1d)))));
+  --gamut--s-ex_c: (0.035845830243784335 * var(--gamut--cx-vx) - 0.07617238926804171 * var(--gamut--cx-vy) + 0.9568845240076873 * var(--gamut--cx-vz));
+  --gamut--s-ex_d: (2.4934969119414245 * var(--gamut--cx-vx) - 0.9313836179191236 * var(--gamut--cx-vy) - 0.40271078445071684 * var(--gamut--cx-vz));
+  --gamut--s-ex_e: (-0.829488969561575 * var(--gamut--cx-vx) + 1.7626640603183468 * var(--gamut--cx-vy) + 0.02362468584194359 * var(--gamut--cx-vz));
+  --gamut--s-ex_f: clamp(0, sign(abs(var(--gamut--s-ex_d)) - 0.0031308), 1);
+  --gamut--s-ex_g: clamp(0, sign(abs(var(--gamut--s-ex_e)) - 0.0031308), 1);
+  --gamut--s-ex_h: clamp(0, sign(abs(var(--gamut--s-ex_c)) - 0.0031308), 1);
+  --gamut-display-p3-r: calc((sign(var(--gamut--s-ex_d)) * (var(--gamut--s-ex_f) * (1.055 * pow(abs(var(--gamut--s-ex_d)), 1 / 2.4) - 0.055) + (1 - var(--gamut--s-ex_f)) * 12.92 * abs(var(--gamut--s-ex_d)))));
+  --gamut-display-p3-g: calc((sign(var(--gamut--s-ex_e)) * (var(--gamut--s-ex_g) * (1.055 * pow(abs(var(--gamut--s-ex_e)), 1 / 2.4) - 0.055) + (1 - var(--gamut--s-ex_g)) * 12.92 * abs(var(--gamut--s-ex_e)))));
+  --gamut-display-p3-b: calc((sign(var(--gamut--s-ex_c)) * (var(--gamut--s-ex_h) * (1.055 * pow(abs(var(--gamut--s-ex_c)), 1 / 2.4) - 0.055) + (1 - var(--gamut--s-ex_h)) * 12.92 * abs(var(--gamut--s-ex_c)))));
 }
 .gamut-color-extract-read.gamut-extract-a98-rgb {
-  --gamut--s-e1j: (0.013444280632031024 * var(--gamut--cx-vx) - 0.11836239223101824 * var(--gamut--cx-vy) + 1.0151749943912054 * var(--gamut--cx-vz));
-  --gamut--s-e1k: (2.041587903810746 * var(--gamut--cx-vx) - 0.5650069742788596 * var(--gamut--cx-vy) - 0.3447313507783295 * var(--gamut--cx-vz));
-  --gamut-a98-rgb-r: calc((sign(var(--gamut--s-e1k)) * pow(abs(var(--gamut--s-e1k)), 0.4547069271758437)));
-  --gamut-a98-rgb-g: calc((sign(var(--gamut--x-e1a)) * pow(abs(var(--gamut--x-e1a)), 0.4547069271758437)));
-  --gamut-a98-rgb-b: calc((sign(var(--gamut--s-e1j)) * pow(abs(var(--gamut--s-e1j)), 0.4547069271758437)));
+  --gamut--s-ex_i: (0.013444280632031024 * var(--gamut--cx-vx) - 0.11836239223101824 * var(--gamut--cx-vy) + 1.0151749943912054 * var(--gamut--cx-vz));
+  --gamut--s-ex_j: (2.041587903810746 * var(--gamut--cx-vx) - 0.5650069742788596 * var(--gamut--cx-vy) - 0.3447313507783295 * var(--gamut--cx-vz));
+  --gamut-a98-rgb-r: calc((sign(var(--gamut--s-ex_j)) * pow(abs(var(--gamut--s-ex_j)), 0.4547069271758437)));
+  --gamut-a98-rgb-g: calc((sign(var(--gamut--x-ex_a)) * pow(abs(var(--gamut--x-ex_a)), 0.4547069271758437)));
+  --gamut-a98-rgb-b: calc((sign(var(--gamut--s-ex_i)) * pow(abs(var(--gamut--s-ex_i)), 0.4547069271758437)));
 }
 .gamut-color-extract-read.gamut-extract-prophoto-rgb {
-  --gamut--s-e1l: (1.3457868816471583 * var(--gamut--x-e11) - 0.25557208737979464 * var(--gamut--cx-dy) - 0.05110186497554526 * var(--gamut--x-e10));
-  --gamut--s-e1m: (-0.5446307051249019 * var(--gamut--x-e11) + 1.5082477428451468 * var(--gamut--cx-dy) + 0.02052744743642139 * var(--gamut--x-e10));
-  --gamut--s-e1n: clamp(0, sign(abs((1.2119675456389452 * var(--gamut--x-e10))) - 0.001953125) + 1, 1);
-  --gamut--s-e1o: clamp(0, sign(abs(var(--gamut--s-e1l)) - 0.001953125) + 1, 1);
-  --gamut--s-e1p: clamp(0, sign(abs(var(--gamut--s-e1m)) - 0.001953125) + 1, 1);
-  --gamut-prophoto-rgb-r: calc((var(--gamut--s-e1o) * (sign(var(--gamut--s-e1l)) * pow(abs(var(--gamut--s-e1l)), 0.5555555555555556)) + (1 - var(--gamut--s-e1o)) * 16 * var(--gamut--s-e1l)));
-  --gamut-prophoto-rgb-g: calc((var(--gamut--s-e1p) * (sign(var(--gamut--s-e1m)) * pow(abs(var(--gamut--s-e1m)), 0.5555555555555556)) + (1 - var(--gamut--s-e1p)) * 16 * var(--gamut--s-e1m)));
-  --gamut-prophoto-rgb-b: calc((var(--gamut--s-e1n) * (sign((1.2119675456389452 * var(--gamut--x-e10))) * pow(abs((1.2119675456389452 * var(--gamut--x-e10))), 0.5555555555555556)) + (1 - var(--gamut--s-e1n)) * 16 * (1.2119675456389452 * var(--gamut--x-e10))));
+  --gamut--s-ex_k: (1.3457868816471583 * var(--gamut--x-ex_1) - 0.25557208737979464 * var(--gamut--cx-dy) - 0.05110186497554526 * var(--gamut--x-ex_0));
+  --gamut--s-ex_l: (-0.5446307051249019 * var(--gamut--x-ex_1) + 1.5082477428451468 * var(--gamut--cx-dy) + 0.02052744743642139 * var(--gamut--x-ex_0));
+  --gamut--s-ex_m: clamp(0, sign(abs((1.2119675456389452 * var(--gamut--x-ex_0))) - 0.001953125) + 1, 1);
+  --gamut--s-ex_n: clamp(0, sign(abs(var(--gamut--s-ex_k)) - 0.001953125) + 1, 1);
+  --gamut--s-ex_o: clamp(0, sign(abs(var(--gamut--s-ex_l)) - 0.001953125) + 1, 1);
+  --gamut-prophoto-rgb-r: calc((var(--gamut--s-ex_n) * (sign(var(--gamut--s-ex_k)) * pow(abs(var(--gamut--s-ex_k)), 0.5555555555555556)) + (1 - var(--gamut--s-ex_n)) * 16 * var(--gamut--s-ex_k)));
+  --gamut-prophoto-rgb-g: calc((var(--gamut--s-ex_o) * (sign(var(--gamut--s-ex_l)) * pow(abs(var(--gamut--s-ex_l)), 0.5555555555555556)) + (1 - var(--gamut--s-ex_o)) * 16 * var(--gamut--s-ex_l)));
+  --gamut-prophoto-rgb-b: calc((var(--gamut--s-ex_m) * (sign((1.2119675456389452 * var(--gamut--x-ex_0))) * pow(abs((1.2119675456389452 * var(--gamut--x-ex_0))), 0.5555555555555556)) + (1 - var(--gamut--s-ex_m)) * 16 * (1.2119675456389452 * var(--gamut--x-ex_0))));
 }
 .gamut-color-extract-read.gamut-extract-rec2020 {
-  --gamut--s-e1q: (0.017639857445310915 * var(--gamut--cx-vx) - 0.042770613257808655 * var(--gamut--cx-vy) + 0.942103121235474 * var(--gamut--cx-vz));
-  --gamut--s-e1r: (1.7166511879712676 * var(--gamut--cx-vx) - 0.3556707837763924 * var(--gamut--cx-vy) - 0.2533662813736598 * var(--gamut--cx-vz));
-  --gamut--s-e1s: (-0.666684351832489 * var(--gamut--cx-vx) + 1.616481236634939 * var(--gamut--cx-vy) + 0.01576854581391113 * var(--gamut--cx-vz));
-  --gamut-rec2020-r: calc((sign(var(--gamut--s-e1r)) * pow(abs(var(--gamut--s-e1r)), 0.4166666666666667)));
-  --gamut-rec2020-g: calc((sign(var(--gamut--s-e1s)) * pow(abs(var(--gamut--s-e1s)), 0.4166666666666667)));
-  --gamut-rec2020-b: calc((sign(var(--gamut--s-e1q)) * pow(abs(var(--gamut--s-e1q)), 0.4166666666666667)));
+  --gamut--s-ex_p: (0.017639857445310915 * var(--gamut--cx-vx) - 0.042770613257808655 * var(--gamut--cx-vy) + 0.942103121235474 * var(--gamut--cx-vz));
+  --gamut--s-ex_q: (1.7166511879712676 * var(--gamut--cx-vx) - 0.3556707837763924 * var(--gamut--cx-vy) - 0.2533662813736598 * var(--gamut--cx-vz));
+  --gamut--s-ex_r: (-0.666684351832489 * var(--gamut--cx-vx) + 1.616481236634939 * var(--gamut--cx-vy) + 0.01576854581391113 * var(--gamut--cx-vz));
+  --gamut-rec2020-r: calc((sign(var(--gamut--s-ex_q)) * pow(abs(var(--gamut--s-ex_q)), 0.4166666666666667)));
+  --gamut-rec2020-g: calc((sign(var(--gamut--s-ex_r)) * pow(abs(var(--gamut--s-ex_r)), 0.4166666666666667)));
+  --gamut-rec2020-b: calc((sign(var(--gamut--s-ex_p)) * pow(abs(var(--gamut--s-ex_p)), 0.4166666666666667)));
 }
 .gamut-color-extract-read.gamut-extract-xyz-d50 {
-  --gamut-xyz-d50-x: calc(var(--gamut--x-e11));
+  --gamut-xyz-d50-x: calc(var(--gamut--x-ex_1));
   --gamut-xyz-d50-y: var(--gamut--cx-dy);
-  --gamut-xyz-d50-z: calc(var(--gamut--x-e10));
+  --gamut-xyz-d50-z: calc(var(--gamut--x-ex_0));
 }
 .gamut-color-extract-read.gamut-extract-oklab {
-  --gamut-oklab-l: var(--gamut--x-e1j);
-  --gamut-oklab-a: calc(var(--gamut--x-e1f));
-  --gamut-oklab-b: calc(var(--gamut--x-e1e));
+  --gamut-oklab-l: var(--gamut--x-ex_j);
+  --gamut-oklab-a: calc(var(--gamut--x-ex_f));
+  --gamut-oklab-b: calc(var(--gamut--x-ex_e));
 }
 .gamut-color-extract-read.gamut-extract-oklch {
-  --gamut-oklch-l: var(--gamut--x-e1j);
-  --gamut-oklch-c: calc(hypot(var(--gamut--x-e1f), var(--gamut--x-e1e)));
-  --gamut-oklch-h: calc(mod(atan2(var(--gamut--x-e1e), var(--gamut--x-e1f)) / 1deg + 360, 360));
+  --gamut-oklch-l: var(--gamut--x-ex_j);
+  --gamut-oklch-c: calc(hypot(var(--gamut--x-ex_f), var(--gamut--x-ex_e)));
+  --gamut-oklch-h: calc(mod(atan2(var(--gamut--x-ex_e), var(--gamut--x-ex_f)) / 1deg + 360, 360));
 }
 .gamut-color-extract-read.gamut-extract-lab {
-  --gamut-lab-l: calc((116 * var(--gamut--x-e16) - 16));
-  --gamut-lab-a: calc(var(--gamut--x-e18));
-  --gamut-lab-b: calc(var(--gamut--x-e19));
+  --gamut-lab-l: calc((116 * var(--gamut--x-ex_6) - 16));
+  --gamut-lab-a: calc(var(--gamut--x-ex_8));
+  --gamut-lab-b: calc(var(--gamut--x-ex_9));
 }
 .gamut-color-extract-read.gamut-extract-lch {
-  --gamut-lch-l: calc((116 * var(--gamut--x-e16) - 16));
-  --gamut-lch-c: calc(hypot(var(--gamut--x-e18), var(--gamut--x-e19)));
-  --gamut-lch-h: calc(mod(atan2(var(--gamut--x-e19), var(--gamut--x-e18)) / 1deg + 360, 360));
+  --gamut-lch-l: calc((116 * var(--gamut--x-ex_6) - 16));
+  --gamut-lch-c: calc(hypot(var(--gamut--x-ex_8), var(--gamut--x-ex_9)));
+  --gamut-lch-h: calc(mod(atan2(var(--gamut--x-ex_9), var(--gamut--x-ex_8)) / 1deg + 360, 360));
 }
 .gamut-color-extract-read.gamut-extract-hsl {
-  --gamut--s-e1t: min(((var(--gamut--x-e14) + var(--gamut--x-e17)) / 2), 1 - ((var(--gamut--x-e14) + var(--gamut--x-e17)) / 2));
-  --gamut--s-e1u: (abs(sign(var(--gamut--s-e1t))) * (var(--gamut--x-e14) - ((var(--gamut--x-e14) + var(--gamut--x-e17)) / 2)) / (var(--gamut--s-e1t) + 1e-30 * (1 - sign(abs(var(--gamut--s-e1t))))));
-  --gamut-hsl-h: calc(mod(60 * var(--gamut--x-e1b) * sign((var(--gamut--x-e14) - var(--gamut--x-e17))) + 180 * clamp(0, sign(-1 * var(--gamut--s-e1u)), 1), 360));
-  --gamut-hsl-s: calc(100 * abs(var(--gamut--s-e1u)));
-  --gamut-hsl-l: calc(100 * ((var(--gamut--x-e14) + var(--gamut--x-e17)) / 2));
+  --gamut--s-ex_s: min(((var(--gamut--x-ex_5) + var(--gamut--x-ex_7)) / 2), 1 - ((var(--gamut--x-ex_5) + var(--gamut--x-ex_7)) / 2));
+  --gamut--s-ex_t: (abs(sign(var(--gamut--s-ex_s))) * (var(--gamut--x-ex_5) - ((var(--gamut--x-ex_5) + var(--gamut--x-ex_7)) / 2)) / (var(--gamut--s-ex_s) + 1e-30 * (1 - sign(abs(var(--gamut--s-ex_s))))));
+  --gamut-hsl-h: calc(mod(60 * var(--gamut--x-ex_b) * sign((var(--gamut--x-ex_5) - var(--gamut--x-ex_7))) + 180 * clamp(0, sign(-1 * var(--gamut--s-ex_t)), 1), 360));
+  --gamut-hsl-s: calc(100 * abs(var(--gamut--s-ex_t)));
+  --gamut-hsl-l: calc(100 * ((var(--gamut--x-ex_5) + var(--gamut--x-ex_7)) / 2));
 }
 .gamut-color-extract-read.gamut-extract-hwb {
-  --gamut-hwb-h: calc(mod(60 * var(--gamut--x-e1b) * sign((var(--gamut--x-e14) - var(--gamut--x-e17))), 360));
-  --gamut-hwb-w: calc(100 * var(--gamut--x-e17));
-  --gamut-hwb-b: calc(100 * (1 - var(--gamut--x-e14)));
+  --gamut-hwb-h: calc(mod(60 * var(--gamut--x-ex_b) * sign((var(--gamut--x-ex_5) - var(--gamut--x-ex_7))), 360));
+  --gamut-hwb-w: calc(100 * var(--gamut--x-ex_7));
+  --gamut-hwb-b: calc(100 * (1 - var(--gamut--x-ex_5)));
 }
 @container style(--gamut--cx-s8: color(srgb 1 0 0)) {
 .gamut-color-extract-read {
-  --gamut-x: calc((0.4123907992659595 * var(--gamut--x-e1g) + 0.35758433938387796 * var(--gamut--x-e1h) + 0.1804807884018343 * var(--gamut--x-e1i)));
-  --gamut-y: calc((0.21263900587151036 * var(--gamut--x-e1g) + 0.7151686787677559 * var(--gamut--x-e1h) + 0.07219231536073371 * var(--gamut--x-e1i)));
-  --gamut-z: calc((0.01933081871559185 * var(--gamut--x-e1g) + 0.11919477979462599 * var(--gamut--x-e1h) + 0.9505321522496606 * var(--gamut--x-e1i)));
+  --gamut-x: calc((0.4123907992659595 * var(--gamut--x-ex_g) + 0.35758433938387796 * var(--gamut--x-ex_h) + 0.1804807884018343 * var(--gamut--x-ex_i)));
+  --gamut-y: calc((0.21263900587151036 * var(--gamut--x-ex_g) + 0.7151686787677559 * var(--gamut--x-ex_h) + 0.07219231536073371 * var(--gamut--x-ex_i)));
+  --gamut-z: calc((0.01933081871559185 * var(--gamut--x-ex_g) + 0.11919477979462599 * var(--gamut--x-ex_h) + 0.9505321522496606 * var(--gamut--x-ex_i)));
 }
 .gamut-color-extract-read.gamut-extract-srgb, .gamut-color-extract-read.gamut-extract-srgb-linear, .gamut-color-extract-read.gamut-extract-display-p3, .gamut-color-extract-read.gamut-extract-a98-rgb, .gamut-color-extract-read.gamut-extract-prophoto-rgb, .gamut-color-extract-read.gamut-extract-rec2020, .gamut-color-extract-read.gamut-extract-xyz-d50, .gamut-color-extract-read.gamut-extract-oklab, .gamut-color-extract-read.gamut-extract-oklch, .gamut-color-extract-read.gamut-extract-lab, .gamut-color-extract-read.gamut-extract-lch, .gamut-color-extract-read.gamut-extract-hsl, .gamut-color-extract-read.gamut-extract-hwb {
-  --gamut--cx-l8r-v: calc(var(--gamut--x-e1g)); --gamut--cx-l8r-e: round(down, log(max(abs(var(--gamut--cx-l8r-v)), 1e-30), 2)); --gamut--cx-l8r-m: calc(var(--gamut--cx-l8r-v) * pow(2, 17 - var(--gamut--cx-l8r-e))); --gamut--cx-l8r-a: round(to-zero, var(--gamut--cx-l8r-m)); --gamut--cx-l8r-b: round(to-zero, rem(var(--gamut--cx-l8r-m), 1) * 524288); --gamut--cx-l8r-c: calc(rem(var(--gamut--cx-l8r-m) * 524288, 1) * 524288); --gamut--cx-l8r: calc((var(--gamut--cx-l8r-a) + var(--gamut--cx-l8r-b) / 524288 + var(--gamut--cx-l8r-c) / 274877906944) * pow(2, var(--gamut--cx-l8r-e) - 17));
-  --gamut--cx-l8g-v: calc(var(--gamut--x-e1h)); --gamut--cx-l8g-e: round(down, log(max(abs(var(--gamut--cx-l8g-v)), 1e-30), 2)); --gamut--cx-l8g-m: calc(var(--gamut--cx-l8g-v) * pow(2, 17 - var(--gamut--cx-l8g-e))); --gamut--cx-l8g-a: round(to-zero, var(--gamut--cx-l8g-m)); --gamut--cx-l8g-b: round(to-zero, rem(var(--gamut--cx-l8g-m), 1) * 524288); --gamut--cx-l8g-c: calc(rem(var(--gamut--cx-l8g-m) * 524288, 1) * 524288); --gamut--cx-l8g: calc((var(--gamut--cx-l8g-a) + var(--gamut--cx-l8g-b) / 524288 + var(--gamut--cx-l8g-c) / 274877906944) * pow(2, var(--gamut--cx-l8g-e) - 17));
-  --gamut--cx-l8b-v: calc(var(--gamut--x-e1i)); --gamut--cx-l8b-e: round(down, log(max(abs(var(--gamut--cx-l8b-v)), 1e-30), 2)); --gamut--cx-l8b-m: calc(var(--gamut--cx-l8b-v) * pow(2, 17 - var(--gamut--cx-l8b-e))); --gamut--cx-l8b-a: round(to-zero, var(--gamut--cx-l8b-m)); --gamut--cx-l8b-b: round(to-zero, rem(var(--gamut--cx-l8b-m), 1) * 524288); --gamut--cx-l8b-c: calc(rem(var(--gamut--cx-l8b-m) * 524288, 1) * 524288); --gamut--cx-l8b: calc((var(--gamut--cx-l8b-a) + var(--gamut--cx-l8b-b) / 524288 + var(--gamut--cx-l8b-c) / 274877906944) * pow(2, var(--gamut--cx-l8b-e) - 17));
+  --gamut--cx-l8r-v: calc(var(--gamut--x-ex_g)); --gamut--cx-l8r-e: round(down, log(max(abs(var(--gamut--cx-l8r-v)), 1e-30), 2)); --gamut--cx-l8r-m: calc(var(--gamut--cx-l8r-v) * pow(2, 17 - var(--gamut--cx-l8r-e))); --gamut--cx-l8r-a: round(to-zero, var(--gamut--cx-l8r-m)); --gamut--cx-l8r-b: round(to-zero, rem(var(--gamut--cx-l8r-m), 1) * 524288); --gamut--cx-l8r-c: calc(rem(var(--gamut--cx-l8r-m) * 524288, 1) * 524288); --gamut--cx-l8r: calc((var(--gamut--cx-l8r-a) + var(--gamut--cx-l8r-b) / 524288 + var(--gamut--cx-l8r-c) / 274877906944) * pow(2, var(--gamut--cx-l8r-e) - 17));
+  --gamut--cx-l8g-v: calc(var(--gamut--x-ex_h)); --gamut--cx-l8g-e: round(down, log(max(abs(var(--gamut--cx-l8g-v)), 1e-30), 2)); --gamut--cx-l8g-m: calc(var(--gamut--cx-l8g-v) * pow(2, 17 - var(--gamut--cx-l8g-e))); --gamut--cx-l8g-a: round(to-zero, var(--gamut--cx-l8g-m)); --gamut--cx-l8g-b: round(to-zero, rem(var(--gamut--cx-l8g-m), 1) * 524288); --gamut--cx-l8g-c: calc(rem(var(--gamut--cx-l8g-m) * 524288, 1) * 524288); --gamut--cx-l8g: calc((var(--gamut--cx-l8g-a) + var(--gamut--cx-l8g-b) / 524288 + var(--gamut--cx-l8g-c) / 274877906944) * pow(2, var(--gamut--cx-l8g-e) - 17));
+  --gamut--cx-l8b-v: calc(var(--gamut--x-ex_i)); --gamut--cx-l8b-e: round(down, log(max(abs(var(--gamut--cx-l8b-v)), 1e-30), 2)); --gamut--cx-l8b-m: calc(var(--gamut--cx-l8b-v) * pow(2, 17 - var(--gamut--cx-l8b-e))); --gamut--cx-l8b-a: round(to-zero, var(--gamut--cx-l8b-m)); --gamut--cx-l8b-b: round(to-zero, rem(var(--gamut--cx-l8b-m), 1) * 524288); --gamut--cx-l8b-c: calc(rem(var(--gamut--cx-l8b-m) * 524288, 1) * 524288); --gamut--cx-l8b: calc((var(--gamut--cx-l8b-a) + var(--gamut--cx-l8b-b) / 524288 + var(--gamut--cx-l8b-c) / 274877906944) * pow(2, var(--gamut--cx-l8b-e) - 17));
   --gamut--cx-vx-v: calc((0.4123907992659595 * var(--gamut--cx-l8r) + 0.35758433938387796 * var(--gamut--cx-l8g) + 0.1804807884018343 * var(--gamut--cx-l8b))); --gamut--cx-vx-e: round(down, log(max(abs(var(--gamut--cx-vx-v)), 1e-30), 2)); --gamut--cx-vx-m: calc(var(--gamut--cx-vx-v) * pow(2, 17 - var(--gamut--cx-vx-e))); --gamut--cx-vx-a: round(to-zero, var(--gamut--cx-vx-m)); --gamut--cx-vx-b: round(to-zero, rem(var(--gamut--cx-vx-m), 1) * 524288); --gamut--cx-vx-c: calc(rem(var(--gamut--cx-vx-m) * 524288, 1) * 524288); --gamut--cx-vx: calc((var(--gamut--cx-vx-a) + var(--gamut--cx-vx-b) / 524288 + var(--gamut--cx-vx-c) / 274877906944) * pow(2, var(--gamut--cx-vx-e) - 17));
   --gamut--cx-vy-v: calc((0.21263900587151036 * var(--gamut--cx-l8r) + 0.7151686787677559 * var(--gamut--cx-l8g) + 0.07219231536073371 * var(--gamut--cx-l8b))); --gamut--cx-vy-e: round(down, log(max(abs(var(--gamut--cx-vy-v)), 1e-30), 2)); --gamut--cx-vy-m: calc(var(--gamut--cx-vy-v) * pow(2, 17 - var(--gamut--cx-vy-e))); --gamut--cx-vy-a: round(to-zero, var(--gamut--cx-vy-m)); --gamut--cx-vy-b: round(to-zero, rem(var(--gamut--cx-vy-m), 1) * 524288); --gamut--cx-vy-c: calc(rem(var(--gamut--cx-vy-m) * 524288, 1) * 524288); --gamut--cx-vy: calc((var(--gamut--cx-vy-a) + var(--gamut--cx-vy-b) / 524288 + var(--gamut--cx-vy-c) / 274877906944) * pow(2, var(--gamut--cx-vy-e) - 17));
   --gamut--cx-vz-v: calc((0.01933081871559185 * var(--gamut--cx-l8r) + 0.11919477979462599 * var(--gamut--cx-l8g) + 0.9505321522496606 * var(--gamut--cx-l8b))); --gamut--cx-vz-e: round(down, log(max(abs(var(--gamut--cx-vz-v)), 1e-30), 2)); --gamut--cx-vz-m: calc(var(--gamut--cx-vz-v) * pow(2, 17 - var(--gamut--cx-vz-e))); --gamut--cx-vz-a: round(to-zero, var(--gamut--cx-vz-m)); --gamut--cx-vz-b: round(to-zero, rem(var(--gamut--cx-vz-m), 1) * 524288); --gamut--cx-vz-c: calc(rem(var(--gamut--cx-vz-m) * 524288, 1) * 524288); --gamut--cx-vz: calc((var(--gamut--cx-vz-a) + var(--gamut--cx-vz-b) / 524288 + var(--gamut--cx-vz-c) / 274877906944) * pow(2, var(--gamut--cx-vz-e) - 17));
 }
 }
 .gamut-color-extract-read.gamut-extract-prophoto-rgb, .gamut-color-extract-read.gamut-extract-xyz-d50, .gamut-color-extract-read.gamut-extract-lab, .gamut-color-extract-read.gamut-extract-lch {
-  --gamut--x-e10: (-0.009243040646204504 * var(--gamut--cx-vx) + 0.015055191490298152 * var(--gamut--cx-vy) + 0.7518742814281371 * var(--gamut--cx-vz));
-  --gamut--x-e11: (1.0479297925449969 * var(--gamut--cx-vx) + 0.022946870601609652 * var(--gamut--cx-vy) - 0.05019226628920524 * var(--gamut--cx-vz));
+  --gamut--x-ex_0: (-0.009243040646204504 * var(--gamut--cx-vx) + 0.015055191490298152 * var(--gamut--cx-vy) + 0.7518742814281371 * var(--gamut--cx-vz));
+  --gamut--x-ex_1: (1.0479297925449969 * var(--gamut--cx-vx) + 0.022946870601609652 * var(--gamut--cx-vy) - 0.05019226628920524 * var(--gamut--cx-vz));
 }
 .gamut-color-extract-read.gamut-extract-oklab, .gamut-color-extract-read.gamut-extract-oklch {
-  --gamut--s-e1v: (0.0329836539323885 * var(--gamut--cx-vx) + 0.9292868615863434 * var(--gamut--cx-vy) + 0.0361446663506424 * var(--gamut--cx-vz));
-  --gamut--s-e1w: (0.0481771893596242 * var(--gamut--cx-vx) + 0.2642395317527308 * var(--gamut--cx-vy) + 0.6335478284694309 * var(--gamut--cx-vz));
-  --gamut--s-e1x: (0.819022437996703 * var(--gamut--cx-vx) + 0.3619062600528904 * var(--gamut--cx-vy) - 0.1288737815209879 * var(--gamut--cx-vz));
-  --gamut--x-e12: (sign(var(--gamut--s-e1v)) * pow(abs(var(--gamut--s-e1v)), 1 / 3));
-  --gamut--x-e13: (sign(var(--gamut--s-e1w)) * pow(abs(var(--gamut--s-e1w)), 1 / 3));
-  --gamut--x-e15: (sign(var(--gamut--s-e1x)) * pow(abs(var(--gamut--s-e1x)), 1 / 3));
-  --gamut--x-e1e: (0.0259040424655478 * var(--gamut--x-e15) + 0.7827717124575296 * var(--gamut--x-e12) - 0.8086757549230774 * var(--gamut--x-e13));
-  --gamut--x-e1f: (1.9779985324311684 * var(--gamut--x-e15) - 2.42859224204858 * var(--gamut--x-e12) + 0.450593709617411 * var(--gamut--x-e13));
-  --gamut--x-e1j: calc((0.210454268309314 * var(--gamut--x-e15) + 0.7936177747023054 * var(--gamut--x-e12) - 0.0040720430116193 * var(--gamut--x-e13)));
+  --gamut--s-ex_u: (0.0329836539323885 * var(--gamut--cx-vx) + 0.9292868615863434 * var(--gamut--cx-vy) + 0.0361446663506424 * var(--gamut--cx-vz));
+  --gamut--s-ex_v: (0.0481771893596242 * var(--gamut--cx-vx) + 0.2642395317527308 * var(--gamut--cx-vy) + 0.6335478284694309 * var(--gamut--cx-vz));
+  --gamut--s-ex_w: (0.819022437996703 * var(--gamut--cx-vx) + 0.3619062600528904 * var(--gamut--cx-vy) - 0.1288737815209879 * var(--gamut--cx-vz));
+  --gamut--x-ex_2: (sign(var(--gamut--s-ex_u)) * pow(abs(var(--gamut--s-ex_u)), 1 / 3));
+  --gamut--x-ex_3: (sign(var(--gamut--s-ex_v)) * pow(abs(var(--gamut--s-ex_v)), 1 / 3));
+  --gamut--x-ex_4: (sign(var(--gamut--s-ex_w)) * pow(abs(var(--gamut--s-ex_w)), 1 / 3));
+  --gamut--x-ex_e: (0.0259040424655478 * var(--gamut--x-ex_4) + 0.7827717124575296 * var(--gamut--x-ex_2) - 0.8086757549230774 * var(--gamut--x-ex_3));
+  --gamut--x-ex_f: (1.9779985324311684 * var(--gamut--x-ex_4) - 2.42859224204858 * var(--gamut--x-ex_2) + 0.450593709617411 * var(--gamut--x-ex_3));
+  --gamut--x-ex_j: calc((0.210454268309314 * var(--gamut--x-ex_4) + 0.7936177747023054 * var(--gamut--x-ex_2) - 0.0040720430116193 * var(--gamut--x-ex_3)));
 }
 .gamut-color-extract-read.gamut-extract-hsl, .gamut-color-extract-read.gamut-extract-hwb {
-  --gamut--s-e1y: (1 - sign(var(--gamut--x-e14) - var(--gamut--cx-r)));
-  --gamut--s-e1z: max((var(--gamut--x-e14) - var(--gamut--x-e17)), 1e-30);
-  --gamut--s-e110: ((1 - var(--gamut--s-e1y)) * (1 - sign(var(--gamut--x-e14) - var(--gamut--cx-g))));
-  --gamut--x-e14: max(var(--gamut--cx-r), var(--gamut--cx-g), var(--gamut--cx-bl));
-  --gamut--x-e17: min(var(--gamut--cx-r), var(--gamut--cx-g), var(--gamut--cx-bl));
-  --gamut--x-e1b: (var(--gamut--s-e1y) * ((var(--gamut--cx-g) - var(--gamut--cx-bl)) / var(--gamut--s-e1z) + 6 * clamp(0, sign(var(--gamut--cx-bl) - var(--gamut--cx-g)), 1)) + var(--gamut--s-e110) * ((var(--gamut--cx-bl) - var(--gamut--cx-r)) / var(--gamut--s-e1z) + 2) + ((1 - var(--gamut--s-e1y)) * (1 - var(--gamut--s-e110))) * ((var(--gamut--cx-r) - var(--gamut--cx-g)) / var(--gamut--s-e1z) + 4));
+  --gamut--s-ex_x: (1 - sign(var(--gamut--x-ex_5) - var(--gamut--cx-r)));
+  --gamut--s-ex_y: max((var(--gamut--x-ex_5) - var(--gamut--x-ex_7)), 1e-30);
+  --gamut--s-ex_z: ((1 - var(--gamut--s-ex_x)) * (1 - sign(var(--gamut--x-ex_5) - var(--gamut--cx-g))));
+  --gamut--x-ex_5: max(var(--gamut--cx-r), var(--gamut--cx-g), var(--gamut--cx-bl));
+  --gamut--x-ex_7: min(var(--gamut--cx-r), var(--gamut--cx-g), var(--gamut--cx-bl));
+  --gamut--x-ex_b: (var(--gamut--s-ex_x) * ((var(--gamut--cx-g) - var(--gamut--cx-bl)) / var(--gamut--s-ex_y) + 6 * clamp(0, sign(var(--gamut--cx-bl) - var(--gamut--cx-g)), 1)) + var(--gamut--s-ex_z) * ((var(--gamut--cx-bl) - var(--gamut--cx-r)) / var(--gamut--s-ex_y) + 2) + ((1 - var(--gamut--s-ex_x)) * (1 - var(--gamut--s-ex_z))) * ((var(--gamut--cx-r) - var(--gamut--cx-g)) / var(--gamut--s-ex_y) + 4));
 }
 .gamut-color-extract-read.gamut-extract-lab, .gamut-color-extract-read.gamut-extract-lch {
-  --gamut--s-e111: clamp(0, sign((var(--gamut--x-e11) / 0.9642956764295677) - 0.008856451679035631), 1);
-  --gamut--s-e112: clamp(0, sign((var(--gamut--x-e10) / 0.8251046025104602) - 0.008856451679035631), 1);
-  --gamut--s-e113: clamp(0, sign(var(--gamut--cx-dy) - 0.008856451679035631), 1);
-  --gamut--x-e16: (var(--gamut--s-e113) * (sign(var(--gamut--cx-dy)) * pow(abs(var(--gamut--cx-dy)), 1 / 3)) + (1 - var(--gamut--s-e113)) * (903.2962962962963 * var(--gamut--cx-dy) + 16) / 116);
-  --gamut--x-e18: (500 * ((var(--gamut--s-e111) * (sign((var(--gamut--x-e11) / 0.9642956764295677)) * pow(abs((var(--gamut--x-e11) / 0.9642956764295677)), 1 / 3)) + (1 - var(--gamut--s-e111)) * (903.2962962962963 * (var(--gamut--x-e11) / 0.9642956764295677) + 16) / 116) - var(--gamut--x-e16)));
-  --gamut--x-e19: (200 * (var(--gamut--x-e16) - (var(--gamut--s-e112) * (sign((var(--gamut--x-e10) / 0.8251046025104602)) * pow(abs((var(--gamut--x-e10) / 0.8251046025104602)), 1 / 3)) + (1 - var(--gamut--s-e112)) * (903.2962962962963 * (var(--gamut--x-e10) / 0.8251046025104602) + 16) / 116)));
+  --gamut--s-ex_10: clamp(0, sign((var(--gamut--x-ex_1) / 0.9642956764295677) - 0.008856451679035631), 1);
+  --gamut--s-ex_11: clamp(0, sign((var(--gamut--x-ex_0) / 0.8251046025104602) - 0.008856451679035631), 1);
+  --gamut--s-ex_12: clamp(0, sign(var(--gamut--cx-dy) - 0.008856451679035631), 1);
+  --gamut--x-ex_6: (var(--gamut--s-ex_12) * (sign(var(--gamut--cx-dy)) * pow(abs(var(--gamut--cx-dy)), 1 / 3)) + (1 - var(--gamut--s-ex_12)) * (903.2962962962963 * var(--gamut--cx-dy) + 16) / 116);
+  --gamut--x-ex_8: (500 * ((var(--gamut--s-ex_10) * (sign((var(--gamut--x-ex_1) / 0.9642956764295677)) * pow(abs((var(--gamut--x-ex_1) / 0.9642956764295677)), 1 / 3)) + (1 - var(--gamut--s-ex_10)) * (903.2962962962963 * (var(--gamut--x-ex_1) / 0.9642956764295677) + 16) / 116) - var(--gamut--x-ex_6)));
+  --gamut--x-ex_9: (200 * (var(--gamut--x-ex_6) - (var(--gamut--s-ex_11) * (sign((var(--gamut--x-ex_0) / 0.8251046025104602)) * pow(abs((var(--gamut--x-ex_0) / 0.8251046025104602)), 1 / 3)) + (1 - var(--gamut--s-ex_11)) * (903.2962962962963 * (var(--gamut--x-ex_0) / 0.8251046025104602) + 16) / 116)));
 }
 .gamut-color-extract-read.gamut-extract-srgb, .gamut-color-extract-read.gamut-extract-hsl, .gamut-color-extract-read.gamut-extract-hwb, .gamut-color-extract-read.gamut-extract-srgb-linear, .gamut-color-extract-read.gamut-extract-a98-rgb {
-  --gamut--x-e1a: (-0.9692436362808798 * var(--gamut--cx-vx) + 1.8759675015077206 * var(--gamut--cx-vy) + 0.04155505740717561 * var(--gamut--cx-vz));
+  --gamut--x-ex_a: (-0.9692436362808798 * var(--gamut--cx-vx) + 1.8759675015077206 * var(--gamut--cx-vy) + 0.04155505740717561 * var(--gamut--cx-vz));
 }
 .gamut-color-extract-read.gamut-extract-srgb, .gamut-color-extract-read.gamut-extract-hsl, .gamut-color-extract-read.gamut-extract-hwb, .gamut-color-extract-read.gamut-extract-srgb-linear {
-  --gamut--x-e1c: (0.05563007969699361 * var(--gamut--cx-vx) - 0.20397695888897657 * var(--gamut--cx-vy) + 1.0569715142428786 * var(--gamut--cx-vz));
-  --gamut--x-e1d: (3.2409699419045213 * var(--gamut--cx-vx) - 1.5373831775700935 * var(--gamut--cx-vy) - 0.4986107602930033 * var(--gamut--cx-vz));
+  --gamut--x-ex_c: (0.05563007969699361 * var(--gamut--cx-vx) - 0.20397695888897657 * var(--gamut--cx-vy) + 1.0569715142428786 * var(--gamut--cx-vz));
+  --gamut--x-ex_d: (3.2409699419045213 * var(--gamut--cx-vx) - 1.5373831775700935 * var(--gamut--cx-vy) - 0.4986107602930033 * var(--gamut--cx-vz));
 }
 .gamut-color-extract-read, .gamut-color-extract-read.gamut-extract-srgb, .gamut-color-extract-read.gamut-extract-srgb-linear, .gamut-color-extract-read.gamut-extract-display-p3, .gamut-color-extract-read.gamut-extract-a98-rgb, .gamut-color-extract-read.gamut-extract-prophoto-rgb, .gamut-color-extract-read.gamut-extract-rec2020, .gamut-color-extract-read.gamut-extract-xyz-d50, .gamut-color-extract-read.gamut-extract-oklab, .gamut-color-extract-read.gamut-extract-oklch, .gamut-color-extract-read.gamut-extract-lab, .gamut-color-extract-read.gamut-extract-lch, .gamut-color-extract-read.gamut-extract-hsl, .gamut-color-extract-read.gamut-extract-hwb {
-  --gamut--s-e114: clamp(0, sign(var(--gamut--cx-kr) / 255 - 0.04045), 1);
-  --gamut--s-e115: clamp(0, sign(var(--gamut--cx-kg) / 255 - 0.04045), 1);
-  --gamut--s-e116: clamp(0, sign(var(--gamut--cx-kb) / 255 - 0.04045), 1);
-  --gamut--x-e1g: (var(--gamut--s-e114) * pow((var(--gamut--cx-kr) / 255 + 0.055) / 1.055, 2.4) + (1 - var(--gamut--s-e114)) * var(--gamut--cx-kr) / 255 / 12.92);
-  --gamut--x-e1h: (var(--gamut--s-e115) * pow((var(--gamut--cx-kg) / 255 + 0.055) / 1.055, 2.4) + (1 - var(--gamut--s-e115)) * var(--gamut--cx-kg) / 255 / 12.92);
-  --gamut--x-e1i: (var(--gamut--s-e116) * pow((var(--gamut--cx-kb) / 255 + 0.055) / 1.055, 2.4) + (1 - var(--gamut--s-e116)) * var(--gamut--cx-kb) / 255 / 12.92);
+  --gamut--s-ex_13: clamp(0, sign(var(--gamut--cx-kr) / 255 - 0.04045), 1);
+  --gamut--s-ex_14: clamp(0, sign(var(--gamut--cx-kg) / 255 - 0.04045), 1);
+  --gamut--s-ex_15: clamp(0, sign(var(--gamut--cx-kb) / 255 - 0.04045), 1);
+  --gamut--x-ex_g: (var(--gamut--s-ex_13) * pow((var(--gamut--cx-kr) / 255 + 0.055) / 1.055, 2.4) + (1 - var(--gamut--s-ex_13)) * var(--gamut--cx-kr) / 255 / 12.92);
+  --gamut--x-ex_h: (var(--gamut--s-ex_14) * pow((var(--gamut--cx-kg) / 255 + 0.055) / 1.055, 2.4) + (1 - var(--gamut--s-ex_14)) * var(--gamut--cx-kg) / 255 / 12.92);
+  --gamut--x-ex_i: (var(--gamut--s-ex_15) * pow((var(--gamut--cx-kb) / 255 + 0.055) / 1.055, 2.4) + (1 - var(--gamut--s-ex_15)) * var(--gamut--cx-kb) / 255 / 12.92);
 }

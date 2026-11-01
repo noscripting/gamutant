@@ -31,9 +31,10 @@ in README.md were measured in. Playwright's own Chromium (148) and Firefox
 (150) are older, and some checks fail there.
 
 `node test/cost.mjs gamutant.css gamutant.css fit-screen` measures a part's style cost (the two sheets side by side; any part it lists). `node test/fuzz-engines.mjs` runs a cross-engine fuzz: the same seeded inputs in
-the three engines, compared with each other. Two results come from the source repository's own tools, not these: the
-part files' check (each part file alone, in any order, twice, beside the sheet) and the tally of requirements in
-compat.json.
+the three engines, compared with each other. `parts-check.mjs` holds each part file to the whole sheet's own text and
+runs them all on one page in any order, twice, beside the sheet; `build-check.mjs` builds the sheet and its parts again
+and fails on any byte that differs. Two results come from the source repository's own tools, not these: every check
+run on each part's file alone, and the tally of requirements in compat.json.
 
 A check's comment that names `QUIRKS.md` and an entry (Q3) means that engine bug, with its repro in `quirks/wpt/`. Some name files of the library's source repository that are not here: its requirements (`SPEC.md`, as G16 or H3, the ids `compat.json` carries), and the probes and tools a comment cites as where a number was measured.
 
