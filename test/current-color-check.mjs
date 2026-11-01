@@ -62,13 +62,13 @@ for (const e of pick(['Chrome', 'WebKit', 'Firefox'])) {
     // a baseline that never loaded (past 60 s) judges nothing: that is a failure, not a pass
     if (!Number.isFinite(baseMs) || !Number.isFinite(fast)) bad.push(`the page or its written-out baseline didn't load (${fast} ms, baseline ${baseMs} ms)`);
     const ok = !bad.length && !slow;
-    if (known && ok) { console.log(`${e[0]} ${form}: now passes; SPEC.md G16 says it doesn't`); failed = true; continue; }
+    if (known && ok) { console.log(`${e[0]} ${form}: now passes; compat.json's G16 says it doesn't`); failed = true; continue; }
     const right = got.length + 1 - bad.length;
     // and its load time, 6,953 ms against 27 written out when measured: four times that fails (it swings to twice from
     // run to run: 13,706 ms on 2026-10-29), on a machine not busier than its cores
     const KNOWN_MS = 6953, slowKnown = !busy && fast > 4 * KNOWN_MS;
     failed ||= known ? right < KNOWN_RIGHT || slowKnown : !ok;
-    console.log(`${e[0]} ${form}: ${ok ? 'PASS' : known ? (right < KNOWN_RIGHT ? `FAIL (fewer than the known ${KNOWN_RIGHT})` : slowKnown ? `FAIL (slower than four times the known ${KNOWN_MS} ms)` : 'FAIL (known: SPEC.md G16)') : 'FAIL'}: ${got.length + 1 - bad.length} of ${got.length + 1} within 2/255 of Color.js, loaded in ${fast} ms${busy ? ` (not judged: load average ${os.loadavg()[0].toFixed(0)} on ${os.cpus().length} cores)` : ''} (written out ${base.ms} ms; fastest of up to 3)${bad.length ? `\n  ${bad.slice(0, 4).join('\n  ')}` : ''}`);
+    console.log(`${e[0]} ${form}: ${ok ? 'PASS' : known ? (right < KNOWN_RIGHT ? `FAIL (fewer than the known ${KNOWN_RIGHT})` : slowKnown ? `FAIL (slower than four times the known ${KNOWN_MS} ms)` : 'FAIL (known: compat.json G16)') : 'FAIL'}: ${got.length + 1 - bad.length} of ${got.length + 1} within 2/255 of Color.js, loaded in ${fast} ms${busy ? ` (not judged: load average ${os.loadavg()[0].toFixed(0)} on ${os.cpus().length} cores)` : ''} (written out ${base.ms} ms; fastest of up to 3)${bad.length ? `\n  ${bad.slice(0, 4).join('\n  ')}` : ''}`);
   }
 }
 // a bare currentColor into .gamut-okhsl-from, .gamut-palette-step and their functions gives transparent in Chrome (the gate,

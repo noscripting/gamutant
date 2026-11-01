@@ -346,18 +346,26 @@ A color's channels as numbers, for CSS that needs them ([#6937](https://github.c
 
 Measured 2026-10-31, headless: Chrome 155, WebKit 26.4, Firefox 159.
 
-The classes run in all three, the functions only in Chrome 155. Firefox 159 doesn't read a percentage in `--gamut-mix-pct-1` to `--gamut-mix-pct-6`: write `40`, not `40%`. Some colors follow an engine's bugs: `.gamut-color-mix` in Chrome 155; `.gamut-color-layers` and `.gamut-alpha` in WebKit 26.4; `.gamut-fit-screen`, `.gamut-color-mix` and `.gamut-color-equal` in Firefox 159. In Firefox 159, `.gamut-fit-screen` maps an input built from `currentColor` wrong: 12 of 33 within 2/255 of Color.js, and slowly. `currentColor` as the input of `.gamut-okhsl-from`, `.gamut-color-extract` and `.gamut-color-equal` doesn't work in any of the three (transparent; every channel 0; 0 for two equal colors), nor of `.gamut-palette-step` in Chrome 155 and WebKit 26.4: write the color out. Given `currentColor` itself, `.gamut-okhsl-from`, `--gamut-okhsl-from()` and `--gamut-palette-step()` give transparent at once in Chrome 155; in Firefox 159, and given a color built from `currentColor`, they slow the page's load.`npm run browsers` fetches all but Firefox 159, the machine's own.
+The classes run in all three, the functions only in Chrome 155. Firefox 159 doesn't read a percentage in `--gamut-mix-pct-1` to `--gamut-mix-pct-6`: write `40`, not `40%`. Some colors follow an engine's bugs: `.gamut-color-mix` in Chrome 155; `.gamut-color-layers` and `.gamut-alpha` in WebKit 26.4; `.gamut-fit-screen`, `.gamut-color-mix` and `.gamut-color-equal` in Firefox 159. In Firefox 159, `.gamut-fit-screen` maps an input built from `currentColor` wrong: 12 of 33 within 2/255 of Color.js, and slowly. `currentColor` as the input of `.gamut-okhsl-from`, `.gamut-color-extract` and `.gamut-color-equal` doesn't work in any of the three (transparent; every channel 0; 0 for two equal colors), nor of `.gamut-palette-step` in Chrome 155 and WebKit 26.4: write the color out. Given `currentColor` itself, `.gamut-okhsl-from`, `--gamut-okhsl-from()` and `--gamut-palette-step()` give transparent at once in Chrome 155; in Firefox 159, and given a color built from `currentColor`, they slow the page's load. `npm run browsers` fetches all but Firefox 159, the machine's own.
 
 ## Build
 
-The checks expect the builds in [Browsers](#browsers).
+### Running the checks
 
 ```sh
+git clone https://github.com/noscripting/gamutant
+cd gamutant
 npm install
 npm run browsers
 npm test
 ```
 
+`npm run browsers` downloads the builds in [Browsers](#browsers), once. `npm test` runs every check, four at a time, in a few minutes, and ends with `50 of 50 checks pass`; a check that fails prints its last lines and the run exits 1. A line marked `FAIL (known: …)` inside a passing check is a limit [Browsers](#browsers) states.
+
+To run some checks, name them as the run prints them: `node test/run.mjs material okhsl`. `ENGINES=Chrome`, or `ENGINES=WebKit,Firefox`, runs them in those engines only.
+
 Each of the 49 browser checks reads what the builds in [Browsers](#browsers) compute from `gamutant.css` and compares it with a reference written apart from the sheet: Color.js for CSS Color 4's conversions and gamut mapping, the drafts' own pseudocode and sample code, Björn Ottosson's `ok_color.h` for Okhsl and Okhsv, material-color-utilities for palette steps and spectral.js for paint mixing. Each prints its worst error. A web-platform-tests reftest for each part runs beside them. [test/README.md](test/README.md) lists every reference and its version. One more, `test/build-check.mjs`, builds the sheet and its parts again in memory and fails on any byte that differs from the files committed.
+
+### Building the sheet
 
 `npm run build` writes `gamutant.css` and `parts/` again from `build/`, the same bytes as published: `build/build.mjs` puts the sheet together from `build/modules/`, a file for each group of parts (two parts, `contrast.css` and `scale.css`, are written by hand beside it), and `build/parts.mjs` cuts it into parts. `build/registry.mjs` lists every part with the file that writes it, its function form, its credits and its checks. The modules' comments say how each part computes in CSS: a gamut test held in a color's alpha, a distance as a mix with a color's negation, the searches' steps written out one after another.
