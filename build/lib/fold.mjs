@@ -1,9 +1,7 @@
-// fold: a stylesheet unfolded into rules and expressions, rewritten, folded back. Each pass keeps every output the same.
-// Pass nest: a registered color read once is written inside its reader. Pass share: an expression a rule writes more than
-// once is written once. (A pass that registered each repeated flag, faster, was dropped for share on 2026-10-24: 58
-// registrations fewer and a smaller sheet.)
-//   import { nest, share } from './fold.mjs'
-import { readFileSync, writeFileSync } from 'node:fs';
+// The folding passes: the sheet cut into rules and expressions, rewritten, put back together, every output the same.
+// nest: a registered color read once is written inside its reader. across: an expression two or more rules write is
+// written once for all of them. share: an expression one rule writes more than once is written once. build.mjs runs
+// them on each group of parts (sheets()).
 
 // the sheet as top-level pieces, braces matched, comments and strings skipped
 export function pieces(css) {
@@ -19,7 +17,6 @@ export function pieces(css) {
   }
   return out;
 }
-if (import.meta.url === `file://${process.argv[1]}`) { const [i, o] = process.argv.slice(2); const n = nest(readFileSync(i, 'utf8')), r = share(n.css); writeFileSync(o, r.css); console.log(`${n.report}; ${r.report}`); }
 // Pass nest: a registered, non-inherited <color> declared once and read once in the whole sheet, by a later declaration of
 // the same rule, is written inside its reader, a relative color nested in it: worked out once there with no
 // registration, and its 32-bit floats reach the reader whole (through var() a registered color arrives at 6 digits).
@@ -45,6 +42,13 @@ export function nest(css, sheet = css) {
   const out = P.map((p) => (p.kind === 'rule' && p.text.startsWith('@property') && gone.has(p.text.match(/@property (--[\w-]+)/)?.[1]) ? '' : p.text)).join('');
   return { css: out.replace(/\n{3,}/g, '\n\n'), report: `${gone.size} registered colors nested in their one reader` };
 }
+// An expression is found and replaced whole: never right after a name's character, so `(x)` is not the tail of
+// `calc(x)` nor `rgb(x)` of `srgb(x)` (a split on the text made `calcvar(...)` and `okvar(...)`, and parts wrote their
+// CSS around it)
+const NAME = /[\w-]/;
+const places = (t, g) => { const out = []; for (let i = t.indexOf(g); i >= 0; i = t.indexOf(g, i + 1)) if (i === 0 || !NAME.test(t[i - 1])) { out.push(i); i += g.length - 1; } return out; };
+export const count = (t, g) => places(t, g).length;
+export const replace = (t, g, by) => { let out = '', last = 0; for (const i of places(t, g)) { out += t.slice(last, i) + by; last = i + g.length; } return out + t.slice(last); };
 // Pass share: an expression a rule writes more than once is written once, as an unregistered property of that rule the
 // others read by var(): the same tokens come back where it is read (worked out there, as before), so every output is
 // the same; the rule's own declaration is the one its elements see, so inheritance never reaches it.
@@ -63,9 +67,9 @@ export function share(css, { prefix = '', minLength = 40 } = {}) {
     const added = [];
     for (;;) {
       const name = () => `--_s-${prefix}${n.toString(36)}`, cost = (g, k) => (k - 1) * g.length - (name().length + 4 + k * (name().length + 5));
-      const best = [...groups(body)].map(([g]) => [g, body.split(g).length - 1]).filter(([g, k]) => k > 1 && cost(g, k) > 0).sort((a, b) => cost(b[0], b[1]) - cost(a[0], a[1]))[0];
+      const best = [...groups(body)].map(([g]) => [g, count(body, g)]).filter(([g, k]) => k > 1 && cost(g, k) > 0).sort((a, b) => cost(b[0], b[1]) - cost(a[0], a[1]))[0];
       if (!best) break;
-      const v = name(); n++; saved += cost(...best); body = body.split(best[0]).join(`var(${v})`); added.push(`${v}: ${best[0]};`);
+      const v = name(); n++; saved += cost(...best); body = replace(body, best[0], `var(${v})`); added.push(`${v}: ${best[0]};`);
     }
     return added.length ? `${head}\n  ${added.join('\n  ')}${body}}` : text;
   };
@@ -100,12 +104,12 @@ export function across(css, { prefix = '', minLength = 60 } = {}) {
   for (;;) {
     const where = new Map();
     for (const r of rules) for (const g of groupsOf(body(r))) { if (!where.has(g)) where.set(g, []); where.get(g).push(r); }
-    const gain = ([g, rs]) => { const k = rs.reduce((t, r) => t + body(r).split(g).length - 1, 0), name = `--_x-${prefix}${n.toString(36)}`;
+    const gain = ([g, rs]) => { const k = rs.reduce((t, r) => t + count(body(r), g), 0), name = `--_x-${prefix}${n.toString(36)}`;
       return (k - 1) * g.length - k * (name.length + 5) - (name.length + 4) - [...new Set(rs.map(head))].join(', ').length - 4; };
     const best = [...where].filter(([, rs]) => rs.length > 1).map((x) => [x, gain(x)]).filter(([, v]) => v > 0).sort((a, b) => b[1] - a[1])[0];
     if (!best) break;
     const [[g, rs], v] = best, name = `--_x-${prefix}${(n++).toString(36)}`; saved += v;
-    for (const r of rs) r.text = `${r.text.slice(0, r.text.indexOf('{') + 1)}${body(r).split(g).join(`var(${name})`)}`;
+    for (const r of rs) r.text = `${r.text.slice(0, r.text.indexOf('{') + 1)}${replace(body(r), g, `var(${name})`)}`;
     const sel = [...new Set(rs.map(head))].join(', ');
     if (!shared.has(sel)) shared.set(sel, []); shared.get(sel).push(`${name}: ${g};`);
   }

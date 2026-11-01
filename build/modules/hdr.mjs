@@ -49,8 +49,6 @@ export function hdrSpacesPart() {
   // PQ's inverse, LMS / 10000 = f^(1/m1), f = (P - c1) / (c2 - c3 P), from q = 1024 ln(v) k (k = 1/m2, or 1/p for Jz;
   // 102400 added where v < 0): P - 1 by its series where |ln(v) k| < 0.1, so neither c2 - c3 P nor P - c1 cancels in
   // 32-bit math, and a stored q keeps its digits where a stored v near 1 doesn't (6 significant digits through var())
-  // v a bare sum, never in parentheses of its own: share() takes a repeated (v) and the same text as a function's
-  // own arguments, abs(v), for one group, and writes absvar(…)
   const pqX = (v, k) => `calc(1024 * log(max(abs(${v}), 1e-30)) * ${k} + 102400 * clamp(0, sign(${v}) * -1, 1))`;
   const pqInv = (q, signed) => {
     const neg = `clamp(0, sign(${q} - 51200), 1)`, X = `((${q} - 102400 * ${neg}) / 1024)`;

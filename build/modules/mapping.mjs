@@ -51,9 +51,7 @@ export function mapper() {
   let expr = `color-mix(in oklch, oklch(from var(--gamut--src) l none h / none), oklch(none ${Wv(0)} none / 1))`;
   for (let k = 0; k < TESTS; k++) {
     const last = k === TESTS - 1, lo = `c + (sign(alpha) - 1) * ${Wv(k)}`;
-    // (lo / sw written out: share() takes a parenthesized lo here and calc(lo) above as one expression, and
-    // leaves `calcvar(...)`)
-    expr = `oklch(from ${test(expr)} ${last ? 'none' : 'l'} calc(${last ? lo : `c + (sign(alpha) - 0.5) * ${Wv(k)}`}) ${last ? `none / calc(c / ${SW} + (sign(alpha) - 1) * ${W(k)} + 0.5)` : 'h'})`;
+    expr = `oklch(from ${test(expr)} ${last ? 'none' : 'l'} calc(${last ? lo : `c + (sign(alpha) - 0.5) * ${Wv(k)}`}) ${last ? `none / calc((${lo}) / ${SW} + 0.5)` : 'h'})`;
   }
   // The register keeps the input's own hue and lightness: a conversion that drops a near-grey point's hue (oklch(0.984
   // 0.0078 h) came back with hue 0 in Safari) would put the secant's two ends at the wrong hue, and Firefox's round trips

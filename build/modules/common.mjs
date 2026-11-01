@@ -24,8 +24,7 @@ export const SEED = 'var(--gamut-in, oklch(var(--gamut-l, 0.5) var(--gamut-c, 0)
 // (oklch(0.7 1e9 30) comes back from the lch hop with lightness 0): it weighs 1e-6 of the first where both are right,
 // and all where the first is grey; lightness rounded to 1e-6, so that 0 and 1 (CSS Color 4 §14.2.2's black and white)
 // stay exact. Kept as oklch, as the mappers read it. (Three readings with flags weighing 0 or 1, exact, made a currentColor page load in
-// 580 ms in WebKit, over the load bound its checks hold, 2 x 110 + 300 ms; this, 470 ms.) share() would take an `lch(from X …
-// / 1)` inside `oklch(from X … / 1)`: the lch hop has no `/ 1`.
+// 580 ms in WebKit, over the load bound its checks hold, 2 x 110 + 300 ms; this, 470 ms.)
 const GREY = 'clamp(0, sign(c - 0.000001), 1)';
 export const IN0 = `oklch(from color-mix(in oklab, oklab(from oklch(from ${SEED} l c h / ${GREY}) l a b / alpha), oklab(from lch(from ${SEED} l min(c, 400) h) l a b / 0.000001)) round(l, 0.000001) c h / 1)`;
 // the input's alpha on a mapped color whose alpha is none: it rides as 0.5 + alpha / 2 and is unpacked after (Chrome mixes
@@ -53,7 +52,7 @@ export const n9 = (x) => +x.toPrecision(9);
 // Firefox included, pick() is the input itself, exactly: as text (a registered color reaches var() at 6 digits in
 // WebKit), premultiplied by alpha 1 and unpremultiplied by powers of two; its alpha 1/2, which no reader takes.
 export const noneHue = (src, prefix) => {
-  const A = `oklch(from ${src} l c h / 1)`, B = `lch(from ${src} l c h)`; // (B not `/ 1`: share() then took it inside A as okvar(…))
+  const A = `oklch(from ${src} l c h / 1)`, B = `lch(from ${src} l c h)`; // (B's alpha: w() and g read it as none)
   const r = (n) => `var(${prefix}${n})`, flag = (a) => `oklch(from ${r('g')} none none none / calc(${a}))`;
   const aWins = 'clamp(0, sign(c - h) + 1, 1)', hop = 'clamp(0, sign(0.001 - l), 1) * clamp(0, sign(max(c, h) - l - 0.001), 1)';
   const w = (space, kw, c, f) => `color-mix(in ${space}, color(from ${c} ${space} ${kw} / none) 100%, ${f} 0%)`;
