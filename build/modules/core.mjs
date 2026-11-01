@@ -133,6 +133,7 @@ export function coreParts({ mapping = minde } = {}) {
 @property --gamut--p { syntax: '<color>'; inherits: false; initial-value: black; }
 @property --gamut--se-q { syntax: '<color>'; inherits: false; initial-value: black; }
 @property --gamut--se-c { syntax: '<color>'; inherits: false; initial-value: black; }
+@property --gamut--se-n { syntax: '<color>'; inherits: false; initial-value: black; }
 @property --gamut--k { syntax: '<number>'; inherits: false; initial-value: 1; }
 @property --gamut--rel { syntax: '<number>'; inherits: false; initial-value: 1; }
 @property --gamut--in0 { syntax: '<color>'; inherits: false; initial-value: black; }
@@ -279,6 +280,11 @@ ${esf.fns.filter((f) => !kf.fns.includes(f)).join('\n')}
   --gamut--se-q: ${se.q};
   --gamut--se-c: ${se.q2};
 }
+${IF_SUPPORTS} { .screen-edge {
+  --gamut--se-n: ${se.need};
+  --gamut--se-q: if(${se.skip}: black; else: ${se.q});
+  --gamut--se-c: if(${se.skip}: black; else: ${se.q2});
+} }
 /* the edge clipped to the target last, in its own channels (an estimate can land just past it: prophoto-rgb at L 0.96
    h 95 gave blue -0.017 encoded, an audit, 2026-10-28); a point inside is itself */
 .screen-edge { --gamut-out: ${se.out}; }

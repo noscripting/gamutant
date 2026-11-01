@@ -75,7 +75,7 @@ export function mapper() {
   const tOf = (m) => `oklch(from color(from ${m} var(--gamut--lin) 0 0 0 / calc(1 / (1 + exp(2 * max(r, g, b))))) none none none / alpha)`;
   const gather = `color-mix(in oklch, oklch(from var(--gamut--p) none c none / none), ${tOf(mix)})`;
   const first = `oklch(from ${gather} none calc(c + ${Wv(TESTS - 1)} * alpha) none / none)`;
-  return { p: expr, ...lastExit({ halvings, ends, tOf, Wv, SW, first }) };
+  return { p: expr, ...lastExit({ halvings, ends, tOf, Wv, SW, first, mix }) };
 }
 
 // The last exit. Near a primary the line can leave the gamut by a hair and come back: in sRGB within 0.1 degrees of blue's
@@ -89,8 +89,8 @@ export function mapper() {
 // so the edge is at least its chroma (scaled to EDGE_L's search below it). In a JS model of the sheet's steps on 5,824
 // 8-bit colors near blue: 214 more than 1/255 off the last exit before, 1 after (rgb(0 28 150), 28/255); 3,000 random
 // colors and an L x h sweep of the sRGB gamut unchanged (a review, 2026-11-01).
-const TOL = 0.001, BACK = 0.0002;
-function lastExit({ halvings, ends, tOf, Wv, SW, first }) {
+const TOL = 0.001, BACK = 0.0002, GATE = 0.005;
+function lastExit({ halvings, ends, tOf, Wv, SW, first, mix }) {
   const w = Wv(TESTS - 1), q = halvings(`calc(${DIST} + ${TOL})`);
   const [low, high] = ends('q', `oklch(from var(--gamut--se-q) l calc(c - ${w}) h)`, `oklch(from var(--gamut--se-q) l calc(c + ${w}) h)`,
     (x) => ` - 100 * clamp(0, 1 - sign(${`min(${X[x]}, 1 - ${X[x]})`}), 1)`);
@@ -102,13 +102,20 @@ function lastExit({ halvings, ends, tOf, Wv, SW, first }) {
   // decimals, which puts blue written as oklch() 0.00013 past its face, under 0.7/255 even near 0; scaled to the
   // search's lightness, / sw) as a hue of up to 180
   const inside = (tol) => `calc(0.5 + 0.5 * sign(max(0, ${DIST}${tol})))`;
-  const cand = `oklch(from ${test('var(--gamut--se-c)', inside(''))} calc(c / ${SW}) none none / alpha)`;
+  const cand = `oklch(from var(--gamut--se-c) l none none / alpha)`;
+  const q2t = `oklch(from ${test(q2, inside(''))} calc(c / ${SW}) 0 0 / alpha)`;
   const input = `oklch(from ${test('var(--gamut--in0)', inside(' + 0.0002'))} none none calc(c * max(l, ${EDGE_L}) / max(l, 0.000001) * (2 * alpha - 1) / ${SW} * 360) / none)`;
   const all = `color-mix(in oklch, color-mix(in oklch, ${cand}, ${first}), ${input})`;
   const edge = `oklch(from ${all} none calc(max(c, l * ${SW} * (2 * alpha - 1), h / 360 * ${SW})) none / none)`;
   // out: the input's own l and h (--gamut--se), chroma k x edge, the edge scaled to the input's lightness below EDGE_L
   const out = `oklch(from color-mix(in oklch, oklch(from var(--gamut--se) l none h / 1), ${edge}) l calc(var(--gamut--k) * c * l / max(l, ${EDGE_L})) h / 1)`;
-  return { q, q2, out };
+  // Where if() parses (Chrome), the second search runs only where the point GATE past the first search's bracket is
+  // outside by under TOL, as in a dip; at an ordinary edge the line falls away faster. In the JS model it skipped none of
+  // the 742 colors the second search changes (of 35,650 8-bit colors near blue and 4,000 random), and runs for 0.8% of
+  // the random ones, 6 to 9% of an L x h sweep of sRGB and Display P3 (a review, 2026-11-01). A flag of 0.5 skips.
+  // Chrome 155, 256 changing colors: 49 ms ungated, 39 gated, 26 before the second search.
+  const need = `oklch(from ${test(`oklch(from var(--gamut--p) l calc(c + ${w} + ${GATE} * ${SW}) h)`, `calc(${DIST} + ${TOL})`)} 0 0 0 / calc(0.5 + 0.5 * sign(alpha)))`;
+  return { q, q2: q2t, out, need, skip: 'style(--gamut--se-n: oklch(0 0 0 / 0.5))' };
 }
 
 // .screen-edge whole, as gamutant.css writes it: the input (--gamut--in0, --gamut--se,
@@ -116,13 +123,13 @@ function lastExit({ halvings, ends, tOf, Wv, SW, first }) {
 // are made colors: opaque). edge.css once took mapper() alone and painted black after --gamut--se came in (a review,
 // 2026-10-31).
 export function screenEdge() {
-  const { p, q, q2, out } = mapper();
+  const { p, q, q2, out, need, skip } = mapper();
   // the edge clipped to the target last, in its own channels (an estimate can land just past it: prophoto-rgb at L 0.96
   // h 95 gave blue -0.017 encoded, an audit, 2026-10-28); a point inside is itself
   const edgeClip = (x) => `oklch(from color(from ${x} var(--gamut--clip, var(--gamut--lin)) clamp(0, r, 1) clamp(0, g, 1) clamp(0, b, 1)) l c h / 1)`;
   const alphaIn = (x) => `oklch(from color-mix(in oklch, ${x.replace(/ \/ 1\)$/, ' / none)')}, oklch(from ${SEED} none none none / calc(0.5 + alpha / 2))) l c h / calc(2 * alpha - 1))`;
   return { src: [`--gamut--in0: ${IN0};`, `--gamut--se: ${EDGE_SRC};`, `--gamut--src: oklch(from var(--gamut--se) max(l, ${EDGE_L}) c h / none);`, '--gamut--k: var(--gamut-rel, 1);'],
-    p, q, q2, out: alphaIn(edgeClip(out)) };
+    p, q, q2, need, skip, out: alphaIn(edgeClip(out)) };
 }
 
 // The spec's mapper (.fit-screen): CSS Color 4 §14.2.1, binary search with local MINDE. The test at a point p: its clip
