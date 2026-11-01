@@ -68,7 +68,7 @@ const CASES = {
   'color-layers': '--gamut-layer-1: rgb(0 0 0 / 0.3); --gamut-layer-2: tomato; background: var(--gamut-out)',
   'color-interpolate': '--gamut-stop-1: red; --gamut-stop-2: blue; --gamut-at-1: 0; --gamut-at-2: 1; --gamut-t: 0.3; background: var(--gamut-out)',
   'color-mix': '--gamut-mix-1: red; --gamut-mix-2: blue; --gamut-mix-3: lime; background: var(--gamut-out)',
-  alpha: '--gamut-in: red; --gamut-alpha: 0.5; background: var(--gamut-out)',
+  alpha: '--gamut-in: red; --gamut-alpha-value: 0.5; background: var(--gamut-out)',
   'device-cmyk': '--gamut-cmyk-c: 0.1; --gamut-cmyk-m: 0.5; --gamut-cmyk-y: 0.9; --gamut-cmyk-k: 0.1; background: var(--gamut-out)',
   'light-dark': '--gamut-light: yellow; --gamut-dark: blue; background: var(--gamut-out)',
   'color-equal': '--gamut-equal-a: red; --gamut-equal-b: color(srgb-linear 0 0 1)',

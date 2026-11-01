@@ -10,6 +10,9 @@ All notable changes to gamutant.css are written here. The format follows [Keep a
 
 ### Fixed
 
+- `test/issue-9449-check.mjs` reads its whole page under `GATE_BATCH` too; batching dropped its references.
+- `test/parts-check.mjs order` sets `--gamut-alpha-value` on its alpha case; it set `--gamut-alpha`, which nothing reads.
+- README says `rec2020`'s extracted channels follow CSS Color 4's 2.4 power, which the engines don't decode.
 - `test/current-color-check.mjs` fails when a page never loads; a timeout on both pages passed.
 - The build stops on an `EXTRACT_BITS` that isn't a whole number from 1 to 8; `1.5` wrote invalid property names.
 - Each part file's first line names its version, 0.0.1; in 0.0.1 they said 1.0.0.

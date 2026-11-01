@@ -11,7 +11,6 @@
 import { createRequire } from 'node:module';
 import { readFileSync } from 'node:fs';
 import { pw, pick } from './engines.mjs';
-import { readFixture } from './renderer-budget.mjs';
 const C0 = createRequire(import.meta.url)('colorjs.io'), Color = C0.default ?? C0;
 const css = readFileSync(process.env.SHEET ?? new URL('../gamutant.css', import.meta.url), 'utf8');
 const INS = [
@@ -36,7 +35,8 @@ let failed = false;
 for (const [name, type, opts] of pick()) {
   const b = await pw[type].launch(opts), p = await b.newPage();
   let got, read;
-  try { [got, read] = await readFixture(b, p, name, html, () => [[...document.querySelectorAll('i')].map((e) => [e.dataset.g, e.dataset.in, getComputedStyle(e).getPropertyValue('--gamut-out').trim()]),
+  try { await p.setContent(html, { timeout: 180000 });   // a whole page: the <b> references sit beside the inputs
+    [got, read] = await p.evaluate(() => [[...document.querySelectorAll('i')].map((e) => [e.dataset.g, e.dataset.in, getComputedStyle(e).getPropertyValue('--gamut-out').trim()]),
     Object.fromEntries([...document.querySelectorAll('b')].map((e) => [e.dataset.in, getComputedStyle(e).color]))]); }
   finally { await b.close(); }
   const bad = [], have = {};

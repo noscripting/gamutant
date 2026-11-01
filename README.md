@@ -342,7 +342,7 @@ A color's channels as numbers, for CSS that needs them ([#6937](https://github.c
 </div>
 ```
 
-- A class `.gamut-extract-<space>` beside `.gamut-color-extract-read` adds that space's channels as `--gamut-<space>-<channel>`, for `srgb`, `srgb-linear`, `display-p3`, `a98-rgb`, `prophoto-rgb`, `rec2020`, `xyz-d50`, `lab`, `lch`, `oklab`, `oklch`, `hsl` and `hwb`.
+- A class `.gamut-extract-<space>` beside `.gamut-color-extract-read` adds that space's channels as `--gamut-<space>-<channel>`, for `srgb`, `srgb-linear`, `display-p3`, `a98-rgb`, `prophoto-rgb`, `rec2020`, `xyz-d50`, `lab`, `lch`, `oklab`, `oklch`, `hsl` and `hwb`. `rec2020`'s channels are encoded by the 2.4 power CSS Color 4 gives; the three engines decode `color(rec2020 …)` by BT.2020's curve, so a color built from them there comes out lighter in the mid-tones (`#808080` extracts 0.5279, where they read 0.4521).
 
 ## Browsers
 
