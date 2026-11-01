@@ -24,6 +24,11 @@ const r6 = (x) => +x.toFixed(6);
 const inputs = Array.from({ length: N }, (_, i) => i % 5 === 4
   ? [r6(0.15 + rnd() * 0.75), r6(rnd() * 0.06), r6(rnd() * 360)]          // a few low-chroma colors, inside every gamut
   : [r6(0.05 + rnd() * 0.9), r6(0.1 + rnd() * 0.9), r6(rnd() * 360)]);   // chroma up to 1, the search's reach
+// prophoto-rgb at hues 196 to 206, lightness 0.42 to 0.56, where red dips under 0 and the line comes back in up to chroma
+// 0.98 (a review, 2026-11-01): .gamut-screen-edge there must reach the most chroma, not an earlier exit (to 0.54: at 0.56
+// and 206deg the line comes back in for 0.0005, a limit SPEC.md states)
+const BAND = inputs.length;
+for (let L = 0.42; L <= 0.541; L += 0.02) for (let h = 196; h <= 206; h += 2) inputs.push([r6(L), 0.3, h]);
 const lin = (sp) => (sp === '--rec2020-oetf' ? 'rec2020-linear' : `${sp}-linear`); // the linear space a target's gamut is tested in
 // an engine's color(rec2020 ...) is BT.2020-encoded in all three engines: read it as that, not as Color.js 0.7.1's gamma-2.4 rec2020
 const engine = (css) => css.replace(/^color\(rec2020 /, 'color(--rec2020-oetf ');
@@ -50,6 +55,7 @@ for (const [name, type, opts] of pick()) {
     const ds = tag === 'I' ? [off(have, want)] : want.map((w) => off(have, w)), d = Math.min(...ds); if (tag !== 'I' && d <= 1 && ds.at(-1) > 1) r.early = (r.early ?? 0) + 1;
     const tol = tag === 'B' || inGamut(sp, l, c, h) ? 1 : 2; r.n++; r.worst = Math.max(r.worst, d);
     if (!(d <= tol)) r.bad.push(`oklch(${l} ${c} ${h}) ${d.toFixed(1)}/255`);
+    else if (tag === 'B' && g === 'prophoto-rgb' && k >= BAND && !(ds.at(-1) <= tol)) r.bad.push(`oklch(${l} ${c} ${h}) at an earlier exit, ${ds.at(-1).toFixed(1)}/255 short of the most`);
   }
   for (const [key, r] of Object.entries(res)) { failed ||= r.bad.length > 0;
     console.log(`${name} ${key}: ${r.n - r.bad.length} of ${r.n} ${r.same ? 'the same' : `within 2/255 (1/255 inside the gamut), worst ${r.worst.toFixed(2)}/255`}${r.early ? `, ${r.early} at an earlier exit than the most chroma` : ''}${r.bad.length ? `; off: ${r.bad.slice(0, 3).join(', ')}` : ''}`); }

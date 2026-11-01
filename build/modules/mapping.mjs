@@ -88,10 +88,14 @@ export function mapper() {
 // gamut is at or below the last exit, so it never overshoots. And an input in gamut is itself at its lightness and hue,
 // so the edge is at least its chroma (scaled to EDGE_L's search below it). In a JS model of the sheet's steps on 5,824
 // 8-bit colors near blue: 214 more than 1/255 off the last exit before, 1 after (rgb(0 28 150), 28/255); 3,000 random
-// colors and an L x h sweep of the sRGB gamut unchanged (a review, 2026-11-01).
-const TOL = 0.001, BACK = 0.0002, GATE = 0.005;
+// colors and an L x h sweep of the sRGB gamut unchanged (a review, 2026-11-01). To prophoto-rgb at hues 196 to 206 and
+// lightness 0.42 to 0.56, red dips under 0 by up to 0.02 and the line comes back in up to chroma 0.98, a real color
+// (its cone responses positive): there the second search leaves red's floor out (--gamut--dist2). In the JS model, an
+// L x h sweep to prophoto-rgb, 35 more than 1/255 off the last real exit before, 4 after (9.9/255 at L 0.56 h 206, a
+// sliver 0.0005 wide; 1.3 at the yellow cusp), every other gamut unchanged.
+const TOL = 0.001, BACK = 0.0002, GATE = 0.005, DIST2 = `var(--gamut--dist2, ${DIST})`;
 function lastExit({ halvings, ends, tOf, Wv, SW, first, mix }) {
-  const w = Wv(TESTS - 1), q = halvings(`calc(${DIST} + ${TOL})`);
+  const w = Wv(TESTS - 1), q = halvings(`calc(${DIST2} + ${TOL})`);
   const [low, high] = ends('q', `oklch(from var(--gamut--se-q) l calc(c - ${w}) h)`, `oklch(from var(--gamut--se-q) l calc(c + ${w}) h)`,
     (x) => ` - 100 * clamp(0, 1 - sign(${`min(${X[x]}, 1 - ${X[x]})`}), 1)`);
   const gather = `color-mix(in oklch, oklch(from var(--gamut--se-q) l c h / none), ${tOf(`color-mix(in var(--gamut--lin), ${low}, ${high})`)})`;
@@ -114,7 +118,7 @@ function lastExit({ halvings, ends, tOf, Wv, SW, first, mix }) {
   // the 742 colors the second search changes (of 35,650 8-bit colors near blue and 4,000 random), and runs for 0.8% of
   // the random ones, 6 to 9% of an L x h sweep of sRGB and Display P3 (a review, 2026-11-01). A flag of 0.5 skips.
   // Chrome 155, 256 changing colors: 49 ms ungated, 39 gated, 26 before the second search.
-  const need = `oklch(from ${test(`oklch(from var(--gamut--p) l calc(c + ${w} + ${GATE} * ${SW}) h)`, `calc(${DIST} + ${TOL})`)} 0 0 0 / calc(0.5 + 0.5 * sign(alpha)))`;
+  const need = `oklch(from ${test(`oklch(from var(--gamut--p) l calc(c + ${w} + ${GATE} * ${SW}) h)`, `calc(${DIST2} + ${TOL})`)} 0 0 0 / calc(0.5 + 0.5 * sign(alpha)))`;
   return { q, q2: q2t, out, need, skip: 'style(--gamut--se-n: oklch(0 0 0 / 0.5))' };
 }
 
@@ -290,9 +294,10 @@ export function adaptiveConstants(target, p = 1) {
   }
   K.push({ s: 6, h: at(0) + 360 });
   for (let i = 1; i < K.length; i++) if (K[i].h < K[i - 1].h - 1) K[i].h += 360;
-  // 6 digits: the start only needs to land near s (9 digits: the same results, 1.6 KB more)
+  // 6 digits: the start only needs to land near s (9 digits: the same results, 1.6 KB more); g, H's exponent: 1 but for
+  // a98-rgb, tested in its encoded channels (rec2020 and prophoto-rgb read theirs from srgb-linear, adaptive())
   const c = seekStart(K, hp, 6);
-  return { s: c.expr, h0: c.h0, g: { rec2020: 2.222222, 'a98-rgb': 2.199219, 'prophoto-rgb': 1.8 }[target] ?? 1, p };
+  return { s: c.expr, h0: c.h0, g: { 'a98-rgb': 2.199219 }[target] ?? 1, p };
 }
 
 // --gamut-method: adaptive. Björn Ottosson's gamut_clip_adaptive_L0_L_cusp (alpha 0.05, bottosson.github.io/posts/gamutclipping/,
@@ -334,8 +339,12 @@ export function adaptive(LIN = 'var(--gamut--lin)', ALPHA = 0.05, EPS = 0.001) {
   // reads C back from it; the output's alpha is set apart)
   const point = (P, d = '') => `color-mix(in oklch, oklch(from oklab(from ${P} calc(l + (a${d}) * b) calc(a${d}) 0) l c none / 1), oklch(from var(--gamut--src) none none h / calc(c / (1 + c))))`;
   // in linear light (rec2020, a98-rgb and prophoto-rgb are tested in their encoded channels: --gamut--ad-g, the
-  // transfer's exponent, takes them to linear light first, where H is smooth)
-  const H = `calc(max(pow(max(r, g, b, 0.000001), ${v('g')} / 3) - 1, -1 * sign(min(r, g, b)) * pow(abs(min(r, g, b)), ${v('g')})))`;
+  // transfer's exponent, takes them to linear light first, where H is smooth). To rec2020 and prophoto-rgb, srgb-linear
+  // carries H and the target's linear channels are read from it by its matrix (--gamut--ad-hl, --gamut--ad-xr, -xg, -xb;
+  // secVals()): WebKit 26.4 converts to those two with negative channels as 0, so near prophoto-rgb's yellow cusp, where
+  // blue goes under 0, H read 0 and the steps stayed on the triangle's guess (oklch(0.95 0.25 100) 141/255 off)
+  const HL = `var(--gamut--ad-hl, ${LIN})`, [XR, XG, XB] = ['r', 'g', 'b'].map((x) => `var(--gamut--ad-x${x}, ${x})`);
+  const H = `calc(max(pow(max(${XR}, ${XG}, ${XB}, 0.000001), ${v('g')} / 3) - 1, -1 * sign(min(${XR}, ${XG}, ${XB})) * pow(abs(min(${XR}, ${XG}, ${XB})), ${v('g')})))`;
   // A step whose slope isn't positive halves tau instead: near prophoto-rgb's yellow cusp the triangle's tau lands past
   // a channel's peak along the segment, where H falls with tau, and Newton went to 0 (an audit, 2026-10-29:
   // oklch(0.99 1 104), blue 42.7/255 off, 1.9 now; a model of 300 colors at L 0.95 to 0.999 and hues 90 to 120: 6 off,
@@ -348,12 +357,12 @@ export function adaptive(LIN = 'var(--gamut--lin)', ALPHA = 0.05, EPS = 0.001) {
     // linear channels; tau - EPS H / (H' - H) back as OKLab a. A step names the step before twice, not four times: an
     // input that stays unresolved (currentColor) carries the chain as text, 4 times longer a step that way, and WebKit
     // 26.4 gave black past about 200 KB (p2 was 792 KB; now 2 times a step)
-    const hs = `color-mix(in ${LIN}, color(from oklch(from ${point(P)} l c h / calc(c / 4)) ${LIN} ${H} none calc(4 * alpha) / none), color(from ${point(P, ` + ${EPS}`)} ${LIN} none ${H} none / alpha))`;
+    const hs = `color-mix(in ${HL}, color(from oklch(from ${point(P)} l c h / calc(c / 4)) ${HL} ${H} none calc(4 * alpha) / none), color(from ${point(P, ` + ${EPS}`)} ${HL} none ${H} none / alpha))`;
     const Cin = '((2 * alpha - 1) / max(0.000001, 2 - 2 * alpha))';   // C back from the point's alpha, the step's cap
     // (tau over 4 in alpha here and in hs, which clamps at 1: to prophoto-rgb the exit's chroma is up to 1.5, and
     // oklch(0.2547 2 198) came out at chroma 1, an audit, 2026-10-28; the source's chroma is at most 4)
     const up = 'clamp(0, sign(g - r), 1)';
-    R(`p${i}`, `color-mix(in oklab, ${LQ}, oklab(from color(from ${hs} ${LIN} 0 0 0 / calc(min(${up} * (b - ${EPS} * r / max(0.0000001, g - r)) + (1 - ${up}) * b / 2, ${Cin}) / 4)) none calc(4 * alpha) none / none))`);
+    R(`p${i}`, `color-mix(in oklab, ${LQ}, oklab(from color(from ${hs} ${HL} 0 0 0 / calc(min(${up} * (b - ${EPS} * r / max(0.0000001, g - r)) + (1 - ${up}) * b / 2, ${Cin}) / 4)) none calc(4 * alpha) none / none))`);
   }
   // In gamut: the clip within deltaEOK 0.0005 of the color (their half difference, the clip mixed with the color's
   // negation, under 0.00025), not a test of the channels: WebKit 26.4 converts to rec2020 and prophoto-rgb with
@@ -520,7 +529,9 @@ export function secVals(target) {
   const cols = [[1, 0, 0], [0, 1, 0], [0, 0, 1]].map((e) => new Color('srgb-linear', e).to(lin).coords);
   const rows = [0, 1, 2].map((i) => cols.map((c, j) => [+c[i].toPrecision(9), 'rgb'[j]]).filter(([k]) => Math.abs(k) > 1e-12)
     .map(([k, ch], j) => `${j ? (k < 0 ? ' - ' : ' + ') : k < 0 ? '-' : ''}${k === 1 ? '' : `${Math.abs(k)} * `}${ch}`).join(''));
-  return { dist: `calc(0.5 - max(${rows.map((e) => `abs(${e} - 0.5)`).join(', ')}))`, ...Object.fromEntries(rows.map((e, i) => ['rgb'[i], `calc(${e})`])) };
+  // dist2: the same without red's floor, for .screen-edge's second search to prophoto-rgb (lastExit())
+  return { dist: `calc(0.5 - max(${rows.map((e) => `abs(${e} - 0.5)`).join(', ')}))`,
+    dist2: `calc(0.5 - max(${rows.map((e, i) => (i ? `abs(${e} - 0.5)` : `${e} - 0.5`)).join(', ')}))`, ...Object.fromEntries(rows.map((e, i) => ['rgb'[i], `calc(${e})`])) };
 }
 // Ray Trace's far point past the target cube's diameter in srgb-linear (rec2020 2.83, a98-rgb 2.33, prophoto-rgb 3.55)
 export const RAY_FAR = 4;

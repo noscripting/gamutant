@@ -103,7 +103,8 @@ export function coreParts({ mapping = minde } = {}) {
   const kcE = { ...kc, 'a98-rgb': adaptiveConstants('a98-rgb', ES_ENC['a98-rgb'].p) };
   const esDecls = (g) => `--gamut--ad-s: ${kcE[g].s}; --gamut--ad-h0: ${kcE[g].h0};`;
   // the knots by target as adaptive's function reads them
-  const ktLine = KT.map((n) => `${n}: if(${Object.entries(kcLin).map(([g, l]) => `style(--gamut--lin: ${l}): ${kc[g][n.slice(12)]};`).join(' ')} else: ${kc.srgb[n.slice(12)]});`).join('\n  ');
+  const ktLine = KT.map((n) => `${n}: if(${Object.entries(kcLin).map(([g, l]) => `style(--gamut--lin: ${l}): ${kc[g][n.slice(12)]};`).join(' ')} else: ${kc.srgb[n.slice(12)]});`).join('\n  ')
+    + ['hl', 'xr', 'xg', 'xb'].map((n) => `\n  --gamut--ad-${n}: if(${['rec2020', 'prophoto-rgb'].map((g) => `style(--gamut--lin: ${g}): ${n === 'hl' ? 'srgb-linear' : sv[g][n[1]]};`).join(' ')} else: ${n === 'hl' ? 'var(--gamut--lin)' : n[1]});`).join('');
   // a method's registers that aren't adaptive()'s, renamed to minde()'s in order, and the rest of those resting (initial)
   const onto = (x) => { const map = new Map();
     const ren = (t) => t.replace(/--gamut--(?:ray|es)-[\w-]+/g, (n) => map.get(n) ?? n), used = new Set(map.values());
@@ -328,12 +329,12 @@ ${['srgb', 'display-p3'].map((g) => `@container (style(--gamut-method: adaptive)
 /* #11946 (relative chroma) to CSS Color 4's other RGB destinations (§14): .screen-edge tests and takes
    the secant in the target's linear light, read from srgb-linear by its matrix (secRows(): CSS Color 4's
    <predefined-rgb> has no linear form of these three; in their encoded channels the secant was up to 18/255 off) */
-${OTHER.map((g) => `@container style(--gamut-target: ${g}) { .screen-edge { --gamut--lin: srgb-linear; --gamut--clip: ${g}; ${secRows(g)}${g === 'prophoto-rgb' ? ` --gamut--sw: 3; ${Array.from({ length: TESTS }, (_, k) => `--gamut--w${k}: ${3 * W(k)};`).join(' ')}` : ''} } }`).join('\n')}
+${OTHER.map((g) => `@container style(--gamut-target: ${g}) { .screen-edge { --gamut--lin: srgb-linear; --gamut--clip: ${g}; ${secRows(g)}${g === 'prophoto-rgb' ? ` --gamut--dist2: ${secVals(g).dist2}; --gamut--sw: 3; ${Array.from({ length: TESTS }, (_, k) => `--gamut--w${k}: ${3 * W(k)};`).join(' ')}` : ''} } }`).join('\n')}
 }
 /* CSS Color 4's other RGB destinations (§14) for .fit-screen: rec2020, a98-rgb and prophoto-rgb, clipped in their encoded
    channels, which clips as the linear ones would (each transfer function is monotone and keeps 0 and 1) */
 ${['rec2020', 'a98-rgb', 'prophoto-rgb'].map((g) => `@container style(--gamut-target: ${g}) { .fit-screen { --gamut--lin: ${g}; } }`).join('\n')}
-${['rec2020', 'a98-rgb', 'prophoto-rgb'].map((g) => `@container style(--gamut-method: adaptive) and style(--gamut-target: ${g}) { .fit-screen { ${kcDecls(g)} } }`).join('\n')}
+${['rec2020', 'a98-rgb', 'prophoto-rgb'].map((g) => `@container style(--gamut-method: adaptive) and style(--gamut-target: ${g}) { .fit-screen { ${kcDecls(g)}${g === 'a98-rgb' ? '' : ` --gamut--ad-hl: srgb-linear; ${['r', 'g', 'b'].map((x) => `--gamut--ad-x${x}: ${sv[g][x]};`).join(' ')}`} } }`).join('\n')}
 /* Ray Trace to rec2020, a98-rgb and prophoto-rgb: points in srgb-linear, the target's linear channels read by its matrix,
    the clip in the target (rayTrace()); EdgeSeeker to rec2020 and a98-rgb: in the encoded target as adaptive, its knots,
    the 75% point's grey 0.5, in gamut tested by the matrix (edgeSeeker()) */

@@ -17,6 +17,8 @@ All notable changes to gamutant.css are written here. The format follows [Keep a
 - `.gamut-palette-step` next to sRGB's red corner is within 1/255 of Material's palette: `#fe0003` at tone 53 was 4.2/255 off.
 - In Chrome, `.gamut-palette-step` at tone 99 tells a yellow seed by the step's own seed, not the list's: a yellow step under a red list was 41/255 off.
 - `.gamut-screen-edge` finds the most chroma near sRGB's blue, where the line leaves the gamut by a hair and comes back: `#0000ff` gives itself, not `rgb(0 49 229)`, and an input in the gamut never gets less chroma than its own.
+- `.gamut-screen-edge` to `prophoto-rgb` at hues 196° to 206° finds the most chroma where red dips under 0 and the line comes back: `oklch(0.42 0.3 196)` was 210/255 short.
+- In WebKit, `--gamut-method: adaptive` to `prophoto-rgb` maps bright yellows: `oklch(0.95 0.25 100)` was 141/255 off, greyed.
 - In Chrome, a bare `currentColor` input to `.gamut-okhsl-from`, `--gamut-okhsl-from()` and `--gamut-palette-step()` gives transparent at once; it stalled the page's load.
 
 ## [0.0.1] - 2026-10-30

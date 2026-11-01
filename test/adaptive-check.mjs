@@ -57,6 +57,9 @@ function adaptive(input, t) {
 let seed = 9449; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647, f = (x, d = 4) => (+x).toFixed(d);
 const INS = Array.from({ length: N }, (_, i) => `oklch(${f(0.02 + rnd() * 0.96)} ${f(i % 6 === 5 ? rnd() * 0.08 : rnd() * (i % 3 ? 0.45 : 0.9))} ${f(rnd() * 360, 2)}${i % 10 === 9 ? ` / ${f(0.2 + rnd() * 0.7, 2)}` : ''})`)
   .concat(['oklch(1 0.3 30)', 'oklch(0 0.3 30)', 'oklch(0.99 0.12 182.55)', 'oklch(0.3 0.3 264)', 'color(display-p3 0 1 0)', 'oklch(0.52 1.2 220)', 'oklch(0.7 0.4 200)', 'oklch(0.45 0.5 264.1)', 'oklch(0.3 0.4 200)', 'oklch(0.9 2 30)', 'oklch(0.9 2 150)', 'oklch(0.7 0.8 30)']);
+// near prophoto-rgb's yellow cusp, lightness 0.9 to 0.97 (a review, 2026-11-01: WebKit 26.4 gave oklch(0.95 0.25 100)
+// 141/255 off, its prophoto-rgb conversion dropping blue under 0)
+for (const L of [0.9, 0.93, 0.95, 0.97]) for (let h = 75; h <= 115; h += 10) for (const C of [0.25, 0.4]) INS.push(`oklch(${L} ${C} ${h})`);
 const want = {}; for (const t of Object.keys(TARGETS)) want[t] = INS.map((c) => adaptive(c, t));
 // The cusp as the most chroma where a hue meets prophoto-rgb's hexagon three times (192.6 to 206deg): a color at the
 // cusp's lightness, chroma 2, exits at the cusp itself (a review, 2026-10-28: the sheet took the first
