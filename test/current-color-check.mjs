@@ -71,5 +71,22 @@ for (const e of pick(['Chrome', 'WebKit', 'Firefox'])) {
     console.log(`${e[0]} ${form}: ${ok ? 'PASS' : known ? (right < KNOWN_RIGHT ? `FAIL (fewer than the known ${KNOWN_RIGHT})` : slowKnown ? `FAIL (slower than four times the known ${KNOWN_MS} ms)` : 'FAIL (known: SPEC.md G16)') : 'FAIL'}: ${got.length + 1 - bad.length} of ${got.length + 1} within 2/255 of Color.js, loaded in ${fast} ms${busy ? ` (not judged: load average ${os.loadavg()[0].toFixed(0)} on ${os.cpus().length} cores)` : ''} (written out ${base.ms} ms; fastest of up to 3)${bad.length ? `\n  ${bad.slice(0, 4).join('\n  ')}` : ''}`);
   }
 }
+// a bare currentColor into .gamut-okhsl-from, .gamut-palette-step and their functions gives transparent in Chrome (the gate,
+// common.mjs CURRENT): one element loads within three times the same element given the color written out, plus 400 ms
+// (ungated, 1.2 s for okhsl-from's class and no load in 10 s for the functions, 2026-11-01)
+if (pick(['Chrome', 'WebKit', 'Firefox']).some((e) => e[0] === 'Chrome')) {
+  const { browser } = await open(pick(['Chrome']).find((e) => e[0] === 'Chrome'));
+  const gated = { 'class okhsl-from': (x) => `<i class="gamut-okhsl-from" style="display:block;--gamut-in:${x};--gamut-okhsl-l:0.9;background:var(--gamut-out)"></i>`,
+    'class palette-step': (x) => `<i class="gamut-palette-step" style="display:block;--gamut-in:${x};--gamut-tone:99;background:var(--gamut-out)"></i>`,
+    'fn okhsl-from': (x) => `<i style="display:block;background:--gamut-okhsl-from(${x}, initial, 0.9)"></i>`,
+    'fn palette-step': (x) => `<i style="display:block;background:--gamut-palette-step(${x}, 1, 0, 40)"></i>` };
+  const load = async (html) => { const p = await browser.newPage(), t0 = Date.now();
+    const ok = await p.setContent(`<style>${css}</style><div style="color:#ff3366">${html}</div>`, { timeout: 10000 }).then(() => p.evaluate(() => getComputedStyle(document.querySelector('i')).backgroundColor)).then(() => true, () => false);
+    const ms = Date.now() - t0; await p.close().catch(() => {}); return ok ? ms : Infinity; };
+  for (const [k, f] of Object.entries(gated)) { const w = await load(f('#ff3366')), c = await load(f('currentColor')), ok = c <= 3 * w + 400;
+    if (!ok) failed = true;
+    console.log(`Chrome ${k} given currentColor: ${ok ? 'PASS' : 'FAIL'} ${Number.isFinite(c) ? `${c} ms` : 'no load in 10 s'}, written out ${w} ms`); }
+  await browser.close();
+}
 console.log(failed ? 'FAIL' : 'PASS');
 process.exit(failed ? 1 : 0);

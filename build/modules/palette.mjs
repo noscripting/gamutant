@@ -1,6 +1,6 @@
 // .palette-step: Material 3's tonal palette of one color, ported from material-color-utilities 0.4.0 (Apache-2.0).
 import { readFileSync } from 'node:fs';
-import { X } from './common.mjs';
+import { CURRENT, X } from './common.mjs';
 import { W } from './mapping.mjs';
 
 // Palette steps (.palette-step): Material 3's tonal palette, material-color-utilities 0.4.0's
@@ -20,10 +20,10 @@ import { W } from './mapping.mjs';
 // engines (2 on J: 930 of 983; 2 on psi: 975 of 983 in a JavaScript model, 2026-10-27); each step on psi costs Chrome
 // about 120 us a step, on J 46. MCU's grey (chroma under 1e-4, tone 0 or 100) is grey.
 export function materialPart() {
-  // (NB 3: next to sRGB's red corner, where the hue turns fast along the G = 0 edge, three angle steps leave up to 4.2/255
-  // (#fe0003 at tone 53, blue 7 for MCU's 3; 7 of 601 saturated seeds over 1/255, an audit, 2026-10-29); a
-  // fourth made 601 of 601 at 18% (WebKit) to 30% (Chrome) more time a step, so the limit is written down instead)
-  const NJ = 3, NB = 3;
+  // (NB 4: next to sRGB's red corner, where the hue turns fast along the G = 0 edge, three angle steps left up to 4.2/255
+  // (#fe0003 at tone 53, blue 7 for MCU's 3); four hold 601 saturated seeds at tones 10 to 90 within 0.54/255, at 13%
+  // (Chrome) to 19% (Firefox) more load time for 3,006 steps, 2026-11-01)
+  const NJ = 3, NB = 4;
   const M16 = [[0.401288, 0.650173, -0.051461], [-0.250268, 1.204414, 0.045854], [-0.002079, 0.048952, 0.953127]];
   const S2X = [[0.41233895, 0.35762064, 0.18051042], [0.2126, 0.7152, 0.0722], [0.01932141, 0.11916382, 0.95034478]];
   const K = S2X[1], wp = [95.047, 100, 108.883];
@@ -58,7 +58,8 @@ export function materialPart() {
   // MCU's TonalPalette.tone(): tone 99 of a yellow hue (105 to 125 degrees) is tones 98 and 100 averaged in 8-bit sRGB;
   // tone 100 is white, so the step solves tone 98 and averages it with white (yt 1). The hue is known as a number only
   // on the list, the seed's element, which sets --gamut--mt-yf; its flag reaches the step by a style query
-  // (--gamut--mt-yellow). An audit, 2026-10-28: #ffff00 at tone 99 gave #fffee1 for MCU's #ffffd6.
+  // (--gamut--mt-yellow). Where if() runs (Chrome), the step computes the flag from its own seed (core.mjs), so a step
+  // with a seed of its own under a list with another gets its own. An audit, 2026-10-28: #ffff00 at tone 99 gave #fffee1 for MCU's #ffffd6.
   val('yt', `calc(clamp(0, 1 - abs(${R('tone')} - 99) * 1000000, 1) * var(--gamut--mt-yellow))`);
   val('te', `calc(${R('tone')} - ${R('yt')})`);
   // tone 99 (but a yellow's, solved at 98): 1 there
@@ -144,8 +145,10 @@ export function materialPart() {
   const hueR = `atan2((r + g - 2 * b) * 11 / 9, 11 * r - 12 * g + b) / 1rad`;
   const yf = (c) => `color(from color(from ${c} srgb-linear ${[0, 1, 2].map((i) => ad(x(i))).join(' ')}) srgb-linear calc(clamp(0, sign(${hueR} - ${num(105 * Math.PI / 180)}) + 1, 1) * clamp(0, sign(${num(125 * Math.PI / 180)} - ${hueR}), 1)) 0 0)`;
   const parent = `--gamut--mt-yf: ${yf(seed)};`;
+  // on the step itself (where if() runs): a bare currentColor seed gated to transparent, as okhsl-from's, or the test stalls
+  const onStep = `--gamut--mt-yf: ${yf(`if(${CURRENT('--gamut-in')}: transparent; else: ${seed})`)};`;
   // the function has no list to read: it computes the flag itself, a typed result its if() compares (Chrome 155)
   const fn = { pre: `@function --gamut--palette-step-yf(--c) returns <color> { result: ${yf('var(--c)')}; }`,
     locals: [`--gamut--mt-yellow: if(style(--gamut--mt-yf: color(srgb-linear 1 0 0)): 1; else: 0);`, `--gamut--mt-yf: --gamut--palette-step-yf(${seed});`] };
-  return { regs, nums, decls, out, parent, fn };
+  return { regs, nums, decls, out, parent, onStep, fn };
 }

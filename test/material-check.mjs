@@ -28,10 +28,18 @@ for (let hh = 0; hh < 360; hh += 10) for (const [sat, rel] of [[1, 1], [0.4, 1],
   const seed = hex(hsl(hh, sat)), h = hctOf(lin(seed));
   singles.push({ seed, rel, tone: 99, want: tone(h.hue, h.chroma * rel, 99) });
 }
+// next to sRGB's red corner the hue turns fast along G = 0: three angle steps left #fe0003 at tone 53 4.2/255 off (an
+// audit, 2026-11-01); four hold 601 saturated seeds at tones 10 to 90 within 0.54/255
+for (const seed of ['#fe0003', '#ff0003', '#ff0000', '#ff0006']) for (const t of [50, 53, 56]) {
+  const h = hctOf(lin(seed)); singles.push({ seed, rel: 1, tone: t, want: tone(h.hue, h.chroma, t) }); }
+// a step with a seed of its own under a list with another: tone 99's yellow test is the step's own seed, in Chrome
+// (if()); WebKit and Firefox read it from the list (SPEC P6), so these run in Chrome only
+for (const [parent, seed] of [['#ff0000', '#ffff00'], ['#ffff00', '#ff0000'], ['#808080', '#cddc39']]) {
+  const h = hctOf(lin(seed)); singles.push({ seed, parent, rel: 1, tone: 99, chrome: true, want: tone(h.hue, h.chroma, 99) }); }
 // each step paints its result as an sRGB color, read back unrounded
 const step = (extra = '') => `<i class="gamut-palette-step" style="display:block;${extra}color:color(from var(--gamut-out) srgb r g b)"></i>`;
-const wrap = (c, inner) => `<div style="--gamut-target: srgb; --gamut-in: ${c.seed}; --gamut-chroma-scale: ${c.rel}">${inner}</div>`;
-const body = [...lists.map((l) => wrap(l, l.tones.map(() => step()).join(''))), ...singles.map((c) => wrap(c, step(`--gamut-tone: ${c.tone};`)))].join('');
+const wrap = (c, inner) => `<div style="--gamut-target: srgb; --gamut-in: ${c.parent ?? c.seed}; --gamut-chroma-scale: ${c.rel}">${inner}</div>`;
+const body = [...lists.map((l) => wrap(l, l.tones.map(() => step()).join(''))), ...singles.map((c) => wrap(c, step(`--gamut-tone: ${c.tone};${c.parent ? ` --gamut-in: ${c.seed};` : ''}`)))].join('');
 const want = [...lists.flatMap((l) => l.want.map((w, i) => ({ ...l, tone: l.tones[i], want: w, kind: `step ${i + 1} of ${l.tones.length}` }))), ...singles.map((c) => ({ ...c, kind: 'tone' }))];
 let fails = 0;
 for (const e of pick(['Chrome', 'WebKit', 'Firefox'])) {
@@ -42,7 +50,7 @@ for (const e of pick(['Chrome', 'WebKit', 'Firefox'])) {
   let worst = 0, bad = [];
   // (a byte off is within 1/255: a yellow's tone 99 is on the 8-bit grid, #d4ff00 at rel 0.05 read back as 254.002 for
   // 254 against 253: its tone 98, 251.51, rounds up where MCU's rounds down, and the average takes the byte)
-  want.forEach((c, i) => { const g = got[i], d = g ? Math.max(...g.map((v, k) => Math.abs(v * 255 - c.want[k]))) : Infinity;
+  want.forEach((c, i) => { if (c.chrome && name !== 'Chrome') return; const g = got[i], d = g ? Math.max(...g.map((v, k) => Math.abs(v * 255 - c.want[k]))) : Infinity;
     worst = Math.max(worst, d); if (!(d <= 1.005)) bad.push(`${c.seed} rel ${c.rel} ${c.kind} tone ${c.tone.toFixed(1)}: ${g ? g.map((v) => (v * 255).toFixed(1)).join(' ') : 'no color'}, want ${c.want.join(' ')}`); });
   if (bad.length) fails++;
   console.log(`${name}: ${bad.length ? 'FAIL' : 'PASS'} ${want.length - bad.length} of ${want.length} within 1/255 of material-color-utilities (worst ${Number.isFinite(worst) ? worst.toFixed(2) : 'none'}/255)${bad.length ? `\n  ${bad.slice(0, 6).join('\n  ')}` : ''}`);

@@ -583,7 +583,7 @@
       },
       "P6": {
         "__compat": {
-          "description": "Each `.gamut-palette-step`'s `--gamut-out` MUST be within 1/255 a channel of material-color-utilities 0.4.0's `TonalPalette.fromHueAndChroma(h, C × r).tone(T)` as 8-bit sRGB, h and C the seed's HCT hue and chroma (`Hct.fromInt` for an 8-bit sRGB seed; for any other, CAM16 of its linear sRGB channels by material-color-utilities' own matrix, past 0 to 1 for a seed past sRGB, not rounded to 8 bits), for tones T from 2 to 98 and at 99. r is `--gamut-chroma-scale`, a number (default 1, any other value acting as 1). Two exceptions: next to sRGB's red corner a step is up to 4.2/255 off (7 of 601 saturated seeds; `#fe0003` at tone 53 gives blue 7 for 3); and tone 99 of a yellow hue (105° to 125°) follows the seed set on the step's parent, so a step that sets another seed of its own is up to 41/255 off there.",
+          "description": "Each `.gamut-palette-step`'s `--gamut-out` MUST be within 1/255 a channel of material-color-utilities 0.4.0's `TonalPalette.fromHueAndChroma(h, C × r).tone(T)` as 8-bit sRGB, h and C the seed's HCT hue and chroma (`Hct.fromInt` for an 8-bit sRGB seed; for any other, CAM16 of its linear sRGB channels by material-color-utilities' own matrix, past 0 to 1 for a seed past sRGB, not rounded to 8 bits), for tones T from 2 to 98 and at 99. r is `--gamut-chroma-scale`, a number (default 1, any other value acting as 1). One exception where `if()` (css-values-5) doesn't parse: tone 99 of a yellow hue (105° to 125°) follows the seed set on the step's parent, so a step that sets another seed of its own is up to 41/255 off there.",
           "support": {
             "chrome": {
               "version_added": "≤155"

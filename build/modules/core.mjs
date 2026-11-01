@@ -1,7 +1,7 @@
 // The core: the sheet's head (its contract, and the issues each part answers), every registration the mappers and
 // .palette-step read, and the rules that wire .fit-screen, .screen-edge and .palette-step to their targets and methods
 // (coreParts()); then the small parts, .alpha (CSS Color 5's alpha()), .light-dark and .color-equal (CSS Color 4 §12).
-import { GUARD, IN0, SEED, n9, registered, test } from './common.mjs';
+import { GUARD, IF_SUPPORTS, IN0, SEED, n9, registered, test } from './common.mjs';
 import { chained } from './functions.mjs';
 import { A75, ADAPTIVE_TARGETS, ES_ENC, ES_P, GUARD_ADAPTIVE, GUARD_MATERIAL, GUARD_MINDE, RAY_FAR, STEPS, TESTS, W, adaptive, adaptiveConstants, cusp, edgeSeeker, minde, rayTrace, screenEdge, secRows, secVals } from './mapping.mjs';
 import { materialPart } from './palette.mjs';
@@ -300,6 +300,7 @@ ${Array.from({ length: STEPS }, (_, k) => `.palette-step:nth-last-child(${k + 1}
 @property --gamut--mt-yellow { syntax: '<number>'; inherits: false; initial-value: 0; }
 :where(:has(> .palette-step)) { ${mt.parent} }
 @container style(--gamut--mt-yf: color(srgb-linear 1 0 0)) { .palette-step { --gamut--mt-yellow: 1; } }
+${IF_SUPPORTS} { .palette-step { ${mt.onStep} ${mt.fn.locals[0]} } }
 .palette-step {
   --gamut--in0: ${IN0};
   --gamut--rel: var(--gamut-chroma-scale, 1);

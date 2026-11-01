@@ -100,4 +100,4 @@ export function registered(prefix, cls, list, outs) {
 // the input is gated to transparent instead (Chrome's if(), on the element itself; a style query on the parent would
 // also gate a nested part's own input, so none is used)
 export const CURRENT = (p) => `style(${p}: currentcolor) or style(${p}: currentColor)`;
-export const IF_SUPPORTS = '@supports (color: if(style(--a: b): red; else: blue))';
+export const IF_SUPPORTS = '@supports (color: if(style(--a: b): red))'; // (no else: a ';' in a nested @supports's test splits it in postcss)

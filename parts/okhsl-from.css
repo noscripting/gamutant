@@ -114,7 +114,7 @@
   --gamut--o-c1: color(from color-mix(in xyz-d65, color-mix(in xyz-d65, color(from var(--gamut--o-tgt) xyz-d65 y none none / none), color(from var(--gamut--o-qm) xyz-d65 none x none / none)), color(from var(--gamut--o-qb) xyz-d65 none none y / none)) xyz-d65 calc(1.25 * x * 0.8 * z / (1 - (1 - 0.8 * z / y) * 1.25 * x)) calc((1 - 5 * (x - 0.8)) / (5 * (x - 0.8) * 0.3125 * y * y / z + 1e-30)) none / none);
   --gamut-out: color(from color-mix(in xyz-d65, color(from color(from color(from color-mix(in xyz-d65, color(from color-mix(in xyz-d65, color(from color-mix(in xyz-d65, color-mix(in xyz-d65, color(from color-mix(in xyz-d65, var(--gamut--o-qm), color(from var(--gamut--o-c1) xyz-d65 none none y / none)) xyz-d65 calc(x + 1 / (z + 1 / (y - x + 1e-30) + 1e-30)) none none / none), color(from var(--gamut--o-tgt) xyz-d65 none y none / none)), color(from var(--gamut--o-c1) xyz-d65 none none x / none)) xyz-d65 calc(clamp(0, sign(0.8 - y), 1) * z + (1 - clamp(0, sign(0.8 - y), 1)) * x) none none / none), color(from var(--gamut--o-cb) xyz-d65 none x y / none)) xyz-d65 calc(x * y) calc(x * z) none / none), var(--gamut--s-of_4)) xyz-d65 calc(pow((1 * z + 0.3963377773 * x + 0.2158037573 * y), 3)) calc(pow((1 * z - 0.1055613458 * x - 0.0638541728 * y), 3)) calc(pow((1 * z - 0.0894841775 * x - 1.2914855480 * y), 3)) / none) xyz-d65 calc((1.2268798758 * x - 0.5578149944 * y + 0.2813910456 * z)) calc((-0.0405757452 * x + 1.1122868032 * y - 0.0717110580 * z)) calc((-0.0763729366 * x - 0.4214933324 * y + 1.5869240198 * z)) / none) xyz-d65 x y z / none), color(from var(--gamut--o-src) xyz-d65 none none none / calc(alpha / 2 + 0.5))) xyz-d65 x y z / calc(alpha * 2 - 1));
 }
-@supports (color: if(style(--a: b): red; else: blue)) { .gamut-okhsl-from { --gamut--o-src: if(style(--gamut-in: currentcolor) or style(--gamut-in: currentColor): transparent; else: var(--gamut-in, black)); } }
+@supports (color: if(style(--a: b): red)) { .gamut-okhsl-from { --gamut--o-src: if(style(--gamut-in: currentcolor) or style(--gamut-in: currentColor): transparent; else: var(--gamut-in, black)); } }
 @function --gamut--okhsl-from-o-li() returns <number> { result: var(--gamut-okhsl-l); }
 @function --gamut--okhsl-from-o-si() returns <number> { result: var(--gamut-okhsl-s); }
 @function --gamut--okhsl-from-on-g() returns <color> { result: color-mix(in oklch, color-mix(in oklch, oklch(from color(from var(--gamut--o-src) xyz-d65 x y z) c none none / none), oklch(from oklch(from var(--gamut--o-src) l c h / 1) none c none / none)), oklch(from lch(from var(--gamut--o-src) l c h) none none c / none)); }
@@ -164,7 +164,7 @@
   --gamut--o-li: --gamut--okhsl-from-o-li();
   --gamut--o-si: --gamut--okhsl-from-o-si();
   --gamut--o-src: var(--gamut-in, black);
-  @supports (color: if(style(--a: b): red; else: blue)) { --gamut--o-src: if(style(--gamut-in: currentcolor) or style(--gamut-in: currentColor): transparent; else: var(--gamut-in, black)); }
+  @supports (color: if(style(--a: b): red)) { --gamut--o-src: if(style(--gamut-in: currentcolor) or style(--gamut-in: currentColor): transparent; else: var(--gamut-in, black)); }
   --gamut--on-g: --gamut--okhsl-from-on-g();
   --gamut--o-lab: --gamut--okhsl-from-o-lab(var(--gamut--on-g, transparent));
   --gamut--o-cb: --gamut--okhsl-from-o-cb(var(--gamut--o-lab, black));
