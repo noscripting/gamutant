@@ -1,9 +1,8 @@
 /*! gamutant.css 0.0.1, color-mix.css: the color-mix part alone
    SPDX-License-Identifier: MIT
-   Copyright (c) 2026 gamutant contributors
    Copyright (c) 2025 Ronald van Wijnen
    Its paint mix follows spectral.js 3.0.0 (MIT) and carries its tables, cut to 30 samples
-   Third-party notices: LICENSE-THIRD-PARTY */
+   Their licences are in LICENSE-THIRD-PARTY. */
 @property --gamut-out { syntax: '<color>'; inherits: true; initial-value: transparent; }
 @property --gamut--mx-q1 { syntax: '<number>'; inherits: false; initial-value: -1; }
 @property --gamut--mx-t1 { syntax: '<number>'; inherits: false; initial-value: -1; }

@@ -43,8 +43,8 @@ export function parts(css = sheetText) {
     const from = FROM[part] ?? [];
     // SPDX files the 2023 W3C licence under W3C-20150513
     const spdx = ['MIT', ...new Set(from.map(([, , id]) => id).filter(Boolean))].join(' AND ');
-    out[part] = `/*! gamutant.css ${version}, ${part}.css: the ${part} part alone\n   SPDX-License-Identifier: ${spdx}\n   Copyright (c) 2026 gamutant contributors\n`
-      + from.filter(([h]) => h).map(([h]) => `   Copyright (c) ${h}\n`).join('') + from.map(([, what]) => `   ${what}\n`).join('') + '   Third-party notices: LICENSE-THIRD-PARTY */\n'
+    out[part] = (`/*! gamutant.css ${version}, ${part}.css: the ${part} part alone\n   SPDX-License-Identifier: ${spdx}\n`
+      + from.filter(([h]) => h).map(([h]) => `   Copyright (c) ${h}\n`).join('') + from.map(([, what]) => `   ${what}\n`).join('') + (from.length ? '   Their licences are in LICENSE-THIRD-PARTY.\n' : '')).trimEnd() + ' */\n'
       + `${rules.toString().trim()}\n`;
   }
   return out;

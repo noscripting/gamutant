@@ -1,11 +1,10 @@
 /*! gamutant.css 0.0.1, fit-screen.css: the fit-screen part alone
    SPDX-License-Identifier: MIT
-   Copyright (c) 2026 gamutant contributors
    Copyright (c) 2021 Björn Ottosson
    Copyright (c) 2021 Lea Verou, Chris Lilley
    Its adaptive method is gamut_clip_adaptive_L0_L_cusp from Björn Ottosson's gamut clipping code (MIT), ported to CSS
    Its css and ray-trace methods follow Color.js 0.7.1's (MIT), and its targets' constants are computed with it
-   Third-party notices: LICENSE-THIRD-PARTY */
+   Their licences are in LICENSE-THIRD-PARTY. */
 .gamut-fit-screen { --gamut--s-k_k: initial; --gamut--s-k_l: initial; --gamut--s-k_m: initial; --gamut--s-k_n: initial; --gamut--s-k_o: initial; --gamut--s-k_p: initial; --gamut--s-k_q: initial; --gamut--s-k_r: initial; --gamut--s-k_s: initial; --gamut--s-k_t: initial; --gamut--s-k_u: initial; --gamut--s-k_v: initial; --gamut--s-k_w: initial; --gamut--ad-s: initial; --gamut--ad-h0: initial; --gamut--ad-g: initial; --gamut--ad-p: initial; --gamut--s-k_x: initial; --gamut--s-k_y: initial; --gamut--s-k_z: initial; --gamut--s-k_10: initial; --gamut--s-k_11: initial; --gamut--s-k_12: initial; --gamut--s-k_13: initial; --gamut--s-k_14: initial; --gamut--s-k_15: initial; --gamut--s-k_16: initial; --gamut--sec-r: initial; --gamut--sec-g: initial; --gamut--sec-b: initial; --gamut--dist: initial; --gamut--clip: initial; --gamut--rk: initial; --gamut--s-k_17: initial; --gamut--s-k_18: initial; --gamut--s-k_19: initial; --gamut--s-k_1a: initial; --gamut--s-k_1b: initial; --gamut--s-k_1c: initial; --gamut--s-k_1d: initial; --gamut--s-k_1e: initial; --gamut--s-k_1f: initial; --gamut--s-k_1g: initial; --gamut--s-k_1h: initial; --gamut--s-k_1i: initial; --gamut--s-k_1j: initial; --gamut--s-k_1k: initial; --gamut--fl: initial; --gamut--es-a: initial; --gamut--es-p: initial; --gamut--ad-hl: initial; --gamut--ad-xr: initial; --gamut--ad-xg: initial; --gamut--ad-xb: initial; }
 @property --gamut--in0 { syntax: '<color>'; inherits: false; initial-value: black; }
 @property --gamut-out { syntax: '<color>'; inherits: true; initial-value: transparent; }

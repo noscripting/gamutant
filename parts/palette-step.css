@@ -1,9 +1,8 @@
 /*! gamutant.css 0.0.1, palette-step.css: the palette-step part alone
    SPDX-License-Identifier: MIT AND Apache-2.0
-   Copyright (c) 2026 gamutant contributors
    Copyright (c) 2021 Google LLC
    Ported to CSS from material-color-utilities 0.4.0 (Apache-2.0) and changed: TonalPalette.tone(), HctSolver, Cam16
-   Third-party notices: LICENSE-THIRD-PARTY */
+   Their licences are in LICENSE-THIRD-PARTY. */
 @property --gamut--rel { syntax: '<number>'; inherits: false; initial-value: 1; }
 @property --gamut--in0 { syntax: '<color>'; inherits: false; initial-value: black; }
 @property --gamut--step-t { syntax: '<number>'; inherits: false; initial-value: 0; }

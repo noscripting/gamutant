@@ -1,9 +1,8 @@
 /*! gamutant.css 0.0.1, okhsv.css: the okhsv part alone
    SPDX-License-Identifier: MIT
-   Copyright (c) 2026 gamutant contributors
    Copyright (c) 2021 Björn Ottosson
    Okhsl and Okhsv ported to CSS from ok_color.h (MIT); Display P3's constants from Isaac Muse's okhsl_p3.py
-   Third-party notices: LICENSE-THIRD-PARTY */
+   Their licences are in LICENSE-THIRD-PARTY. */
 @property --gamut-out { syntax: '<color>'; inherits: true; initial-value: transparent; }
 @property --gamut--ov-hn { syntax: '<number>'; inherits: false; initial-value: 0; }
 @property --gamut--ov-ha { syntax: '<angle>'; inherits: false; initial-value: 0deg; }

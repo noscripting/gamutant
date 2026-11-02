@@ -115,7 +115,6 @@ export function shipped(css = sheet()) {
   root.prepend(...resets);
   return `/* gamutant.css
 SPDX-License-Identifier: MIT AND Apache-2.0 AND W3C-20150513
-Copyright (c) 2026 gamutant contributors
 Copyright (c) 2021 Björn Ottosson
 Copyright (c) 2025 Ronald van Wijnen
 Copyright (c) 2021 Google LLC

@@ -1,11 +1,10 @@
 /*! gamutant.css 0.0.1, fit-gradient.css: the fit-gradient part alone
    SPDX-License-Identifier: MIT
-   Copyright (c) 2026 gamutant contributors
    Copyright (c) 2021 Björn Ottosson
    Copyright (c) 2021 Lea Verou, Chris Lilley
    Its adaptive method is gamut_clip_adaptive_L0_L_cusp from Björn Ottosson's gamut clipping code (MIT), ported to CSS
    Its css and ray-trace methods follow Color.js 0.7.1's (MIT), and its targets' constants are computed with it
-   Third-party notices: LICENSE-THIRD-PARTY */
+   Their licences are in LICENSE-THIRD-PARTY. */
 @supports (color: color-mix(in oklch, oklch(0.5 none 30 / none), oklch(from color-mix(in oklab, color(from red srgb-linear clamp(0, r, 1) g b / none), oklch(from red calc(1 - l) c calc(h + 180) / c)) none calc(alpha + clamp(-1, abs(sign(0.01 - hypot(l - 0.5, c))), 1)) none / 1))) {
 @function --gamut--step-n(--gamut--src <color>) returns <color> { result: oklab(from var(--gamut--src) calc(1 - l) calc(-1 * a) calc(-1 * b) / 1); }
 @function --gamut--step-m1(--gamut--src <color>, --gamut--lin, --gamut--n <color>) returns <color> { result: oklch(from color-mix(in oklab, oklab(from color(from oklch(from var(--gamut--src) l calc(c * 0.5) h / 0.5) var(--gamut--lin) clamp(0, r, 1) clamp(0, g, 1) clamp(0, b, 1) / alpha) calc(l / alpha / 4096) calc(a / (alpha * alpha)) calc(b / (alpha * alpha)) / alpha), oklab(from var(--gamut--n) calc(l / 4096) a b / 1)) none none none / calc(2 * alpha - 1 + 0.25 * sign(round(to-zero, 399 - 20000 * hypot(8192 * alpha * l - 1, (4 * alpha - 2) * alpha * c))))); }

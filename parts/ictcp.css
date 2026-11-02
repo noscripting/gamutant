@@ -1,8 +1,7 @@
 /*! gamutant.css 0.0.1, ictcp.css: the ictcp part alone
    SPDX-License-Identifier: MIT AND W3C-20150513
-   Copyright (c) 2026 gamutant contributors
    Includes material derived from CSS Color HDR Module Level 1 (https://drafts.csswg.org/css-color-hdr-1/). Copyright © 2026 World Wide Web Consortium. https://www.w3.org/copyright/software-license-2023/
-   Third-party notices: LICENSE-THIRD-PARTY */
+   Their licences are in LICENSE-THIRD-PARTY. */
 @property --gamut-out { syntax: '<color>'; inherits: true; initial-value: transparent; }
 @property --gamut--icn0 { syntax: '<number>'; inherits: false; initial-value: 0; }
 @property --gamut--icp0 { syntax: '<percentage>'; inherits: false; initial-value: 0%; }

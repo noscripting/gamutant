@@ -1,7 +1,5 @@
 /*! gamutant.css 0.0.1, contrast-color.css: the contrast-color part alone
-   SPDX-License-Identifier: MIT
-   Copyright (c) 2026 gamutant contributors
-   Third-party notices: LICENSE-THIRD-PARTY */
+   SPDX-License-Identifier: MIT */
 @property --gamut-text { syntax: '<color>'; inherits: true; initial-value: black; }
 @property --gamut--cc-b { syntax: '<color>'; inherits: false; initial-value: transparent; }
 @property --gamut--cc-lb { syntax: '<color>'; inherits: false; initial-value: transparent; }

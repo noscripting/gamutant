@@ -1,9 +1,8 @@
 /*! gamutant.css 0.0.1, screen-edge.css: the screen-edge part alone
    SPDX-License-Identifier: MIT
-   Copyright (c) 2026 gamutant contributors
    Copyright (c) 2021 Lea Verou, Chris Lilley
    Its matrices to rec2020, a98-rgb and prophoto-rgb are Color.js 0.7.1's (MIT)
-   Third-party notices: LICENSE-THIRD-PARTY */
+   Their licences are in LICENSE-THIRD-PARTY. */
 .gamut-screen-edge { --gamut--clip: initial; --gamut--dist: initial; --gamut--sec-r: initial; --gamut--sec-g: initial; --gamut--sec-b: initial; --gamut--dist2: initial; --gamut--tol: initial; --gamut--sw: initial; --gamut--w0: initial; --gamut--w1: initial; --gamut--w2: initial; --gamut--w3: initial; --gamut--w4: initial; --gamut--w5: initial; --gamut--w6: initial; }
 @property --gamut--p { syntax: '<color>'; inherits: false; initial-value: black; }
 @property --gamut--se-q { syntax: '<color>'; inherits: false; initial-value: black; }
