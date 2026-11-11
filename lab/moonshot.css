@@ -1,0 +1,106 @@
+/* On-screen image background: nominal 16/80 luminance ratio from IEC 61966-2-1:1999 (sRGB),
+   documented by ICC: https://registry.color.org/rgb-registry/srgb
+   CSS Color 4's sRGB transfer function encodes linear 0.2 as 0.48452920448170694.
+   This relative color does not establish absolute display/room viewing conditions. */
+:root.moonshot {
+  color-scheme: light;
+  --moonshot-paper: color(srgb-linear 0.2 0.2 0.2);
+  --gamut-bg: #fff;
+  --gamut-ratio: 21;
+  --moonshot-ink: var(--gamut-text);
+  background: #fff;
+  color: var(--moonshot-ink);
+}
+:root.moonshot:has(#surround-light:checked) { --moonshot-paper: #fff; }
+:root.moonshot:has(#surround-dark:checked) {
+  --moonshot-paper: #000;
+}
+.moonshot body { margin: 0; padding: 32px 20px 48px; font: 15px/1.5 system-ui, sans-serif; }
+.moonshot main { max-width: 960px; margin: 0 auto; }
+.moonshot h1 { font-size: 24px; line-height: 1.2; margin: 0 0 12px; }
+.moonshot h2, .moonshot legend { font-size: 14px; font-weight: 600; color: inherit; }
+.moonshot h2 { margin: 0 0 8px; }
+.moonshot p { max-width: 68ch; margin: 0 0 24px; }
+.moonshot fieldset { border: 0; padding: 0; margin: 0 0 20px; flex-wrap: wrap; gap: 8px 16px; }
+.moonshot fieldset:not(.temperature-presets) { display: flex; }
+.moonshot legend { margin-bottom: 8px; padding: 0; }
+.moonshot label { cursor: pointer; }
+.moonshot input { accent-color: var(--moonshot-ink); }
+.moonshot :focus-visible { outline: 2px solid currentColor; outline-offset: 4px; }
+.moonshot .moonshot-surround { margin: 0 0 8px; }
+.moonshot .moonshot-viewing { margin: 0 0 32px; font-size: 13px; }
+.moonshot .moonshot-viewing summary { cursor: pointer; }
+.moonshot .moonshot-viewing p { margin: 12px 0 0; }
+.moonshot a { color: inherit; text-underline-offset: 0.15em; }
+.moonshot .moonshot-comparison { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; align-items: start; }
+.moonshot .moonshot-comparison > * { min-width: 0; }
+.moonshot .moonshot-image { width: 100%; aspect-ratio: 1; border-radius: 0; overflow: clip; }
+.moonshot img.moonshot-image { display: block; }
+.moonshot .moonshot-note { font-size: 13px; margin-top: 24px; }
+@media (max-width: 560px) {
+  .moonshot body { padding: 24px 16px 32px; }
+  .moonshot .moonshot-comparison { gap: 12px; }
+}
+/* Existing demos keep their computation layout inside the common page. */
+.moonshot body {
+  display: block; place-content: normal; box-sizing: border-box; min-height: 100vh; max-width: none;
+  color: var(--moonshot-ink); background: #fff;
+  --ink: var(--moonshot-ink); --fg: var(--moonshot-ink); --muted: var(--moonshot-ink);
+  --paper: #fff; --bg: #fff; --line: currentColor;
+}
+.moonshot .moonshot-nav { font-size: 13px; margin-bottom: 20px; }
+.moonshot .out, .moonshot .swatches label, .moonshot .mr-pick label { background: #fff; }
+.moonshot .moonshot-typed .panel {
+  position: relative; transform: translateZ(0); box-sizing: border-box;
+  width: min(100%, 460px); padding: 0 0 128px; margin: 24px 0;
+  background: transparent; box-shadow: none; border-radius: 0;
+}
+.moonshot .moonshot-typed .panel > p { color: inherit; }
+.moonshot .moonshot-typed .parse-out > *, .moonshot .moonshot-typed .typed-name-at::after,
+.moonshot .moonshot-typed .typed > output > i::after { color: var(--moonshot-ink); }
+.moonshot .moonshot-typed .parse-out::before, .moonshot .moonshot-typed .typed > output > i::before {
+  inset: auto 0 0; height: 96px; z-index: 0; pointer-events: none;
+}
+.moonshot .moonshot-typed .typed, .moonshot .moonshot-typed .parse-cycle { border-color: var(--moonshot-ink); }
+.moonshot .accent input { accent-color: auto; }
+@media (max-width: 560px) {
+  .moonshot .top { grid-template-columns: minmax(0, 1fr); }
+  .moonshot .row { max-width: 100%; }
+}
+.moonshot .moonshot-typed :is(.parse-cycle, .typed > input) { caret-color: var(--moonshot-ink); }
+
+/* Resolve gamut's readable text on the root, then stop its public inputs at the UI boundary.
+   --moonshot-ink inherits the computed color; experiment inputs keep their own defaults. */
+.moonshot body { --gamut-bg: initial; --gamut-ratio: initial; --gamut-text: initial; }
+
+/* Project layout contract, not a W3C-prescribed layout: white interface, proximal field only at samples.
+   Paint-only frames preserve the geometry used by the experimental layout readers. */
+:root.moonshot { --moonshot-frame: 12px; }
+.moonshot .moonshot-settings { margin: 0 0 28px; }
+.moonshot .moonshot-settings > summary { cursor: pointer; font-size: 14px; font-weight: 600; }
+.moonshot .moonshot-settings[open] > summary { margin-bottom: 20px; }
+.moonshot .moonshot-settings .moonshot-viewing { margin: 8px 0 0; }
+.moonshot [data-moonshot-sample="box"] { box-shadow: 0 0 0 var(--moonshot-frame) var(--moonshot-paper); }
+.moonshot [data-moonshot-sample="pseudo"]::before { box-shadow: 0 0 0 var(--moonshot-frame) var(--moonshot-paper); }
+.moonshot [data-moonshot-sample="padding"] { padding: var(--moonshot-frame); background: var(--moonshot-paper); }
+.moonshot h2 { margin-bottom: 24px; }
+.moonshot[data-moonshot-demo="paint"] .row.light { margin-top: 32px; }
+.moonshot[data-moonshot-demo="paint"] section { margin-bottom: 40px; }
+.moonshot[data-moonshot-demo="names"] .out { padding: 24px; gap: 24px; }
+.moonshot[data-moonshot-demo="accent"] .pinned { gap: 32px; }
+.moonshot[data-moonshot-demo="remember"] .remember-now::after { margin-top: 16px; background: #fff; color: #000; }
+.moonshot[data-moonshot-demo="remember"] .remember-bar { padding-bottom: 16px; }
+.moonshot[data-moonshot-demo="mirror"] .mr-panel { margin-top: 32px; row-gap: 16px; column-gap: 24px; }
+.moonshot[data-moonshot-demo="palette"] :is(.color-name-out, .n),
+.moonshot[data-moonshot-demo="loops"] .sw::after { background: #fff; color: #000; }
+@media(max-width:560px) { :root.moonshot { --moonshot-frame: 8px; } }
+
+
+/* The outer mirror still clips its hidden readers; nested sum figures must not clip the visible frame. */
+.moonshot[data-moonshot-demo="mirror"] .mirror figure { overflow: visible; }
+/* Reserve the field inside these existing UI boundaries; keep large hidden readers clipped. */
+.moonshot .moonshot-content:has(> .loops) { overflow-x: clip; box-sizing: border-box; padding-inline: var(--moonshot-frame); }
+.moonshot[data-moonshot-demo="mirror"] .mirror { overflow: clip; box-sizing: border-box; min-height: 350px; padding: var(--moonshot-frame); }
+
+.moonshot[data-moonshot-demo="pixels"] .grid i::after,
+.moonshot[data-moonshot-demo="photo"] .photo-sw::after { background: #fff; color: #000; text-shadow: none; }

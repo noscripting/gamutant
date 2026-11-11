@@ -18,23 +18,20 @@ li { margin: 12px 0; }
 </style>
 <main>
 <h1>gamutant.css’s lab</h1>
-<p>Pages from gamutant.css’s lab: the sheet’s gamut mapping and paint mixing shown beside other ways to compute the same colors, a
-theme built from the viewer’s accent color, and a photo relit by its reflectances.
-They are not part of the package (npm gets <code>gamutant.css</code>, <code>parts/</code> and the docs); its checks are in
-<code>test/</code>.</p>
+<p>Experiments from gamutant.css’s lab. They are not part of the npm package, and none runs a script.</p>
 <ul>
-<li><a href="mappers.html">Gamut mapping, four ways</a>: <code>.gamut-fit-screen</code> with each <code>--gamut-method</code>
-(<code>css</code>, <code>edge-seeker</code>, <code>ray-trace</code>, <code>adaptive</code>) on 6 hues × 48 lightnesses at chroma 0.4,
-in sRGB and Display P3, beside each channel clipped and beside Color.js 0.7.1. <code>css</code> and <code>ray-trace</code> are within 0.84/255 of Color.js in all 1,152 cells (Chrome 155, WebKit 26.4, Firefox 159, 2026-10-31).
-Checked by <code>test/gate-check.mjs</code> (<code>css</code>), <code>test/mappers-check.mjs</code> (<code>edge-seeker</code>, <code>ray-trace</code>)
-and <code>test/adaptive-check.mjs</code> (<code>adaptive</code>).</li>
-<li><a href="paint.html">Mixed as paint</a>: <code>.gamut-mix-paint</code> beside <code>color-mix(in oklab)</code>, and three paints
-from a lab sheet that gamutant.css doesn’t ship. Within 2.4e-5 a linear channel of spectral.js’s <code>mix()</code> in all 54 two-paint and 198 three-paint cells (Chrome 155, WebKit 26.4, Firefox 159, 2026-10-31). The two-paint mix is checked by
-<code>test/paint-check.mjs</code>.</li>
-<li><a href="accent.html">Your accent</a>: a page themed from your system’s <code>AccentColor</code> by gamutant.css’s parts nested
-(<code>.gamut-screen-edge</code>, <code>.gamut-readable-text</code>, <code>.gamut-fit-screen</code>, <code>.gamut-contrast-color</code>,
-<code>.gamut-palette-step</code>), and the same theme on macOS’s seven accents. All eight themes keep their ratios on 8-bit sRGB: ink at least 7.01:1, muted text 4.51:1, the button’s label 4.88:1 (Chrome 155, WebKit 26.4, Firefox 159, 2026-10-31).</li>
-<li><a href="relight.html">Relit</a>: a photo lit again under seven lights and seven black-body temperatures, every pixel a
-reflectance curve seen under the light, from a lab sheet that gamutant.css doesn’t ship. Every pixel within 1.6e-5 a channel of spectral.js’s model under all 7 lights and 7 temperatures, as camera and as eye (Chrome 155, WebKit 26.4, Firefox 159, 2026-10-31).</li>
+<li><a href="mappers.html">Gamut mapping, four ways</a>: <code>.gamut-fit-screen</code> with each of its four methods, beside Color.js.</li>
+<li><a href="paint.html">Mixed as paint</a>: <code>.gamut-mix-paint</code> beside <code>color-mix()</code>, and a mix of three paints.</li>
+<li><a href="accent.html">Your accent</a>: a page themed from your system’s accent color.</li>
+<li><a href="relight.html">Relit</a>: a photo lit again under seven lights and seven temperatures.</li>
 </ul>
+<h2>Computed by layout and fonts</h2>
+<p>Each of these writes a number as a width or a position and reads it back in the stylesheet, as
+<a href="https://noscript.ing/compute">Computing with CSS Layout</a> explains. gamutant.css itself doesn’t work this way.</p>
+<ul>
+<li><a href="typed-name.html">Typed color name</a>: type a hex color and get the nearest CSS color name.</li>
+<li><a href="eyedropper.html">Eyedropper</a>: hover a picture to read the color under the pointer.</li>
+<li><a href="loops.html">Find a palette</a>: the five dominant colors of an image by k-means, one round at a time until it settles.</li>
+</ul>
+<p>The last two run in Chrome and Safari only: Firefox has no view timelines yet. Every page here was checked in Chrome 155, WebKit 26.4 and Firefox 159 on 2026-11-12.</p>
 </main>

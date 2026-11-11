@@ -1,5 +1,5 @@
 // The test suite: every check against gamutant.css, each in Chrome for Testing, WebKit and release Firefox (Playwright,
-// through test/engines.mjs), four at a time. Prints each check's verdict lines and exits 1 when any check fails.
+// through test/engines.mjs), four at a time (JOBS=n; 8 took 793 s against 433 s, and failed two timed checks). Prints each check's verdict lines and exits 1 when any check fails.
 // Usage: npm test   (or node test/run.mjs [name ...] to run some)
 import { spawn, execFileSync } from 'node:child_process';
 import { mkdtempSync, writeFileSync } from 'node:fs';
@@ -73,7 +73,7 @@ const once = ([name, file, args, what, env]) => new Promise((done) => {
 });
 const run = async (c) => { const r = await once(c); return r.late ? { ...(await once(c)), retried: true } : r; };
 const results = [], queue = [...todo];
-await Promise.all(Array.from({ length: 4 }, async () => { while (queue.length) { const r = await run(queue.shift()); results.push(r);
+await Promise.all(Array.from({ length: +process.env.JOBS || 4 }, async () => { while (queue.length) { const r = await run(queue.shift()); results.push(r);
   // a pass shows its verdict lines; a fail shows its last 60 lines whole, so the reason is there (a check's tallies
   // need not name an engine)
   const lines = r.out.trim().split('\n'), shown = r.code === 0 ? lines.filter((l) => /Chrome|WebKit|Firefox|PASS|FAIL|Error/.test(l)).slice(0, 40) : lines.slice(-60);
